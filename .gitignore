@@ -55,3 +55,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 .vscode/
+.idea/
+
+
+Assets/Plugins/*
+Assets/Plugins.meta
