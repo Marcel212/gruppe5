@@ -70,6 +70,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
+                m_MouseLook.SetCursorLock(true);
                 RotateView();
             }
             

@@ -2,32 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ItemTextControll : MonoBehaviour
 {
-    public Transform popupText;
+    public GameObject popupText;
 
     public static Boolean visible = false;
 
-
-    private void OnMouseEnter()
+    public void enterGameObject()
     {
+        Item itemInSlot = GetComponentInParent<ShowItem>().itemToShow;
+
+        Debug.Log("MouseEnter with " + visible);
+        Debug.Log("Object = " + gameObject.name);
         if (!visible)
         {
-            popupText.GetComponent<TextMesh>().text = "Something new";
-            visible = true;
-            Instantiate(popupText, new Vector3(transform.position.x, transform.position.y + 2, 0), popupText.rotation);
             
+
+            popupText.GetComponentInChildren<Text>().text = itemInSlot.name;
+            visible = true;
+            var tooltip = Instantiate(popupText, new Vector3(transform.position.x, transform.position.y + 2, 0),
+                popupText.transform.rotation);
+            tooltip.transform.parent = GameObject.FindGameObjectWithTag("Canvas").transform;
+            //            popupText.SetActive(visible);
+
         }
     }
 
-    private void OnMouseExit()
+    public void exitGameObject()
     {
-        if (visible)
-        {
-            visible = false;
-            
-        }
+       
+        
+
+            Debug.Log("MouseExit with " + visible);
+            Debug.Log("Object = " + gameObject.name);
+            if (visible)
+            {
+                visible = false;
+
+            }
+        
     }
 }
  

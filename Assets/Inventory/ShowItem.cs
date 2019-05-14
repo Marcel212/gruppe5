@@ -6,12 +6,18 @@ using UnityEngine.UI;
 public class ShowItem : MonoBehaviour
 {
 
-    public Item displayItem;
+    public Item itemToShow;
+    private Image currentImage;
     // Start is called before the first frame update
     void Start()
     {
-        Image currentImage = GetComponentInParent<Image>();
-        currentImage.sprite = displayItem.itemPicuture;
+        //Anzeigen des Bildes von dem richtigen Item 
+        currentImage = GetComponentInParent<Image>();
+
+        if(itemToShow != null)
+        { 
+            currentImage.sprite = itemToShow.itemPicuture;
+        }
         
         
         
