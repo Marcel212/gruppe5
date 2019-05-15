@@ -5,45 +5,37 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemTextControll : MonoBehaviour
+public class ItemTextControll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject popupText;
-
+    public GameObject canvas; 
     public static Boolean visible = false;
 
-    public void enterGameObject()
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
         Item itemInSlot = GetComponentInParent<ShowItem>().itemToShow;
 
-        Debug.Log("MouseEnter with " + visible);
-        Debug.Log("Object = " + gameObject.name);
         if (!visible)
         {
-            
-
-            popupText.GetComponentInChildren<Text>().text = itemInSlot.name;
             visible = true;
-            var tooltip = Instantiate(popupText, new Vector3(transform.position.x, transform.position.y + 2, 0),
-                popupText.transform.rotation);
-            tooltip.transform.parent = GameObject.FindGameObjectWithTag("Canvas").transform;
-            //            popupText.SetActive(visible);
-
+            if (itemInSlot != null)
+            {
+                var tooltip = Instantiate(popupText, new Vector3(transform.position.x, transform.position.y + 2, 0),
+                    popupText.transform.rotation);
+                tooltip.transform.SetParent(canvas.transform);
+                popupText.GetComponentInChildren<Text>().text = itemInSlot.name;
+            }
         }
     }
 
-    public void exitGameObject()
+    public void OnPointerExit(PointerEventData eventData)
     {
-       
-        
+        if (visible)
+        {
+            visible = false;
 
-            Debug.Log("MouseExit with " + visible);
-            Debug.Log("Object = " + gameObject.name);
-            if (visible)
-            {
-                visible = false;
-
-            }
-        
+        }
     }
 }
  
