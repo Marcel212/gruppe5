@@ -5,7 +5,8 @@ using UnityEngine;
 public class HotKeyControll : MonoBehaviour
 {
     
-    // TODO Drag&Drop wenn Inventar offen
+    // TODO Mit HotKeyPanel im Inventar verknüpfen
+    // TODO Auf Tasten 1-0 Reagieren lassen 
     // Start is called before the first frame update
     void Start()
     {

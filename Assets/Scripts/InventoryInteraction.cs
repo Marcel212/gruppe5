@@ -32,8 +32,7 @@ public class InventoryInteraction : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.I))
         {
             m_InventoryOpen = !m_InventoryOpen;
-            m_Inventory.transform.GetChild(0).gameObject.SetActive(m_InventoryOpen);
-            m_Inventory.transform.GetChild(1).gameObject.SetActive(m_InventoryOpen);
+            m_Inventory.gameObject.SetActive(m_InventoryOpen);
 
         }
         
