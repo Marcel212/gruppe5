@@ -82,6 +82,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             
         }
 
+       
+
         // Update is called once per frame
         private void Update()
         {
@@ -270,6 +272,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
+
+            IInventoryItem item;
+                
             Rigidbody body = hit.collider.attachedRigidbody;
             //dont move the rigidbody if the character is on top of it
             if (m_CollisionFlags == CollisionFlags.Below)

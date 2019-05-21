@@ -15,6 +15,7 @@ public class InventoryControll : MonoBehaviour
 
     public void AddItem(IInventoryItem item)
     {
+        // Wenn noch Platz ist, füge es an der ersten Stelle ein 
         if (itemsInInventory.Count < SLOTS)
         {
             Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
