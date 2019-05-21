@@ -16,12 +16,13 @@ public class HotKeyControll : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             // Verknüpfe jeden Hotkey unten mit dem Hotkey aus dem Inventar 
-            Item itemInInventory = hotKeyInventory.transform.GetChild(i).GetChild(0).GetChild(0)
-                .GetComponent<ShowItem>().itemToShow;
-            Transform childWithItem = transform.GetChild(i).GetChild(0).GetChild(0);
-            childWithItem.GetComponent<ShowItem>().itemToShow = itemInInventory;
-            childWithItem.GetComponent<Image>().enabled = true;
-
+            Item itemInInventory = hotKeyInventory.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<ShowItem>().itemToShow;
+            
+            //Wenn ein Item im Slot ist
+            if (itemInInventory != null)
+            {
+                AddToHotKey(i, itemInInventory);
+            }
         }
     }
 
@@ -30,6 +31,9 @@ public class HotKeyControll : MonoBehaviour
      */
     public void AddToHotKey(int index, Item itemToAdd)
     {
-        transform.GetChild(index).GetChild(0).GetChild(0).GetComponent<ShowItem>().itemToShow = itemToAdd;
+        Transform childWithItem =  transform.GetChild(index).GetChild(0).GetChild(0);
+        childWithItem.GetComponent<ShowItem>().itemToShow = itemToAdd;
+        //childWithItem.GetComponent<Image>().enabled = true;
+
     }
 }

@@ -23,9 +23,9 @@ public class HUD : MonoBehaviour
             
             Image image = slot.GetChild(0).GetChild(0).GetComponent<Image>();
 
-            if (!image.enabled)
+            if (image.sprite == null)
             {
-                image.enabled = true;
+                //image.enabled = true;
                 //Ggf. Scriptable Objects entfernen? 
                 image.sprite = item.Item.ItemInStore.itemPicuture;
                 
