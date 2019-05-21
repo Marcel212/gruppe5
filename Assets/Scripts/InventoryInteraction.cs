@@ -8,7 +8,7 @@ public class InventoryInteraction : MonoBehaviour
 
     [SerializeField] private GameObject m_FPC_Object;
     [SerializeField] private GameObject m_Inventory;
-    
+    [SerializeField] private GameObject m_ToolTip;
     private bool m_InventoryOpen;
     private FirstPersonController m_FPC;
     private BlockInteraction m_BlockInteraction;
@@ -33,6 +33,7 @@ public class InventoryInteraction : MonoBehaviour
         {
             m_InventoryOpen = !m_InventoryOpen;
             m_Inventory.gameObject.SetActive(m_InventoryOpen);
+            
 
         }
         
@@ -46,7 +47,7 @@ public class InventoryInteraction : MonoBehaviour
         {
             m_FPC.m_MouseLook.SetCursorLock(true);
             m_BlockInteraction.enabled = true;
-            m_FPC.RotateView();
+            m_ToolTip.gameObject.SetActive(false);
         }
             
     }

@@ -12,7 +12,11 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
 
         if (!RectTransformUtility.RectangleContainsScreenPoint(invPanel, Input.mousePosition))
         {
-            Debug.Log("Out of Inventory");
+            Debug.Log("Item wegwerfen");
+        }
+        else
+        {
+            Debug.Log("Herkunft-Name: " + eventData.pointerDrag.name + " | Ziel-Name: " + eventData.pointerEnter.name);
         }
     }
 }

@@ -11,7 +11,6 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
     private void Start()
     {
         oldPosition = transform.localPosition;
-        Debug.Log("Position: " + oldPosition.ToString());
     }
 
     public void OnDrag(PointerEventData eventData)

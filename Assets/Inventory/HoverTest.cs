@@ -10,7 +10,7 @@ public class HoverTest : MonoBehaviour
     {
         if (!ItemTextControll.visible)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

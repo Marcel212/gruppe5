@@ -18,13 +18,13 @@ public class ItemTextControll : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         if (!visible)
         {
-            visible = true;
             if (itemInSlot != null)
             {
-                var tooltip = Instantiate(popupText, new Vector3(transform.position.x, transform.position.y + 2, 0),
-                    popupText.transform.rotation);
-                tooltip.transform.SetParent(canvas.transform);
+                visible = true;
+                popupText.transform.position = new Vector3(transform.position.x, transform.position.y + 2, 0);
+                //tooltip.transform.SetParent(canvas.transform);
                 popupText.GetComponentInChildren<Text>().text = itemInSlot.name;
+                popupText.SetActive(visible);
             }
         }
     }

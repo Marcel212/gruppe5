@@ -17,6 +17,7 @@ public class ShowItem : MonoBehaviour
         if(itemToShow != null)
         { 
             currentImage.sprite = itemToShow.itemPicuture;
+            transform.GetComponent<Image>().enabled = true;
         }
         
         
