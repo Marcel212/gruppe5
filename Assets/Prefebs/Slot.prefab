@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d07c621e3abe124284fd8b899c14046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemToShow: {fileID: 11400000, guid: c068fb588c1408b4ca6b1fb4a63e3611, type: 2}
+  itemToShow: {fileID: 0}
 --- !u!114 &6470785977760845938
 MonoBehaviour:
   m_ObjectHideFlags: 0
