@@ -62,12 +62,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
-        private void InventoryControll()
+        private void OpenInventory()
         {
             if (Input.GetKeyUp(KeyCode.I))
             {
                 m_InventoryOpen = !m_InventoryOpen;
-                m_Inventory.gameObject.SetActive(m_InventoryOpen);
+                m_Inventory.transform.GetChild(0).gameObject.SetActive(m_InventoryOpen);
+                m_Inventory.transform.GetChild(1).gameObject.SetActive(m_InventoryOpen);
+
             }
             
             if (m_InventoryOpen)
@@ -88,7 +90,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             
-            InventoryControll();
+            OpenInventory();
             
             
             // the jump state needs to read here to make sure it is not missed
@@ -272,9 +274,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-
-            IInventoryItem item;
+            // Wenn der Collider ein InventarItem ist, füge es hinzu 
+            IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
+            if (item != null)
+            {
+                m_Inventory.GetComponent<InventoryControll>().AddItem(item);
+            }
                 
+            
+            
             Rigidbody body = hit.collider.attachedRigidbody;
             //dont move the rigidbody if the character is on top of it
             if (m_CollisionFlags == CollisionFlags.Below)
