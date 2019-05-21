@@ -17,7 +17,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_JumpSpeed;
         [SerializeField] private float m_StickToGroundForce;
         [SerializeField] private float m_GravityMultiplier;
-        [SerializeField] private MouseLook m_MouseLook;
+        public MouseLook m_MouseLook;
         [SerializeField] private bool m_UseFovKick;
         [SerializeField] private FOVKick m_FovKick = new FOVKick();
         [SerializeField] private bool m_UseHeadBob;
@@ -27,9 +27,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
-
-        [SerializeField] private GameObject m_Inventory;
-        private bool m_InventoryOpen;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -58,41 +55,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
-            m_InventoryOpen = false;
-        }
-
-
-        private void OpenInventory()
-        {
-            if (Input.GetKeyUp(KeyCode.I))
-            {
-                m_InventoryOpen = !m_InventoryOpen;
-                m_Inventory.transform.GetChild(0).gameObject.SetActive(m_InventoryOpen);
-                m_Inventory.transform.GetChild(1).gameObject.SetActive(m_InventoryOpen);
-
-            }
-            
-            if (m_InventoryOpen)
-            {
-                m_MouseLook.SetCursorLock(false);
-            }
-            else
-            {
-                m_MouseLook.SetCursorLock(true);
-                RotateView();
-            }
             
         }
+
+
+        
 
        
 
         // Update is called once per frame
         private void Update()
         {
-            
-            OpenInventory();
-            
-            
+            RotateView();
+
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {
@@ -266,7 +241,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
-        private void RotateView()
+        public void RotateView()
         {
             m_MouseLook.LookRotation (transform, m_Camera.transform);
         }
@@ -274,15 +249,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            // Wenn der Collider ein InventarItem ist, füge es hinzu 
-            IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
-            if (item != null)
-            {
-                m_Inventory.GetComponent<InventoryControll>().AddItem(item);
-            }
-                
-            
-            
             Rigidbody body = hit.collider.attachedRigidbody;
             //dont move the rigidbody if the character is on top of it
             if (m_CollisionFlags == CollisionFlags.Below)

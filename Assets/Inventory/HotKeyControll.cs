@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HotKeyControll : MonoBehaviour
 {
+    
+    // TODO Drag&Drop wenn Inventar offen
     // Start is called before the first frame update
     void Start()
     {
