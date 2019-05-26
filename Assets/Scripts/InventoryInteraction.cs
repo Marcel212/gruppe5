@@ -1,56 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class InventoryInteraction : MonoBehaviour
 {
 
-    [SerializeField] private GameObject m_FPC_Object;
-    [SerializeField] private GameObject m_Inventory;
-    [SerializeField] private GameObject m_ToolTip;
-    private bool m_InventoryOpen;
-    private FirstPersonController m_FPC;
-    private BlockInteraction m_BlockInteraction;
+    [SerializeField] private GameObject fpcObject;
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private GameObject toolTip;
+    private bool inventoryOpen;
+    private FirstPersonController fpc;
+    private BlockInteraction blockInteraction;
+    private GameObject crosshair;
     
     // Start is called before the first frame update
     void Start()
     {
-        m_InventoryOpen = false;
-        m_FPC = m_FPC_Object.GetComponent<FirstPersonController>();
-        m_BlockInteraction = m_FPC_Object.GetComponent<BlockInteraction>();
+        inventoryOpen = false;
+        fpc = fpcObject.GetComponent<FirstPersonController>();
+        blockInteraction = fpcObject.GetComponent<BlockInteraction>();
+        crosshair = GameObject.Find("Crosshair");
     }
 
     // Update is called once per frame
     void Update()
     {
-        OpenInventory();
-    }
-    
-    private void OpenInventory()
-    {
         if (Input.GetKeyUp(KeyCode.I))
         {
-            m_InventoryOpen = !m_InventoryOpen;
-            m_Inventory.gameObject.SetActive(m_InventoryOpen);
+            inventoryOpen = !inventoryOpen;
+            inventory.gameObject.SetActive(inventoryOpen);
             
 
         }
-        
-        if (m_InventoryOpen)
+
+        if (inventoryOpen)
         {
-            m_FPC.m_MouseLook.SetCursorLock(false);
-            m_BlockInteraction.enabled = false;
+            fpc.m_MouseLook.SetCursorLock(false);
+            blockInteraction.enabled = false;
+            crosshair.SetActive(false);
             // TODO RotateView ausstellen? 
         }
         else
         {
-            m_FPC.m_MouseLook.SetCursorLock(true);
-            m_BlockInteraction.enabled = true;
-            m_ToolTip.gameObject.SetActive(false);
+            fpc.m_MouseLook.SetCursorLock(true);
+            blockInteraction.enabled = true;
+            toolTip.gameObject.SetActive(false);
+            crosshair.SetActive(true);
+
         }
-            
     }
+
+
+
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -58,7 +61,7 @@ public class InventoryInteraction : MonoBehaviour
         IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
         if (item != null)
         {
-            m_Inventory.GetComponent<InventoryControll>().AddItem(item);
+            inventory.GetComponent<InventoryControll>().AddItem(item);
         }
     }
 }

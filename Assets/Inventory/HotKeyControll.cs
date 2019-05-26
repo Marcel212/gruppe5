@@ -11,33 +11,24 @@ public class HotKeyControll : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private GameObject hotKeyInventory;
-    void Update()
+    void Start()
+    {
+        RefreshHotKeys();
+        
+    }
+
+    public void RefreshHotKeys()
     {
         for (int i = 0; i < 10; i++)
         {
             // Verknüpfe jeden Hotkey unten mit dem Hotkey aus dem Inventar 
             Item itemInInventory = hotKeyInventory.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<ShowItem>().itemToShow;
             
-            //Wenn ein Item im Slot ist
-            if (itemInInventory != null)
-            {
-                AddToHotKey(i, itemInInventory);
-            }
-            else
-            {
-                AddToHotKey(i, null);
-            }
+            Transform childWithItem =  transform.GetChild(i).GetChild(0).GetChild(0);
+            childWithItem.GetComponent<ShowItem>().itemToShow = itemInInventory;
         }
-    }
-
-    /*
-     * Wird aufgerufen, wenn im Inventar etwas zum HotKey hinzugefügt wird.
-     */
-    public void AddToHotKey(int index, Item itemToAdd)
-    {
-        Transform childWithItem =  transform.GetChild(index).GetChild(0).GetChild(0);
-        childWithItem.GetComponent<ShowItem>().itemToShow = itemToAdd;
         
-
     }
 }
+
+

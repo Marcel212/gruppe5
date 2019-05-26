@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canvas
+  - HotKeys
   layers:
   - Default
   - TransparentFX

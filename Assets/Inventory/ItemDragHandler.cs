@@ -5,26 +5,28 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
 {
     private Vector3 m_oldPosition;
     private CanvasGroup m_canvasGroup;
+    private ShowItem m_itemScript;
+    public DropZone.Placement m_placement;
+    
     private void Start()
     {
         m_oldPosition = transform.localPosition;
         m_canvasGroup = this.transform.parent.GetComponentInParent<CanvasGroup>();
+        m_itemScript = GetComponentInParent<ShowItem>();
     }
 
     
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
-        
-        
         m_canvasGroup.blocksRaycasts = false;
     }
     
     
     public void OnDrag(PointerEventData eventData)
     {
-        Item itemInSlot = GetComponentInParent<ShowItem>().itemToShow;
-        if (itemInSlot != null)
+        
+        if (m_itemScript.itemToShow != null)
         {
             transform.position = Input.mousePosition;
         }

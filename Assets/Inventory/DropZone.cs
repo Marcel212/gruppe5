@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
     public Placement m_placement;
-     
-    
-    
-    
-    
-    public void OnDrop(PointerEventData eventData)
+
+    private HotKeyControll m_hotkeyScript;
+
+    private void Start()
     {
-        RectTransform invPanel = transform as RectTransform;
-        
+        m_hotkeyScript = GameObject.FindGameObjectWithTag("HotKeys").GetComponent<HotKeyControll>();
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {        
         //Script und Item vom Dragged item
         ShowItem itemScriptDrag = eventData.pointerDrag.transform.GetComponent<ShowItem>();
         Item itemDragged = itemScriptDrag.itemToShow;
@@ -34,19 +36,20 @@ public class DropZone : MonoBehaviour, IDropHandler
     
                 //Wenn ein Script existiert. 
                 if (itemScriptDropped != null)
-                {
+                {    
                     Item itemOnDropped = itemScriptDropped.itemToShow;
     
                     //Items tauschen
                     itemScriptDropped.itemToShow = itemDragged;
                     itemScriptDrag.itemToShow = itemOnDropped;
                 }
-
-                if (m_placement == Placement.Hotkeys)
-                {
-                    Debug.Log("HotKey Aktualisieren");
-                }
-
+            
+                // performanter refreshen?
+                m_hotkeyScript.RefreshHotKeys();
+                
+                
+                Debug.Log("Refresh");
+                
             }else if (m_placement == Placement.Forbidden)
             {
                 Debug.Log("Verboten");
