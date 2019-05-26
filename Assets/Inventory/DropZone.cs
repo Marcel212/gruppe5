@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Experimental.UIElements;
-using UnityEngine.SceneManagement;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
