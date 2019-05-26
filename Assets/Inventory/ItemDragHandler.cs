@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
+public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Vector3 oldPosition;
-
+    private Vector3 m_oldPosition;
+    private CanvasGroup m_canvasGroup;
     private void Start()
     {
-        oldPosition = transform.localPosition;
+        m_oldPosition = transform.localPosition;
+        m_canvasGroup = this.transform.parent.GetComponentInParent<CanvasGroup>();
     }
 
+    
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Debug.Log("OnBeginDrag");
+        
+        
+        m_canvasGroup.blocksRaycasts = false;
+    }
+    
+    
     public void OnDrag(PointerEventData eventData)
     {
         Item itemInSlot = GetComponentInParent<ShowItem>().itemToShow;
@@ -25,6 +33,10 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.localPosition = oldPosition;
+        Debug.Log("OnEndDrag");
+        transform.localPosition = m_oldPosition;
+        
+        m_canvasGroup.blocksRaycasts = true;
     }
+
 }
