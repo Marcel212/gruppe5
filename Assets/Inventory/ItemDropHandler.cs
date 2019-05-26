@@ -16,18 +16,22 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
         }
         else
         {
+            Debug.Log("Herkunft-Name: " + eventData.pointerDrag.transform.GetComponent<ShowItem>().itemToShow.name + " | Ziel-Name: " + eventData.pointerEnter.name);
+
             ShowItem itemScript = eventData.pointerDrag.transform.GetComponent<ShowItem>();
             Item itemDragged = itemScript.itemToShow;
             
             
             GameObject droppedOnObject = eventData.pointerEnter;
-            
 
-            droppedOnObject.GetComponent<ShowItem>().itemToShow = itemDragged;
-            itemScript.itemToShow = null;
+            if (itemDragged != null && droppedOnObject.GetComponent<ShowItem>().itemToShow == null)
+            {
+                droppedOnObject.GetComponent<ShowItem>().itemToShow = itemDragged;
+                itemScript.itemToShow = null;
+            }
             
             
-            Debug.Log("Herkunft-Name: " + eventData.pointerDrag.transform.GetComponent<ShowItem>().itemToShow.name + " | Ziel-Name: " + eventData.pointerEnter.name);
+            
         }
     }
 }

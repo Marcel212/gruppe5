@@ -18,7 +18,7 @@ public class ItemTextControll : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         if (!visible)
         {
-            if (itemInSlot != null)
+            if (itemInSlot != null && eventData.dragging == false)
             {
                 visible = true;
                 popupText.transform.position = new Vector3(transform.position.x, transform.position.y + 2, 0);

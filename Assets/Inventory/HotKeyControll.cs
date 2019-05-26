@@ -11,7 +11,7 @@ public class HotKeyControll : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private GameObject hotKeyInventory;
-    void Start()
+    void Update()
     {
         for (int i = 0; i < 10; i++)
         {
@@ -23,6 +23,10 @@ public class HotKeyControll : MonoBehaviour
             {
                 AddToHotKey(i, itemInInventory);
             }
+            else
+            {
+                AddToHotKey(i, null);
+            }
         }
     }
 
@@ -33,7 +37,7 @@ public class HotKeyControll : MonoBehaviour
     {
         Transform childWithItem =  transform.GetChild(index).GetChild(0).GetChild(0);
         childWithItem.GetComponent<ShowItem>().itemToShow = itemToAdd;
-        //childWithItem.GetComponent<Image>().enabled = true;
+        
 
     }
 }
