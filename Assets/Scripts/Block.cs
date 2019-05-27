@@ -9,8 +9,11 @@ public class Block
 {
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
-							CRACK1, CRACK2, CRACK3, CRACK4, AIR, SMALLBLOCK};
+							CRACK1, CRACK2, CRACK3, CRACK4, AIR};
 
+	public enum Blocksize {SMALL, BIG};
+
+	public Blocksize blocksize = Blocksize.BIG;
 	public BlockType blockType;
 	public bool isSolid;
 	public Chunk owner;
@@ -163,7 +166,8 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-			blockType = BlockType.SMALLBLOCK;
+			blocksize = Blocksize.SMALL;
+			//blockType = BlockType.SMALLBLOCK;
 			isSolid = false;
 			health = BlockType.NOCRACK;
 			owner.Redraw();
@@ -522,7 +526,7 @@ public class Block
     /// </summary>
 	public void Draw()
 	{
-		if(!(blockType == BlockType.SMALLBLOCK)){
+		if(!(blocksize == Blocksize.SMALL)){
 			if(blockType == BlockType.AIR) return;
 			// Solid or same neighbour
 			if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z + 1))
