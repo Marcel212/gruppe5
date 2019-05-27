@@ -21,8 +21,7 @@ public class ItemSlots : MonoBehaviour
         Debug.Log(_textAmount.text);
     }
 
-    // Start is called before the first frame update
-    void Update()
+    public void RefreshSlotData()
     {
         if(itemToShow != null)
         { 
@@ -35,8 +34,11 @@ public class ItemSlots : MonoBehaviour
             _currentImage.sprite = null;
             _textAmount.gameObject.SetActive(false);
         }
-        
-        
-        
+    }
+
+    // TODO soll aktualisiert werden, sobald Inventar offen bzw. etwas eingesammelt wird. 
+    private void Update()
+    {
+        RefreshSlotData();
     }
 }

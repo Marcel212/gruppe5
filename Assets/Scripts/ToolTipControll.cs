@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -21,7 +22,7 @@ public class ToolTipControll : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 visible = true;
                 popupText.transform.position = new Vector3(transform.position.x, transform.position.y + 2, 0);
                 //tooltip.transform.SetParent(canvas.transform);
-                popupText.GetComponentInChildren<Text>().text = itemInSlot.name;
+                popupText.GetComponentInChildren<TextMeshProUGUI>().text = itemInSlot.name;
                 popupText.SetActive(visible);
             }
         }

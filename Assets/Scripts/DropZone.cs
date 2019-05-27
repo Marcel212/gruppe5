@@ -17,6 +17,7 @@ public class DropZone : MonoBehaviour, IDropHandler
         //Script und Item vom Dragged item
         ItemSlots itemScriptDrag = eventData.pointerDrag.transform.parent.parent.GetComponent<ItemSlots>();
         Item itemDragged = itemScriptDrag.itemToShow;
+        int amountDragged = itemScriptDrag.amount;
         
         Debug.Log("Befindet sich im Placement : " + m_placement) ;
         if (itemDragged != null)
@@ -38,10 +39,14 @@ public class DropZone : MonoBehaviour, IDropHandler
                 if (itemScriptDropped != null)
                 {    
                     Item itemOnDropped = itemScriptDropped.itemToShow;
+                    int amountOnDropped = itemScriptDropped.amount;
     
                     //Items tauschen
                     itemScriptDropped.itemToShow = itemDragged;
+                    itemScriptDropped.amount = amountDragged;
+                    
                     itemScriptDrag.itemToShow = itemOnDropped;
+                    itemScriptDrag.amount = amountOnDropped;
                 }
             
                 // performanter refreshen?

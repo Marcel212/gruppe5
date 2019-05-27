@@ -7,16 +7,15 @@ public class InventoryControll : MonoBehaviour
 {
 
     public const int SLOTS = 35;
-
+    [SerializeField] private Transform itemsParent;
     [SerializeField] private List<IInventoryItem> itemsInInventory;
+    [SerializeField] private ItemSlots[] _itemSlots;
 
-    [SerializeField]
-    private Transform itemsParent;
     private void OnValidate()
     {
         if (itemsParent != null)
         {
-            
+            _itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
         }
     }
 
