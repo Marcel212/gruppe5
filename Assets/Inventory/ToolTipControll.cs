@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemTextControll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ToolTipControll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject popupText;
     public GameObject canvas; 

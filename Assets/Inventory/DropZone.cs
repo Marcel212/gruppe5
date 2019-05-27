@@ -24,6 +24,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             if (m_placement == Placement.World)
             {
                 itemScriptDrag.itemToShow = null;
+                m_hotkeyScript.RefreshHotKeys();
+                
                 // TODO Gameobject erzeugen
                 Debug.Log("Wegwerfen");
             }

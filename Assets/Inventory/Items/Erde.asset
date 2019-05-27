@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c5de4b6962b7f94781241e20a2df991, type: 3}
-  m_Name: Anderes Beispiel
+  m_Name: Erde
   m_EditorClassIdentifier: 
-  name: Gold
-  description: asd
-  itemPicuture: {fileID: 21301440, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  name: Erde
+  description: Eingesammelte Erde
+  itemPicuture: {fileID: 21301508, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  objectInGame: {fileID: 0}

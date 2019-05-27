@@ -8,7 +8,7 @@ public class HoverTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!ItemTextControll.visible)
+        if (!ToolTipControll.visible)
         {
             gameObject.SetActive(false);
         }
