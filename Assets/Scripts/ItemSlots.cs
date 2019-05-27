@@ -18,7 +18,6 @@ public class ItemSlots : MonoBehaviour
         _transformCache = transform.GetChild(0).GetChild(0);
         _currentImage = _transformCache.GetComponent<Image>();
         _textAmount = _transformCache.GetChild(0).GetComponent<TextMeshProUGUI>();
-        Debug.Log(_textAmount.text);
     }
 
     public void RefreshSlotData()

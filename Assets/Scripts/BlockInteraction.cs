@@ -61,7 +61,7 @@ public class BlockInteraction : MonoBehaviour
                 {
                     update = b.BuildBlock(buildtype);
                 }
-				
+				//TODO Chunks neu aufbauen wird hier gemacht!!
                 // If a block got destroyed, redraw the chunk and affected neighbouring chunks.
 				if(update)
    				{
