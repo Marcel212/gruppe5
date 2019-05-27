@@ -15,7 +15,7 @@ public class DropZone : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {        
         //Script und Item vom Dragged item
-        ShowItem itemScriptDrag = eventData.pointerDrag.transform.GetComponent<ShowItem>();
+        ItemSlots itemScriptDrag = eventData.pointerDrag.transform.parent.parent.GetComponent<ItemSlots>();
         Item itemDragged = itemScriptDrag.itemToShow;
         
         Debug.Log("Befindet sich im Placement : " + m_placement) ;
@@ -32,7 +32,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             else if(m_placement == Placement.Inventory || m_placement == Placement.Hotkeys)
             {
                 //Script und Item vom Dropped item
-                ShowItem itemScriptDropped = eventData.pointerEnter.GetComponent<ShowItem>();
+                ItemSlots itemScriptDropped = eventData.pointerEnter.transform.parent.parent.GetComponent<ItemSlots>();
     
                 //Wenn ein Script existiert. 
                 if (itemScriptDropped != null)

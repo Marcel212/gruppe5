@@ -12,7 +12,7 @@ public class ToolTipControll : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Item itemInSlot = GetComponentInParent<ShowItem>().itemToShow;
+        Item itemInSlot = GetComponentInParent<ItemSlots>().itemToShow;
 
         if (!visible)
         {

@@ -5,14 +5,14 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
 {
     private Vector3 m_oldPosition;
     private CanvasGroup m_canvasGroup;
-    private ShowItem m_itemScript;
+    private ItemSlots m_itemScript;
     public DropZone.Placement m_placement;
     
     private void Start()
     {
         m_oldPosition = transform.localPosition;
         m_canvasGroup = this.transform.parent.GetComponentInParent<CanvasGroup>();
-        m_itemScript = GetComponentInParent<ShowItem>();
+        m_itemScript = GetComponentInParent<ItemSlots>();
     }
 
     

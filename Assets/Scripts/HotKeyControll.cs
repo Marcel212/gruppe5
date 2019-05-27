@@ -19,10 +19,10 @@ public class HotKeyControll : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             // Verknüpfe jeden Hotkey unten mit dem Hotkey aus dem Inventar 
-            Item itemInInventory = hotKeyInventory.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<ShowItem>().itemToShow;
+            Item itemInInventory = hotKeyInventory.transform.GetChild(i).GetComponent<ItemSlots>().itemToShow;
             
-            Transform childWithItem =  transform.GetChild(i).GetChild(0).GetChild(0);
-            childWithItem.GetComponent<ShowItem>().itemToShow = itemInInventory;
+            Transform childWithItem =  transform.GetChild(i);
+            childWithItem.GetComponent<ItemSlots>().itemToShow = itemInInventory;
         }
         
     }
