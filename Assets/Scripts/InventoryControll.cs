@@ -11,12 +11,15 @@ public class InventoryControll : MonoBehaviour
     [SerializeField] private List<IInventoryItem> itemsInInventory;
     [SerializeField] private ItemSlots[] _itemSlots;
 
+    [SerializeField] private ScriptableManagerScript manager; 
+
     private void OnValidate()
     {
         if (itemsParent != null)
         {
             _itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
         }
+        
     }
 
     public event EventHandler<InventoryEventArgs> ItemAdded;

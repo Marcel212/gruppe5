@@ -167,7 +167,7 @@ public class Block
 		if(currentHealth <= 0)
 		{
 			blocksize = Blocksize.SMALL;
-			//blockType = BlockType.SMALLBLOCK;
+			//blockType = BlockType.WATER;
 			isSolid = false;
 			health = BlockType.NOCRACK;
 			owner.Redraw();
@@ -514,7 +514,7 @@ public class Block
 		{
 			Block b = GetBlock(x,y,z);
 			if(b != null)
-				return (b.isSolid || b.blockType == blockType);
+				return (b.isSolid || b.blockType == BlockType.WATER);
 		}
 		catch(System.IndexOutOfRangeException){}
 
