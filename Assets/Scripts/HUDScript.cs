@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : MonoBehaviour
+public class HUDScript : MonoBehaviour
 {
 
     public GameObject inventory;
@@ -30,9 +30,5 @@ public class HUD : MonoBehaviour
             
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
