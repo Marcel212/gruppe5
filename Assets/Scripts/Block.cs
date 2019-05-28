@@ -167,7 +167,7 @@ public class Block
 		if(currentHealth <= 0)
 		{
 			blocksize = Blocksize.SMALL;
-			//blockType = BlockType.WATER;
+			parent = owner.fluid.gameObject;
 			isSolid = false;
 			health = BlockType.NOCRACK;
 			owner.Redraw();
