@@ -58,7 +58,7 @@ public class InventoryInteraction : MonoBehaviour
         IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
         if (item != null)
         {
-            inventory.GetComponent<InventoryControll>().AddItem(item);
+//s            inventory.GetComponent<InventoryControll>().AddItem(item);
         }
     }
 }

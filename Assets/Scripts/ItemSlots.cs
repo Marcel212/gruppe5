@@ -6,18 +6,65 @@ public class ItemSlots : MonoBehaviour
 {
 
     public Item itemToShow;
+
+    public Image _currentImage;
+    private TextMeshProUGUI _textAmount;
+    
     public int amount;
     
-    private Image _currentImage;
-    private TextMeshProUGUI _textAmount;
-    private Transform _transformCache;
-
-    private void Start()
+    
+    public Item Item
     {
+        get { return itemToShow; }
+        set
+        {
+            itemToShow = value;
+            if (itemToShow != null)
+            {
+                _currentImage.sprite = itemToShow.itemPicuture;
+            }
+            else
+            {
+                _currentImage.sprite = null;
+            }
+        }
+    }
+ 
 
-        _transformCache = transform.GetChild(0).GetChild(0);
-        _currentImage = _transformCache.GetComponent<Image>();
-        _textAmount = _transformCache.GetChild(0).GetComponent<TextMeshProUGUI>();
+    public int Amount
+    {
+        get { return amount; }
+        set
+        {
+            amount = value;
+            if (amount != 0)
+            {
+                _textAmount.gameObject.SetActive(true);
+                _textAmount.text = amount.ToString();
+            }
+            else
+            {
+                _textAmount.gameObject.SetActive(false);
+                Item = null;
+
+            }
+        }
+    }
+
+
+    private void OnValidate()
+    {
+        if (_currentImage == null)
+        {
+            _currentImage = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        }
+
+        if (_textAmount == null)
+        {
+            _textAmount = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+
+        }
+
     }
 
     public void RefreshSlotData()
@@ -31,7 +78,6 @@ public class ItemSlots : MonoBehaviour
         else
         {
             _currentImage.sprite = null;
-            _textAmount.gameObject.SetActive(false);
         }
     }
 
