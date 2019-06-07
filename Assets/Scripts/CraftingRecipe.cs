@@ -10,7 +10,8 @@ public class ItemAndAmount
      public Item item;
      [Range(0,64)]
      public int amount;
-   
+
+     public int indexInList;
  }
 
 

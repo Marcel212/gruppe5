@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.XR.WSA.WebCam;
+using Object = System.Object;
 
 public class InventoryControll : MonoBehaviour
 {
@@ -22,16 +25,45 @@ public class InventoryControll : MonoBehaviour
             _itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
         }
         
+        
         RefreshUI();
         
     }
 
+    public string PrintListInt(List<int> testList)
+    {
+        string result = "[ ";
+        foreach (var i in testList)
+        {
+            result = result + " " +  i + ",";
+        }
 
+        result = result + " ]";
+        return result; 
+    }
+
+    public string PrintItemAndAmountList(List<ItemAndAmount> testList)
+    {
+        string result = "[ ";
+        foreach (var item in testList)
+        {
+            result = result + "(" + item.item + ", " + item.amount + ") ;";
+        }
+
+        result = result + " ]";
+        return result;
+    }
+    
+    
     private void Start()
     {
+        List<ItemAndAmount> testList = new List<ItemAndAmount>();
+        List<int> testIndices = new List<int>();
         Item value = null;
+        int index = -2;
         manager._dictionary.TryGetValue("Erde", out value);
-        Debug.Log("Erde voll? " + IsFull(value));  
+        Debug.Log("Erde enthalten? " + InventoryContainsItem(value, out testList, out testIndices) + " IndicesListe: " + PrintListInt(testIndices));
+        Debug.Log("Möglicher Index für Erde " + IsStillRoomForItem(value, out index) + "   " + index);
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
@@ -54,19 +86,21 @@ public class InventoryControll : MonoBehaviour
     public event EventHandler<InventoryEventArgs> ItemAdded;
 
 //TODO Statt hinzufügen ggf. Counter erneuern
-    public bool AddItem(Item item)
+    /*public bool AddItem(Item item)
     {
-        if (IsFull(item))
+        if (IsStillRoomForItem(item))
         {
             return false;
         }
         else
         {
-           // itemsInInventory.Add(new);
+            
+            
+            
             RefreshUI();
             return true;
         }
-    }
+    }*/
     /*
 //TODO Statt Löschen Counter erneuern
     public bool RemoveItem(Item item)
@@ -82,42 +116,57 @@ public class InventoryControll : MonoBehaviour
     }*/
 
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
-    public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput)
+    public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput, out List<int> indices)
     {
         itemAndAmountOutput = new List<ItemAndAmount>();
-        
-        foreach (var itemAndAmount in itemsInInventory)
+        indices = new List<int>();
+        for (int i = 0; i < itemsInInventory.Count; i++)
         {
-            if (itemAndAmount.item == item)
+            if (itemsInInventory[i].item == item)
             {
-                itemAndAmountOutput.Add(itemAndAmount);
+                itemAndAmountOutput.Add(itemsInInventory[i]);
+                indices.Add(i);
             }
         }
         return itemAndAmountOutput.Count != 0;
     }
     
     //Überprüft, ob ein Item dieses Typs noch reinpasst
-    public bool IsFull(Item item)
+    //IndexInList gibt -1 zurück, falls kein Platz mehr ist, ansonsten den Index an dem Platz ist
+    public bool IsStillRoomForItem(Item item, out int indexInList)
     {
+        indexInList = -1;
+        bool result = false;
+        //Wenn das Item null ist wird immer false zurückgegeben;
         if (item == null)
         {
-            return true;
-        Debug.Log("null");
-        }
-        bool result = true;
-        List<ItemAndAmount> itemAndAmountOutput = new List<ItemAndAmount>();
-        if (InventoryContainsItem(item, out itemAndAmountOutput))
-        {
-            foreach (var itemAndAmount in itemAndAmountOutput)
-            {
-                result = result && itemAndAmount.amount >= 64;
-                Debug.Log("Zwischenergebnis: " +result);
-            }
+            return false;
         }
         
-        //TODO Count funktioniert hierbei nicht. Erkennt trotzdem items, da Value oder Item definiert sind. 
-        Debug.Log(itemsInInventory.Count +" >= " + _itemSlots.Length);
-        result = result && itemsInInventory.Count >= _itemSlots.Length;
+        List<ItemAndAmount> itemAndAmountOutput = new List<ItemAndAmount>();
+        List<int> indicesOfResult = new List<int>();
+       
+        
+        //Testet, ob das Inventar schon Stapel dieses Items besitzt
+        if (InventoryContainsItem(item, out itemAndAmountOutput, out indicesOfResult))
+        {    
+            //Prüft, ob alle Stapel voll sind
+            for (var i = 0; i < itemAndAmountOutput.Count; i++)
+            {
+                //übergibt den zugehörigen Index
+                if (itemAndAmountOutput[i].amount < 64)
+                {
+                    indexInList = indicesOfResult[i];
+                    result = true;
+                }
+            }
+        }else if (InventoryContainsItem(null, out itemAndAmountOutput, out indicesOfResult))
+        {
+            // Wenn ein Platz ohne Item existiert ist immer noch Platz, gibt zusätzlich den Platz des ersten freien Index aus
+            indexInList = indicesOfResult[0];
+            result = true;
+        }
+
         return result;
     }
     
