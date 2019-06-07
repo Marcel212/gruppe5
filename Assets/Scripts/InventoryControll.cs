@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.XR.WSA.WebCam;
-using Object = System.Object;
-
 public class InventoryControll : MonoBehaviour
 {
     //Inventar Intern
@@ -13,20 +8,21 @@ public class InventoryControll : MonoBehaviour
 
     [SerializeField] private Transform itemsParent;
     //Inventar im UI
-    [SerializeField] private ItemSlots[] _itemSlots;
+    [SerializeField] private ItemSlots[] itemSlots;
 
     [SerializeField] private ScriptableManagerScript manager; 
     
+    Item value = null;
     private void OnValidate()
     {
         //Legt eine Liste mit allen ItemSlotScript an
         if (itemsParent != null)
         {
-            _itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
+            itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
         }
         
         
-        RefreshUI();
+        RefreshUi();
         
     }
 
@@ -59,48 +55,67 @@ public class InventoryControll : MonoBehaviour
     {
         List<ItemAndAmount> testList = new List<ItemAndAmount>();
         List<int> testIndices = new List<int>();
-        Item value = null;
+       
         int index = -2;
         manager._dictionary.TryGetValue("Erde", out value);
         Debug.Log("Erde enthalten? " + InventoryContainsItem(value, out testList, out testIndices) + " IndicesListe: " + PrintListInt(testIndices));
         Debug.Log("Möglicher Index für Erde " + IsStillRoomForItem(value, out index) + "   " + index);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            AddItem(value);
+        }
+    }
+
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
     //Bindet die Liste an Items an die ItemSlots
-    public void RefreshUI()
+    public void RefreshUi()
     {
         int i = 0;
-        for (; i < itemsInInventory.Count & i < _itemSlots.Length; i++)
+        for (; i < itemsInInventory.Count & i < itemSlots.Length; i++)
         {
-            _itemSlots[i].Amount = itemsInInventory[i].amount;
-            _itemSlots[i].Item = itemsInInventory[i].item;
+            itemSlots[i].Amount = itemsInInventory[i].amount;
+            itemSlots[i].Item = itemsInInventory[i].item;
         }
 
-        for (; i < _itemSlots.Length; i++)
+        for (; i < itemSlots.Length; i++)
         {
-            _itemSlots[i].Amount = 0;
-            _itemSlots[i].Item = null;
+            itemSlots[i].Amount = 0;
+            itemSlots[i].Item = null;
         }
     }
     public event EventHandler<InventoryEventArgs> ItemAdded;
-
-//TODO Statt hinzufügen ggf. Counter erneuern
-    /*public bool AddItem(Item item)
+    
+    //TODO Mehr als ein Item muss eingefügt werden
+    public bool AddItem(Item item)
     {
-        if (IsStillRoomForItem(item))
+        int index = -1;
+        bool canInsert = IsStillRoomForItem(item, out index);
+        Debug.Log(canInsert);
+        if (canInsert)
         {
-            return false;
+            if (itemsInInventory[index].item == item)
+            {
+                itemsInInventory[index].amount++;
+            }
+            else
+            {
+                itemsInInventory[index].item = item;
+                itemsInInventory[index].amount = 1;
+            }
+            RefreshUi();
+            return true;
+            
         }
         else
         {
-            
-            
-            
-            RefreshUI();
-            return true;
+            return false;
         }
-    }*/
+        
+    }
     /*
 //TODO Statt Löschen Counter erneuern
     public bool RemoveItem(Item item)
@@ -138,7 +153,7 @@ public class InventoryControll : MonoBehaviour
         indexInList = -1;
         bool result = false;
         //Wenn das Item null ist wird immer false zurückgegeben;
-        if (item == null)
+        if (item.Equals(null))
         {
             return false;
         }
@@ -160,11 +175,17 @@ public class InventoryControll : MonoBehaviour
                     result = true;
                 }
             }
-        }else if (InventoryContainsItem(null, out itemAndAmountOutput, out indicesOfResult))
+        }
+        // Wenn ein Platz ohne Item existiert ist immer noch Platz, gibt zusätzlich den Platz des ersten freien Index aus
+
+        if (!result)
         {
-            // Wenn ein Platz ohne Item existiert ist immer noch Platz, gibt zusätzlich den Platz des ersten freien Index aus
-            indexInList = indicesOfResult[0];
-            result = true;
+            if (indexInList == -1 &&InventoryContainsItem(null, out itemAndAmountOutput, out indicesOfResult))
+            {
+                indexInList = indicesOfResult[0];
+                result = true;
+            }
+            
         }
 
         return result;
