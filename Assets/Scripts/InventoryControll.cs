@@ -94,7 +94,6 @@ public class InventoryControll : MonoBehaviour
     {
         int index = -1;
         bool canInsert = IsStillRoomForItem(item, out index);
-        Debug.Log(canInsert);
         if (canInsert)
         {
             if (itemsInInventory[index].item == item)
@@ -116,19 +115,19 @@ public class InventoryControll : MonoBehaviour
         }
         
     }
-    /*
+    
 //TODO Statt Löschen Counter erneuern
-    public bool RemoveItem(Item item)
+    public bool RemoveItemPack(ItemAndAmount itemAndAmount)
     {
-        if(itemsInInventory.Remove(item))
+        if(itemsInInventory.Remove(itemAndAmount))
         {
-            RefreshUI();
+            RefreshUi();
             return true;
         }else
         {
             return false;
         }
-    }*/
+    }
 
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
     public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput, out List<int> indices)
