@@ -3,54 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 public class InventoryControll : MonoBehaviour
 {
-    //Inventar Intern
+    //Inventar & HotKey Intern
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
-
-    [SerializeField] private Transform itemsParent;
-    //Inventar im UI
-    [SerializeField] private ItemSlots[] itemSlots;
-
+    [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
+    //Parents der Slots zum finden der Scripte
+    [SerializeField] private Transform itemsParentInventory;
+    [SerializeField] private Transform itemsParentHotkeyPanel;
+    [SerializeField] private Transform itemsParentHotKeyOnScreen;
+    //InventarSlots im UI
+    private ItemSlots[] itemSlotsInventory;
+    private ItemSlots[] itemSlotsHotKey;
+    private ItemSlots[] itemSlotsHotKeyOnScreen;
+    
     [SerializeField] private ScriptableManagerScript manager; 
     
     Item value = null;
     private void OnValidate()
     {
         //Legt eine Liste mit allen ItemSlotScript an
-        if (itemsParent != null)
+        if (itemsParentInventory != null)
         {
-            itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
+            itemSlotsInventory = itemsParentInventory.GetComponentsInChildren<ItemSlots>();
         }
-        
+
+        if (itemsParentHotkeyPanel != null)
+        {
+            itemSlotsHotKey = itemsParentHotkeyPanel.GetComponentsInChildren<ItemSlots>();
+        }
+
+        if (itemsParentHotKeyOnScreen != null)
+        {
+            itemSlotsHotKeyOnScreen = itemsParentHotKeyOnScreen.GetComponentsInChildren<ItemSlots>();
+        }
         
         RefreshUi();
         
     }
 
-    public string PrintListInt(List<int> testList)
+    private void Update()
     {
-        string result = "[ ";
-        foreach (var i in testList)
+        if (Input.GetKeyUp(KeyCode.KeypadPlus))
         {
-            result = result + " " +  i + ",";
+            AddItem(value);
         }
 
-        result = result + " ]";
-        return result; 
-    }
-
-    public string PrintItemAndAmountList(List<ItemAndAmount> testList)
-    {
-        string result = "[ ";
-        foreach (var item in testList)
+        if (Input.GetKeyUp(KeyCode.KeypadMinus))
         {
-            result = result + "(" + item.item + ", " + item.amount + ") ;";
+            RemoveItemPack(itemsInInventory[0]);
         }
-
-        result = result + " ]";
-        return result;
     }
-    
-    
+
     private void Start()
     {
         List<ItemAndAmount> testList = new List<ItemAndAmount>();
@@ -62,30 +64,56 @@ public class InventoryControll : MonoBehaviour
         Debug.Log("Möglicher Index für Erde " + IsStillRoomForItem(value, out index) + "   " + index);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            AddItem(value);
-        }
-    }
-
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
     //Bindet die Liste an Items an die ItemSlots
     public void RefreshUi()
     {
+        // Passe alle UI Elemente an die Liste der InventarElemente an
         int i = 0;
-        for (; i < itemsInInventory.Count & i < itemSlots.Length; i++)
+        for (; i < itemsInInventory.Count & i < itemSlotsInventory.Length; i++)
         {
-            itemSlots[i].Amount = itemsInInventory[i].amount;
-            itemSlots[i].Item = itemsInInventory[i].item;
+            itemSlotsInventory[i].Amount = itemsInInventory[i].amount;
+            itemSlotsInventory[i].Item = itemsInInventory[i].item;
         }
 
-        for (; i < itemSlots.Length; i++)
+        for (; i < itemSlotsInventory.Length; i++)
         {
-            itemSlots[i].Amount = 0;
-            itemSlots[i].Item = null;
+            itemSlotsInventory[i].Amount = 0;
+            itemSlotsInventory[i].Item = null;
         }
+        // Passe alle UI Elemente an die Liste der HotKeyElemente an
+        int j = 0;
+        int currentAmount;
+        Item currentItem;
+
+        for (; j < itemsInHotkeys.Count & j < itemSlotsHotKey.Length; j++)
+        {
+            currentAmount = itemsInHotkeys[j].amount;
+            currentItem = itemsInHotkeys[j].item;
+            
+            itemSlotsHotKey[j].Amount = currentAmount;
+            itemSlotsHotKey[j].Item = currentItem;
+            
+            itemSlotsHotKeyOnScreen[j].Amount = currentAmount;
+            itemSlotsHotKeyOnScreen[j].Item = currentItem;
+
+        }
+
+
+        for (; j < itemSlotsHotKey.Length; j++)
+        {
+            currentAmount = 0;
+            currentItem = null;
+            
+            itemSlotsHotKey[j].Amount = currentAmount;
+            itemSlotsHotKey[j].Item = currentItem;
+            itemSlotsHotKeyOnScreen[j].Amount = 0;
+            itemSlotsHotKeyOnScreen[j].Item = currentItem;
+        }
+
+        
+        
+        
     }
     public event EventHandler<InventoryEventArgs> ItemAdded;
     
@@ -116,7 +144,7 @@ public class InventoryControll : MonoBehaviour
         
     }
     
-//TODO Statt Löschen Counter erneuern
+    //TODO Nicht Löschen sondern nur Item und Amount auf null setzen, da sonst 
     public bool RemoveItemPack(ItemAndAmount itemAndAmount)
     {
         if(itemsInInventory.Remove(itemAndAmount))
@@ -187,6 +215,30 @@ public class InventoryControll : MonoBehaviour
             
         }
 
+        return result;
+    }
+    
+    public string PrintListInt(List<int> testList)
+    {
+        string result = "[ ";
+        foreach (var i in testList)
+        {
+            result = result + " " +  i + ",";
+        }
+
+        result = result + " ]";
+        return result; 
+    }
+
+    public string PrintItemAndAmountList(List<ItemAndAmount> testList)
+    {
+        string result = "[ ";
+        foreach (var item in testList)
+        {
+            result = result + "(" + item.item + ", " + item.amount + ") ;";
+        }
+
+        result = result + " ]";
         return result;
     }
     

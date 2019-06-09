@@ -25,7 +25,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             if (m_placement == Placement.World)
             {
                 itemScriptDrag.itemToShow = null;
-                m_hotkeyScript.RefreshHotKeys();
+                //m_hotkeyScript.RefreshHotKeys();
                 
                 // TODO Gameobject erzeugen
                 Debug.Log("Wegwerfen");
@@ -49,7 +49,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                 }
             
                 // performanter refreshen?
-                m_hotkeyScript.RefreshHotKeys();
+                //m_hotkeyScript.RefreshHotKeys();
                 
                 
                 Debug.Log("Refresh");

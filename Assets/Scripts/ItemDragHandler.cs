@@ -7,7 +7,7 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
     private CanvasGroup m_canvasGroup;
     private ItemSlots m_itemScript;
     public DropZone.Placement m_placement;
-    
+    //TODO Binde Drag andDrop an Inventory    
     private void Start()
     {
         m_oldPosition = transform.localPosition;

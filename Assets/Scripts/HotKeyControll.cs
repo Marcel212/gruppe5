@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HotKeyControll : MonoBehaviour
@@ -9,28 +10,17 @@ public class HotKeyControll : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private GameObject hotKeyInventory;
-    void Update()
+    private ItemSlots[] slots;
+    private Item itemInInventory;
+    private int amount;
+    private void Start()
     {
-        RefreshHotKeys();
-        
+        slots = hotKeyInventory.transform.GetComponentsInChildren<ItemSlots>();
     }
 
-    public void RefreshHotKeys()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            // Verknüpfe jeden Hotkey unten mit dem Hotkey aus dem Inventar 
-            ItemSlots slot = hotKeyInventory.transform.GetChild(i).GetComponent<ItemSlots>();
-            Item itemInInventory = slot.itemToShow;
-            int amount = slot.amount;
-            
-            
-            Transform childWithItem =  transform.GetChild(i);
-            childWithItem.GetComponent<ItemSlots>().itemToShow = itemInInventory;
-            childWithItem.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = amount.ToString();
-        }
-        
-    }
+
+
+
 }
 
 

@@ -7,8 +7,8 @@ public class ItemSlots : MonoBehaviour
 
     public Item itemToShow;
 
-    public Image _currentImage;
-    private TextMeshProUGUI _textAmount;
+    [SerializeField] private Image _currentImage;
+    [SerializeField] private TextMeshProUGUI _textAmount;
     
     public int amount;
     
@@ -26,6 +26,7 @@ public class ItemSlots : MonoBehaviour
             else
             {
                 _currentImage.sprite = null;
+                
             }
         }
     }
@@ -52,7 +53,7 @@ public class ItemSlots : MonoBehaviour
     }
 
 
-    private void OnValidate()
+    private void Start()
     {
         if (_currentImage == null)
         {
@@ -64,6 +65,11 @@ public class ItemSlots : MonoBehaviour
             _textAmount = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
 
         }
+        //Auf Default setzen & alle Eingaben vom Editor prüfen 
+        Item = itemToShow;
+        Amount = amount;
+        _textAmount.gameObject.SetActive(false);
+
 
     }
 
