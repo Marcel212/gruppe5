@@ -5,11 +5,11 @@ public class DropZone : MonoBehaviour, IDropHandler
 {
     public Placement m_placement;
 
-    private HotKeyControll m_hotkeyScript;
+    private InventoryControll inventoryControllScript;
 
     private void Start()
     {
-        m_hotkeyScript = GameObject.FindGameObjectWithTag("HotKeys").GetComponent<HotKeyControll>();
+        inventoryControllScript = GameObject.Find("Inventory").GetComponent<InventoryControll>();
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -25,7 +25,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             if (m_placement == Placement.World)
             {
                 itemScriptDrag.itemToShow = null;
-                //m_hotkeyScript.RefreshHotKeys();
+                inventoryControllScript.RefreshUi();
                 
                 // TODO Gameobject erzeugen
                 Debug.Log("Wegwerfen");
@@ -49,7 +49,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                 }
             
                 // performanter refreshen?
-                //m_hotkeyScript.RefreshHotKeys();
+                inventoryControllScript.RefreshUi();
                 
                 
                 Debug.Log("Refresh");

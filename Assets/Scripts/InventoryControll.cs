@@ -35,6 +35,21 @@ public class InventoryControll : MonoBehaviour
         {
             itemSlotsHotKeyOnScreen = itemsParentHotKeyOnScreen.GetComponentsInChildren<ItemSlots>();
         }
+
+        for (int i = 0; i < itemSlotsInventory.Length; i++)
+        {
+            itemSlotsInventory[i].indexInPlacement = i;
+            itemSlotsInventory[i].placement = DropZone.Placement.Inventory;
+        }
+
+        for (int i = 0; i < itemSlotsHotKey.Length; i++)
+        {
+            itemSlotsHotKey[i].indexInPlacement = i;
+            itemSlotsHotKey[i].placement = DropZone.Placement.Hotkeys;
+
+            itemSlotsHotKeyOnScreen[i].indexInPlacement = i;            
+            itemSlotsHotKeyOnScreen[i].placement = DropZone.Placement.Hotkeys;
+        }
         
         RefreshUi();
         
@@ -44,6 +59,8 @@ public class InventoryControll : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.KeypadPlus))
         {
+            manager._dictionary.TryGetValue("Erde", out value);
+
             AddItem(value);
         }
 
@@ -60,8 +77,6 @@ public class InventoryControll : MonoBehaviour
        
         int index = -2;
         manager._dictionary.TryGetValue("Erde", out value);
-        Debug.Log("Erde enthalten? " + InventoryContainsItem(value, out testList, out testIndices) + " IndicesListe: " + PrintListInt(testIndices));
-        Debug.Log("Möglicher Index für Erde " + IsStillRoomForItem(value, out index) + "   " + index);
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
@@ -180,7 +195,7 @@ public class InventoryControll : MonoBehaviour
         indexInList = -1;
         bool result = false;
         //Wenn das Item null ist wird immer false zurückgegeben;
-        if (item.Equals(null))
+        if (item == null)
         {
             return false;
         }

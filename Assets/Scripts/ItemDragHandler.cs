@@ -7,12 +7,20 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
     private CanvasGroup m_canvasGroup;
     private ItemSlots m_itemScript;
     public DropZone.Placement m_placement;
-    //TODO Binde Drag andDrop an Inventory    
+
     private void Start()
     {
-        m_oldPosition = transform.localPosition;
-        m_canvasGroup = this.transform.parent.GetComponentInParent<CanvasGroup>();
+        //m_oldPosition = transform.localPosition;
+        m_canvasGroup = GetComponentInParent<CanvasGroup>();
         m_itemScript = GetComponentInParent<ItemSlots>();
+        Debug.Log("Canvas Group " + m_canvasGroup);
+        Debug.Log("ItemScript " + m_itemScript);
+        Debug.Log("Image " + m_itemScript._currentImage);
+        // TODO Warum wirft es bei einem Script ein Error? 
+        m_oldPosition = m_itemScript._currentImage.transform.localPosition;
+        Debug.Log("Position " + m_oldPosition);
+
+
     }
 
     
@@ -28,7 +36,8 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
         
         if (m_itemScript.itemToShow != null)
         {
-            transform.position = Input.mousePosition;
+            m_itemScript._currentImage.transform.position = Input.mousePosition;
+            //transform.position = Input.mousePosition;
         }
         
     }
@@ -36,7 +45,9 @@ public class ItemDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("OnEndDrag");
-        transform.localPosition = m_oldPosition;
+        m_itemScript._currentImage.transform.localPosition = m_oldPosition;
+
+        //transform.localPosition = m_oldPosition;
         
         m_canvasGroup.blocksRaycasts = true;
     }

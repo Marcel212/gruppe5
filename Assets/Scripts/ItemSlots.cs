@@ -7,10 +7,13 @@ public class ItemSlots : MonoBehaviour
 
     public Item itemToShow;
 
-    [SerializeField] private Image _currentImage;
+    [SerializeField] public Image _currentImage;
     [SerializeField] private TextMeshProUGUI _textAmount;
     
     public int amount;
+    public DropZone.Placement placement;
+    public int indexInPlacement;
+    
     
     
     public Item Item
@@ -40,6 +43,7 @@ public class ItemSlots : MonoBehaviour
             amount = value;
             if (amount != 0)
             {
+                // TODO Warum wirft es hier NullReferenceException? 
                 _textAmount.gameObject.SetActive(true);
                 _textAmount.text = amount.ToString();
             }
@@ -66,30 +70,13 @@ public class ItemSlots : MonoBehaviour
 
         }
         //Auf Default setzen & alle Eingaben vom Editor prüfen 
+        _textAmount.gameObject.SetActive(false);
         Item = itemToShow;
         Amount = amount;
-        _textAmount.gameObject.SetActive(false);
+        
 
 
     }
 
-    public void RefreshSlotData()
-    {
-        if(itemToShow != null)
-        { 
-            _currentImage.sprite = itemToShow.itemPicuture;
-            _textAmount.gameObject.SetActive(true);
-            _textAmount.text = amount.ToString();
-        }
-        else
-        {
-            _currentImage.sprite = null;
-        }
-    }
 
-    // TODO soll aktualisiert werden, sobald Inventar offen bzw. etwas eingesammelt wird. 
-    private void Update()
-    {
-        RefreshSlotData();
-    }
 }
