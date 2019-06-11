@@ -174,6 +174,8 @@ public class Block
         	cube.transform.position = new Vector3 (position.x + 8, position.y + 72, position.z + 8);
 			cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 			BoxCollider boxCollider = (BoxCollider)cube.GetComponent(typeof(BoxCollider));
+			MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
+			meshRenderer.enabled = false;
 			QuadScript quadScript = (QuadScript)cube.AddComponent(typeof(QuadScript));
 			//Rigidbody rigidbody = (Rigidbody)cube.AddComponent(typeof(Rigidbody));
 			boxCollider.isTrigger = true ;
