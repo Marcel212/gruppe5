@@ -10,10 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b4dfaa3a8b77164e93faade37acf6cf, type: 3}
-  m_Name: New Recipe
+  m_Name: Werkbank
   m_EditorClassIdentifier: 
-  materials: []
+  size: 0
+  materials:
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
   result:
-    item: {fileID: 0}
-    amount: 0
+    item: {fileID: 11400000, guid: b4de88fcf682cfc47805d9bab204860b, type: 2}
+    amount: 1
     indexInList: 0

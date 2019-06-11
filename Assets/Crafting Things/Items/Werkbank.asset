@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5de4b6962b7f94781241e20a2df991, type: 3}
   m_Name: Werkbank
   m_EditorClassIdentifier: 
-  name: 
-  itemPicuture: {fileID: 0}
+  name: Werkbank
+  itemPicuture: {fileID: 21301352, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
   objectInGame: {fileID: 0}

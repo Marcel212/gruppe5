@@ -12,8 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4dfaa3a8b77164e93faade37acf6cf, type: 3}
   m_Name: Holztreppe
   m_EditorClassIdentifier: 
-  materials: []
-  result:
-    item: {fileID: 0}
+  size: 1
+  materials:
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 0}
     amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  result:
+    item: {fileID: 11400000, guid: 9d13c18522762474b8ca14b38961726c, type: 2}
+    amount: 4
     indexInList: 0
