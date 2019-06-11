@@ -29,7 +29,8 @@ public class ItemSlots : MonoBehaviour
             else
             {
                 _currentImage.sprite = null;
-                
+                amount = 0;
+
             }
         }
     }

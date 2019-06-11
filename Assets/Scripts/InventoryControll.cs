@@ -6,14 +6,20 @@ public class InventoryControll : MonoBehaviour
     //Inventar & HotKey Intern
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
     [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
+
+    [SerializeField] private ItemAndAmount[] itemsInCrafting;
     //Parents der Slots zum finden der Scripte
     [SerializeField] private Transform itemsParentInventory;
     [SerializeField] private Transform itemsParentHotkeyPanel;
     [SerializeField] private Transform itemsParentHotKeyOnScreen;
+    [SerializeField] private Transform itemsParentCrafting;
+    
     //InventarSlots im UI
     private ItemSlots[] itemSlotsInventory;
     private ItemSlots[] itemSlotsHotKey;
     private ItemSlots[] itemSlotsHotKeyOnScreen;
+    private ItemSlots[] itemSlotsCrafting;
+    
     
     [SerializeField] private ScriptableManagerScript manager; 
     
@@ -36,6 +42,11 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen = itemsParentHotKeyOnScreen.GetComponentsInChildren<ItemSlots>();
         }
 
+        if (itemsParentCrafting != null)
+        {
+            itemSlotsCrafting = itemsParentCrafting.GetComponentsInChildren<ItemSlots>();
+        }
+
         // Übergebe allen ItemSlots ihren index und ihr Placement
         for (int i = 0; i < itemSlotsInventory.Length; i++)
         {
@@ -51,7 +62,12 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen[i].indexInPlacement = i;            
             itemSlotsHotKeyOnScreen[i].placement = DropZone.Placement.Hotkeys;
         }
-        
+
+        for (int i = 0; i < itemSlotsCrafting.Length; i++)
+        {
+            itemSlotsCrafting[i].indexInPlacement = i;
+            itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
+        }
         RefreshUi();
         
     }
@@ -112,7 +128,6 @@ public class InventoryControll : MonoBehaviour
 
         }
 
-
         for (; j < itemSlotsHotKey.Length; j++)
         {
             currentAmount = 0;
@@ -124,7 +139,18 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen[j].Item = currentItem;
         }
 
-        
+        int k = 0;
+        for (; k < itemsInCrafting.Length & k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = itemsInCrafting[k].amount;
+            itemSlotsCrafting[k].Item = itemsInCrafting[k].item;
+        }
+
+        for (; k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = 0;
+            itemSlotsCrafting[k].Item = null;
+        }
         
         
     }
@@ -315,28 +341,5 @@ public class InventoryControll : MonoBehaviour
     }
     
     
-    // Toter Code eventuell noch wichtig 
-    /*public void AddItem(Item item)
-    {
-        // Wenn noch Platz ist, füge es an der ersten Stelle ein 
-        if (itemsInInventory.Count < SLOTS)
-        {
-            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
-            if (collider.enabled)
-            {
-                collider.enabled = false;
-                
-                itemsInInventory.Add(item);
-                
-                item.OnPickUp();
-                
-            }
-        }
-
-        if (ItemAdded != null)
-        {
-            ItemAdded(this, new InventoryEventArgs(item));
-        }
-    }*/
 }
 

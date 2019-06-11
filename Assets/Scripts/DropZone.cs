@@ -44,6 +44,13 @@ public class DropZone : MonoBehaviour, IDropHandler
             else if(ownPlacement == Placement.Forbidden)
             {
                 Debug.Log("Verboten");
+            }else if (ownPlacement == Placement.Crafting)
+            {
+                //Suche nach passendem Rezept
+                
+                //Fülle ggf. ResultSlot
+                
+                //
             }
         }
 
@@ -52,6 +59,6 @@ public class DropZone : MonoBehaviour, IDropHandler
     }
     
     
-    public enum Placement {Hotkeys, Forbidden, Inventory, World};
+    public enum Placement {Hotkeys, Forbidden, Inventory, World, Crafting};
 
 }
