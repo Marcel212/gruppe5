@@ -128,7 +128,7 @@ public class Block
     /// <returns>Returns always true after updating the chunk.</returns>
 	public bool BuildBlock(BlockType b)
 	{
-        if (blocksize == Blocksize.BIG)
+        if (blocksize == Blocksize.BIG || b == BlockType.AIR)
         {
             // If water or sand got placed, activate the drop and flow coroutines respectively.
             if (b == BlockType.WATER)
@@ -170,7 +170,15 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-            
+			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        	cube.transform.position = new Vector3 (position.x + 8, position.y + 72, position.z + 8);
+			cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+			BoxCollider boxCollider = (BoxCollider)cube.GetComponent(typeof(BoxCollider));
+			MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
+			meshRenderer.enabled = false;
+			QuadScript quadScript = (QuadScript)cube.AddComponent(typeof(QuadScript));
+			//Rigidbody rigidbody = (Rigidbody)cube.AddComponent(typeof(Rigidbody));
+			boxCollider.isTrigger = true ;
   			blocksize = Blocksize.SMALL;
 			parent = owner.fluid.gameObject;
 			isSolid = false;
@@ -429,8 +437,9 @@ public class Block
 		meshFilter.mesh = mesh;
 
         MeshCollider meshCollider = (MeshCollider)quad.AddComponent(typeof(MeshCollider));
-        meshCollider.convex = true;
+	    meshCollider.convex = true;
         meshCollider.isTrigger = true;
+		Debug.Log(meshCollider.isTrigger);
 
         QuadScript quadScript = (QuadScript)quad.AddComponent(typeof(QuadScript));
     }
