@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HotKeyControll : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class HotKeyControll : MonoBehaviour
         slots = hotKeyInventory.transform.GetComponentsInChildren<ItemSlots>();
     }
 
-
+    
 
 
 }

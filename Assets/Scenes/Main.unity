@@ -11675,7 +11675,6 @@ GameObject:
   - component: {fileID: 1741488220}
   - component: {fileID: 1741488219}
   - component: {fileID: 1741488218}
-  - component: {fileID: 1741488222}
   - component: {fileID: 1741488224}
   m_Layer: 5
   m_Name: Canvas
@@ -11767,19 +11766,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1741488222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741488217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 638a586107adc624cb24ca0b363add5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 1885167860}
 --- !u!222 &1741488224
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12054,6 +12040,90 @@ MonoBehaviour:
     indexInList: 0
   - item: {fileID: 11400000, guid: 54a594b24284bc746b11e5a26f000ce7, type: 2}
     amount: 28
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
+    indexInList: 0
+  - item: {fileID: 0}
+    amount: 0
     indexInList: 0
   itemsInHotkeys:
   - item: {fileID: 0}
