@@ -128,25 +128,29 @@ public class Block
     /// <returns>Returns always true after updating the chunk.</returns>
 	public bool BuildBlock(BlockType b)
 	{
-        // If water or sand got placed, activate the drop and flow coroutines respectively.
-		if(b == BlockType.WATER)
-		{
-			owner.mb.StartCoroutine(owner.mb.Flow(this, 
-										BlockType.WATER, 
-										blockHealthMax[(int)BlockType.WATER],15));
-		}
-		else if(b == BlockType.SAND)
-		{
-			owner.mb.StartCoroutine(owner.mb.Drop(this, 
-										BlockType.SAND, 
-										20));
-		}
-		else
-		{
-			SetType(b);
-			owner.Redraw();
-		}
-		return true;
+        if (blocksize == Blocksize.BIG)
+        {
+            // If water or sand got placed, activate the drop and flow coroutines respectively.
+            if (b == BlockType.WATER)
+            {
+                owner.mb.StartCoroutine(owner.mb.Flow(this,
+                                            BlockType.WATER,
+                                            blockHealthMax[(int)BlockType.WATER], 15));
+            }
+            else if (b == BlockType.SAND)
+            {
+                owner.mb.StartCoroutine(owner.mb.Drop(this,
+                                            BlockType.SAND,
+                                            20));
+            }
+            else
+            {
+                SetType(b);
+                owner.Redraw();
+            }
+            return true;
+        }
+        return true;
 	}
 
     /// <summary>
@@ -166,7 +170,8 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-			blocksize = Blocksize.SMALL;
+            
+  			blocksize = Blocksize.SMALL;
 			parent = owner.fluid.gameObject;
 			isSolid = false;
 			health = BlockType.NOCRACK;
@@ -422,7 +427,14 @@ public class Block
 
      	MeshFilter meshFilter = (MeshFilter) quad.AddComponent(typeof(MeshFilter));
 		meshFilter.mesh = mesh;
-	}
+
+        MeshCollider meshCollider = (MeshCollider)quad.AddComponent(typeof(MeshCollider));
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
+
+        QuadScript quadScript = (QuadScript)quad.AddComponent(typeof(QuadScript));
+    }
+    
 
     /// <summary>
     /// Subtracts or adds the world's chunk size to convert a global block position value to local.

@@ -350,4 +350,5 @@ public class Chunk
      		GameObject.Destroy(quad.gameObject);
  		}
 	}
+
 }
