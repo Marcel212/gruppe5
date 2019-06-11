@@ -221,6 +221,8 @@ public class InventoryControll : MonoBehaviour
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
             }
+            
+            // TODO Crafting Slots abgedecken! 
             RefreshUi();
             
             return true;   

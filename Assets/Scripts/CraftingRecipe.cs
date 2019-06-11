@@ -32,11 +32,18 @@ public class ItemAndAmount : IComparer
 
 [CreateAssetMenu(fileName= "New Recipe", menuName = "Crafting Recipe")]
 public class CraftingRecipe : ScriptableObject
-{   
-    
+{
+
+    public CraftingField size;
     public ItemAndAmount[] materials;
     public ItemAndAmount result;
 
 
     
 }
+
+public enum CraftingField
+{
+    Small,
+    Big
+};

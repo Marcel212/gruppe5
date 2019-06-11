@@ -31,7 +31,10 @@ public class DropZone : MonoBehaviour, IDropHandler
                 //Platz von DraggedItem Löschen
                 inventoryControllScript.RemoveItemPack(indexDragged, placementDragged);
                 inventoryControllScript.RefreshUi();
-            }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys)
+            }else if(ownPlacement == Placement.Forbidden)
+            {
+                Debug.Log("Verboten");
+            }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys || ownPlacement == Placement.Crafting)
             {
                 //Finde Placement im Inventory heraus von Drop (Placement und Index)
                 ItemSlots itemScriptDropped = eventData.pointerEnter.transform.GetComponentInParent<ItemSlots>();
@@ -40,18 +43,17 @@ public class DropZone : MonoBehaviour, IDropHandler
                 
                 //Items tauschen im Inventoryscript 
                 inventoryControllScript.SwapItems(indexDragged, placementDragged, indexDropped, placementDropped);
-            }
-            else if(ownPlacement == Placement.Forbidden)
-            {
-                Debug.Log("Verboten");
-            }else if (ownPlacement == Placement.Crafting)
-            {
-                //Suche nach passendem Rezept
+
+                if (ownPlacement == Placement.Crafting)
+                {
+                    //Suche nach passendem Rezept
                 
-                //Fülle ggf. ResultSlot
-                
-                //
+                    //Fülle ggf. ResultSlot
+                    Debug.Log("Im CraftingSlot");
+                    
+                }
             }
+            
         }
 
 
