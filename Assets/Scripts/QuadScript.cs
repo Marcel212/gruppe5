@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class QuadScript : MonoBehaviour
 {
+    Block.BlockType buildtype = Block.BlockType.AIR;
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -17,6 +17,7 @@ public class QuadScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("läuft");
+        Block b = World.GetWorldBlock(this.transform.position);
+        b.BuildBlock(buildtype);
     }
 }
