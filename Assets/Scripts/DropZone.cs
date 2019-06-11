@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
-    public Placement m_placement;
+    public Placement ownPlacement;
 
     private InventoryControll inventoryControllScript;
 
@@ -12,54 +12,45 @@ public class DropZone : MonoBehaviour, IDropHandler
         inventoryControllScript = GameObject.Find("Inventory").GetComponent<InventoryControll>();
     }
 
+
     public void OnDrop(PointerEventData eventData)
-    {        
-        //Script und Item vom Dragged item
-        ItemSlots itemScriptDrag = eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>();
-        Item itemDragged = itemScriptDrag.itemToShow;
-        int amountDragged = itemScriptDrag.amount;
+    {
+        //Finde Placement im Inventory heraus vom Drag (Placement und Index)
+        ItemSlots itemScriptDragged = eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>();
+        Placement placementDragged = itemScriptDragged.placement;
+        int indexDragged = itemScriptDragged.indexInPlacement;
+        bool containsItemDragged = itemScriptDragged.itemToShow != null;
+
         
-        Debug.Log("Befindet sich im Placement : " + m_placement) ;
-        if (itemDragged != null)
+        // Verändere die Daten in der Datenstruktur Inventory
+        // Wenn ein Item sich im Drag befindet
+        if (containsItemDragged)
         {
-            if (m_placement == Placement.World)
+            if (ownPlacement == Placement.World)
             {
-                itemScriptDrag.itemToShow = null;
+                //Platz von DraggedItem Löschen
+                inventoryControllScript.RemoveItemPack(indexDragged, placementDragged);
                 inventoryControllScript.RefreshUi();
-                
-                // TODO Gameobject erzeugen
-                Debug.Log("Wegwerfen");
-            }
-            else if(m_placement == Placement.Inventory || m_placement == Placement.Hotkeys)
+            }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys)
             {
-                //Script und Item vom Dropped item
+                //Finde Placement im Inventory heraus von Drop (Placement und Index)
                 ItemSlots itemScriptDropped = eventData.pointerEnter.transform.GetComponentInParent<ItemSlots>();
-                //Wenn ein Script existiert. 
-                if (itemScriptDropped != null)
-                {    
-                    Item itemOnDropped = itemScriptDropped.itemToShow;
-                    int amountOnDropped = itemScriptDropped.amount;
-    
-                    //Items tauschen
-                    itemScriptDropped.itemToShow = itemDragged;
-                    itemScriptDropped.amount = amountDragged;
-                    
-                    itemScriptDrag.itemToShow = itemOnDropped;
-                    itemScriptDrag.amount = amountOnDropped;
-                }
-            
-                // performanter refreshen?
-                inventoryControllScript.RefreshUi();
+                Placement placementDropped = itemScriptDropped.placement;
+                int indexDropped = itemScriptDropped.indexInPlacement;
                 
-                
-                Debug.Log("Refresh");
-                
-            }else if (m_placement == Placement.Forbidden)
+                //Items tauschen im Inventoryscript 
+                inventoryControllScript.SwapItems(indexDragged, placementDragged, indexDropped, placementDropped);
+            }
+            else if(ownPlacement == Placement.Forbidden)
             {
                 Debug.Log("Verboten");
             }
         }
+
+
+
     }
+    
     
     public enum Placement {Hotkeys, Forbidden, Inventory, World};
 

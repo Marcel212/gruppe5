@@ -68,13 +68,13 @@ MonoBehaviour:
   m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 4534b2e958bfae744b4eae6b8098561a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -142,11 +142,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -367,7 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b487ac31a28bec48b140870a99e5284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_placement: 0
 --- !u!114 &7539494050661233513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,4 +474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToShow: {fileID: 0}
+  _currentImage: {fileID: 6470785977760845933}
+  _textAmount: {fileID: 1924511602634571065}
   amount: 0
+  placement: 2
+  indexInPlacement: 0

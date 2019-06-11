@@ -57,7 +57,7 @@ public class ItemSlots : MonoBehaviour
     }
 
 
-    private void Start()
+    private void OnValidate()
     {
         if (_currentImage == null)
         {

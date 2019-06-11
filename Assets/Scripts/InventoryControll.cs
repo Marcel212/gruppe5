@@ -36,6 +36,7 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen = itemsParentHotKeyOnScreen.GetComponentsInChildren<ItemSlots>();
         }
 
+        // Übergebe allen ItemSlots ihren index und ihr Placement
         for (int i = 0; i < itemSlotsInventory.Length; i++)
         {
             itemSlotsInventory[i].indexInPlacement = i;
@@ -66,17 +67,14 @@ public class InventoryControll : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.KeypadMinus))
         {
-            RemoveItemPack(itemsInInventory[0]);
+            RemoveItemPack(0, DropZone.Placement.Inventory);
         }
     }
 
     private void Start()
     {
-        List<ItemAndAmount> testList = new List<ItemAndAmount>();
-        List<int> testIndices = new List<int>();
-       
-        int index = -2;
         manager._dictionary.TryGetValue("Erde", out value);
+        RefreshUi();
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
@@ -158,18 +156,77 @@ public class InventoryControll : MonoBehaviour
         }
         
     }
-    
-    //TODO Nicht Löschen sondern nur Item und Amount auf null setzen, da sonst 
-    public bool RemoveItemPack(ItemAndAmount itemAndAmount)
+
+    public bool SwapItems(int startIndex,DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
     {
-        if(itemsInInventory.Remove(itemAndAmount))
+        bool validStartIndex = startIndex > -1 // mindestens index 0
+            && ( (startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length) // Wenn im Inventar, dann Inventarlänge nicht überschreiten
+                 || startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length); // Wenn in den Hotkeys, dann HotKeylänge nicht überschreiten 
+        Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
+        
+        bool validEndIndex = endIndex > -1
+            && ( (endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
+            || endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length);
+        
+        Debug.Log("EndIndex Ok? " + endIndex + " in " + endPlacement + " ist " + validEndIndex);
+
+        ItemAndAmount temp; 
+        if (validStartIndex && validEndIndex)
         {
+            if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = itemsInInventory[endIndex];
+                itemsInInventory[endIndex] = temp;
+                
+            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = itemsInHotkeys[endIndex];
+                itemsInHotkeys[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = itemsInInventory[endIndex];
+                itemsInInventory[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
+                itemsInHotkeys[endIndex] = temp;
+            }
             RefreshUi();
-            return true;
-        }else
+            
+            return true;   
+        }
+        else
         {
             return false;
         }
+    }
+    
+    //TODO Nicht Löschen sondern nur Item und Amount auf null setzen, da sonst 
+    public bool RemoveItemPack(int index, DropZone.Placement placement)
+    {
+        bool indexValid = index > -1
+                          && ((placement == DropZone.Placement.Inventory && index < itemSlotsInventory.Length)
+                              || (placement == DropZone.Placement.Hotkeys && index < itemSlotsHotKey.Length)); 
+        if(indexValid)
+        {
+            if (placement == DropZone.Placement.Inventory)
+            {
+                itemsInInventory[index].item = null;
+                itemsInInventory[index].amount = 0;
+            }else if (placement == DropZone.Placement.Hotkeys)
+            {
+                itemsInHotkeys[index].item = null;
+                itemsInHotkeys[index].amount = 0;
+            }
+            RefreshUi();
+            return true;
+        }
+
+        return false;
     }
 
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
