@@ -205,7 +205,7 @@ public class InventoryControll : MonoBehaviour
         }
     }
     
-    //TODO Nicht Löschen sondern nur Item und Amount auf null setzen, da sonst 
+  
     public bool RemoveItemPack(int index, DropZone.Placement placement)
     {
         bool indexValid = index > -1

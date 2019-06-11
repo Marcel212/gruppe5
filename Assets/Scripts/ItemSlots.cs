@@ -43,7 +43,6 @@ public class ItemSlots : MonoBehaviour
             amount = value;
             if (amount != 0)
             {
-                // TODO Warum wirft es hier NullReferenceException? 
                 _textAmount.gameObject.SetActive(true);
                 _textAmount.text = amount.ToString();
             }
