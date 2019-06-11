@@ -6,7 +6,7 @@ public class HUDScript : MonoBehaviour
 
     public GameObject inventory;
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         inventory.GetComponent<InventoryControll>().ItemAdded += InventoryScript_ItemAdded;
     }
@@ -29,6 +29,6 @@ public class HUDScript : MonoBehaviour
             }
             
         }
-    }
+    }*/
     
 }

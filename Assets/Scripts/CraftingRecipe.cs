@@ -5,13 +5,26 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [Serializable]
-public class ItemAndAmount
+public class ItemAndAmount : IComparer
  {
      public Item item;
      [Range(0,64)]
      public int amount;
 
      public int indexInList;
+     public int CompareTo(object obj)
+     {
+         ItemAndAmount newObject = obj as ItemAndAmount;
+         return String.Compare(item.name, newObject.item.name, StringComparison.Ordinal);
+     }
+
+     public int Compare(object x, object y)
+     {
+         ItemAndAmount firstObject = x as ItemAndAmount;
+         ItemAndAmount secondObject = y as ItemAndAmount;
+
+         return String.CompareOrdinal(firstObject.item.name, secondObject.item.name);
+     }
  }
 
 
@@ -19,7 +32,11 @@ public class ItemAndAmount
 
 [CreateAssetMenu(fileName= "New Recipe", menuName = "Crafting Recipe")]
 public class CraftingRecipe : ScriptableObject
-{
-    public List<ItemAndAmount> materials;
+{   
+    
+    public ItemAndAmount[] materials;
     public ItemAndAmount result;
+
+
+    
 }

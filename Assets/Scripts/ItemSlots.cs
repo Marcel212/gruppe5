@@ -29,7 +29,8 @@ public class ItemSlots : MonoBehaviour
             else
             {
                 _currentImage.sprite = null;
-                
+                amount = 0;
+
             }
         }
     }
@@ -43,7 +44,6 @@ public class ItemSlots : MonoBehaviour
             amount = value;
             if (amount != 0)
             {
-                // TODO Warum wirft es hier NullReferenceException? 
                 _textAmount.gameObject.SetActive(true);
                 _textAmount.text = amount.ToString();
             }
@@ -57,7 +57,7 @@ public class ItemSlots : MonoBehaviour
     }
 
 
-    private void Start()
+    private void OnValidate()
     {
         if (_currentImage == null)
         {

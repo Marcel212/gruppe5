@@ -6,14 +6,20 @@ public class InventoryControll : MonoBehaviour
     //Inventar & HotKey Intern
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
     [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
+
+    [SerializeField] private ItemAndAmount[] itemsInCrafting;
     //Parents der Slots zum finden der Scripte
     [SerializeField] private Transform itemsParentInventory;
     [SerializeField] private Transform itemsParentHotkeyPanel;
     [SerializeField] private Transform itemsParentHotKeyOnScreen;
+    [SerializeField] private Transform itemsParentCrafting;
+    
     //InventarSlots im UI
     private ItemSlots[] itemSlotsInventory;
     private ItemSlots[] itemSlotsHotKey;
     private ItemSlots[] itemSlotsHotKeyOnScreen;
+    private ItemSlots[] itemSlotsCrafting;
+    
     
     [SerializeField] private ScriptableManagerScript manager; 
     
@@ -36,6 +42,12 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen = itemsParentHotKeyOnScreen.GetComponentsInChildren<ItemSlots>();
         }
 
+        if (itemsParentCrafting != null)
+        {
+            itemSlotsCrafting = itemsParentCrafting.GetComponentsInChildren<ItemSlots>();
+        }
+
+        // Übergebe allen ItemSlots ihren index und ihr Placement
         for (int i = 0; i < itemSlotsInventory.Length; i++)
         {
             itemSlotsInventory[i].indexInPlacement = i;
@@ -50,7 +62,12 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen[i].indexInPlacement = i;            
             itemSlotsHotKeyOnScreen[i].placement = DropZone.Placement.Hotkeys;
         }
-        
+
+        for (int i = 0; i < itemSlotsCrafting.Length; i++)
+        {
+            itemSlotsCrafting[i].indexInPlacement = i;
+            itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
+        }
         RefreshUi();
         
     }
@@ -66,17 +83,14 @@ public class InventoryControll : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.KeypadMinus))
         {
-            RemoveItemPack(itemsInInventory[0]);
+            RemoveItemPack(0, DropZone.Placement.Inventory);
         }
     }
 
     private void Start()
     {
-        List<ItemAndAmount> testList = new List<ItemAndAmount>();
-        List<int> testIndices = new List<int>();
-       
-        int index = -2;
         manager._dictionary.TryGetValue("Erde", out value);
+        RefreshUi();
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
@@ -114,7 +128,6 @@ public class InventoryControll : MonoBehaviour
 
         }
 
-
         for (; j < itemSlotsHotKey.Length; j++)
         {
             currentAmount = 0;
@@ -126,7 +139,18 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKeyOnScreen[j].Item = currentItem;
         }
 
-        
+        int k = 0;
+        for (; k < itemsInCrafting.Length & k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = itemsInCrafting[k].amount;
+            itemSlotsCrafting[k].Item = itemsInCrafting[k].item;
+        }
+
+        for (; k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = 0;
+            itemSlotsCrafting[k].Item = null;
+        }
         
         
     }
@@ -158,18 +182,77 @@ public class InventoryControll : MonoBehaviour
         }
         
     }
-    
-    //TODO Nicht Löschen sondern nur Item und Amount auf null setzen, da sonst 
-    public bool RemoveItemPack(ItemAndAmount itemAndAmount)
+
+    public bool SwapItems(int startIndex,DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
     {
-        if(itemsInInventory.Remove(itemAndAmount))
+        bool validStartIndex = startIndex > -1 // mindestens index 0
+            && ( (startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length) // Wenn im Inventar, dann Inventarlänge nicht überschreiten
+                 || startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length); // Wenn in den Hotkeys, dann HotKeylänge nicht überschreiten 
+        Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
+        
+        bool validEndIndex = endIndex > -1
+            && ( (endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
+            || endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length);
+        
+        Debug.Log("EndIndex Ok? " + endIndex + " in " + endPlacement + " ist " + validEndIndex);
+
+        ItemAndAmount temp; 
+        if (validStartIndex && validEndIndex)
         {
+            if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = itemsInInventory[endIndex];
+                itemsInInventory[endIndex] = temp;
+                
+            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = itemsInHotkeys[endIndex];
+                itemsInHotkeys[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = itemsInInventory[endIndex];
+                itemsInInventory[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
+                itemsInHotkeys[endIndex] = temp;
+            }
             RefreshUi();
-            return true;
-        }else
+            
+            return true;   
+        }
+        else
         {
             return false;
         }
+    }
+    
+  
+    public bool RemoveItemPack(int index, DropZone.Placement placement)
+    {
+        bool indexValid = index > -1
+                          && ((placement == DropZone.Placement.Inventory && index < itemSlotsInventory.Length)
+                              || (placement == DropZone.Placement.Hotkeys && index < itemSlotsHotKey.Length)); 
+        if(indexValid)
+        {
+            if (placement == DropZone.Placement.Inventory)
+            {
+                itemsInInventory[index].item = null;
+                itemsInInventory[index].amount = 0;
+            }else if (placement == DropZone.Placement.Hotkeys)
+            {
+                itemsInHotkeys[index].item = null;
+                itemsInHotkeys[index].amount = 0;
+            }
+            RefreshUi();
+            return true;
+        }
+
+        return false;
     }
 
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
@@ -258,28 +341,5 @@ public class InventoryControll : MonoBehaviour
     }
     
     
-    // Toter Code eventuell noch wichtig 
-    /*public void AddItem(Item item)
-    {
-        // Wenn noch Platz ist, füge es an der ersten Stelle ein 
-        if (itemsInInventory.Count < SLOTS)
-        {
-            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
-            if (collider.enabled)
-            {
-                collider.enabled = false;
-                
-                itemsInInventory.Add(item);
-                
-                item.OnPickUp();
-                
-            }
-        }
-
-        if (ItemAdded != null)
-        {
-            ItemAdded(this, new InventoryEventArgs(item));
-        }
-    }*/
 }
 
