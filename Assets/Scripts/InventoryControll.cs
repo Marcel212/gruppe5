@@ -186,13 +186,21 @@ public class InventoryControll : MonoBehaviour
     public bool SwapItems(int startIndex,DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
     {
         bool validStartIndex = startIndex > -1 // mindestens index 0
-            && ( (startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length) // Wenn im Inventar, dann Inventarlänge nicht überschreiten
-                 || startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length); // Wenn in den Hotkeys, dann HotKeylänge nicht überschreiten 
-        Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
+                               && ((startPlacement == DropZone.Placement.Inventory &&
+                                    startIndex < itemSlotsInventory.Length
+                                   )
+                                   || (startPlacement == DropZone.Placement.Hotkeys &&
+                                       startIndex < itemSlotsHotKey.Length
+                                   )
+                                   || (startPlacement == DropZone.Placement.Crafting && startIndex < 5));
         
+        Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
+
         bool validEndIndex = endIndex > -1
-            && ( (endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
-            || endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length);
+                             && ((endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
+                                 || (endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length)
+                                 || (endPlacement == DropZone.Placement.Crafting && endIndex < 4));
+        
         
         Debug.Log("EndIndex Ok? " + endIndex + " in " + endPlacement + " ist " + validEndIndex);
 
@@ -210,6 +218,11 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInInventory[startIndex];
                 itemsInInventory[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Crafting)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = itemsInCrafting[endIndex];
+                itemsInCrafting[endIndex] = temp;
             }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
             {
                 temp = itemsInHotkeys[startIndex];
@@ -220,9 +233,27 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Crafting)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = itemsInCrafting[endIndex];
+                itemsInCrafting[endIndex] = temp; 
+            }else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Crafting)
+            {
+                temp = itemsInCrafting[startIndex];
+                itemsInCrafting[startIndex] = itemsInCrafting[endIndex];
+                itemsInCrafting[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = itemsInCrafting[startIndex];
+                itemsInCrafting[startIndex] = itemsInInventory[endIndex];
+                itemsInInventory[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Crafting & endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = itemsInCrafting[startIndex];
+                itemsInCrafting[startIndex] = itemsInHotkeys[endIndex];
+                itemsInHotkeys[endIndex] = temp;
             }
-            
-            // TODO Crafting Slots abgedecken! 
             RefreshUi();
             
             return true;   
