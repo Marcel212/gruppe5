@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
-	GameObject inventory;
+	public GameObject inventory;
 
-	InventoryControll inventoryControll;
+	public InventoryControll inventoryControll;
 
-	ScriptableManagerScript scriptableManagerScript;
+	 public ScriptableManagerScript scriptableManagerScript;
 
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
