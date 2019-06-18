@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Holztreppe
   m_EditorClassIdentifier: 
   name: Holztreppe
-  itemPicuture: {fileID: 21301336, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: f2ac8f6324c38f44c9637f5d4c1f7b0b, type: 3}
   objectInGame: {fileID: 0}

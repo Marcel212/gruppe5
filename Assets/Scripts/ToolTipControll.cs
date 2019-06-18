@@ -14,7 +14,6 @@ public class ToolTipControll : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         Item itemInSlot = GetComponentInParent<ItemSlots>().itemToShow;
-
         if (!visible)
         {
             if (itemInSlot != null && eventData.dragging == false)

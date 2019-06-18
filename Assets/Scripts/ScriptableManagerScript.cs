@@ -27,5 +27,10 @@ public class ScriptableManagerScript : MonoBehaviour
         _dictionary.TryGetValue(pName, out itemFound);
         return itemFound;
     }
+
+    public List<CraftingRecipe> GetAllRecipes()
+    {
+        return recipeList;
+    }
 }
 

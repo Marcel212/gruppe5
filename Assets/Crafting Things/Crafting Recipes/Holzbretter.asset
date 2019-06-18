@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4dfaa3a8b77164e93faade37acf6cf, type: 3}
   m_Name: Holzbretter
   m_EditorClassIdentifier: 
+  size: 0
   materials:
   - item: {fileID: 11400000, guid: 224e9390fb2d38448ace48cef5e303ac, type: 2}
-    amout: 1
+    amount: 1
+    indexInList: 0
   result:
     item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
-    amout: 5
+    amount: 4
+    indexInList: 0

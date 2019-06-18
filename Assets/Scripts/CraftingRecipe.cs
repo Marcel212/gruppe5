@@ -38,6 +38,10 @@ public class CraftingRecipe : ScriptableObject
     public ItemAndAmount[] materials;
     public ItemAndAmount result;
 
+    public ItemAndAmount GetResult()
+    {
+        return result;
+    }
 
     
 }
