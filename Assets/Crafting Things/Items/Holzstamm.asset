@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Holzstamm
   m_EditorClassIdentifier: 
   name: Holzstamm
-  description: Stamm von einem beliebigen Baum.
-  itemPicuture: {fileID: 21301480, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21301482, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
   objectInGame: {fileID: 0}
