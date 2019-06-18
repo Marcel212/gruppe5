@@ -9,6 +9,7 @@ using Realtime.Messaging.Internal;
 /// </summary>
 public class World : MonoBehaviour
 {
+	public GameObject inventar;
 	public GameObject player;
 	public Material textureAtlas;
 	public Material fluidTexture;
@@ -94,7 +95,7 @@ public class World : MonoBehaviour
 
 		if(!chunks.TryGetValue(n, out c))
 		{
-			c = new Chunk(chunkPosition, textureAtlas, fluidTexture);
+			c = new Chunk(chunkPosition, textureAtlas, fluidTexture, inventar);
 			c.chunk.transform.parent = this.transform;
 			c.fluid.transform.parent = this.transform;
 			chunks.TryAdd(c.chunk.name, c);

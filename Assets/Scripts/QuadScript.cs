@@ -37,6 +37,10 @@ public class QuadScript : MonoBehaviour
                     item = scriptableManagerScript.GetItemByName("Erde");
                     inventoryControll.AddItem(item);
                break;
+               case Block.BlockType.STONE:
+                    item = scriptableManagerScript.GetItemByName("Stein");
+                    inventoryControll.AddItem(item);
+               break;
            }
     }
 }

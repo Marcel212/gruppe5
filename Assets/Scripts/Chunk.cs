@@ -128,7 +128,7 @@ public class Chunk
     /// <summary>
     /// Builds the chunk from scatch or loads it from file. This functions does not draw the chunk.
     /// </summary>
-	private void BuildChunk()
+	private void BuildChunk(GameObject i)
 	{
 		bool dataFromFile = false;
         // Commented load functionality, because this may cause issues while changing the underlying code (saved files may not represent the current state of the project)
@@ -148,7 +148,7 @@ public class Chunk
 					if(dataFromFile)
 					{
 						chunkData[x,y,z] = new Block(bd.matrix[x, y, z], pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 						continue;
 					}
 
@@ -157,49 +157,49 @@ public class Chunk
                     // Place bedrock at height 0
 					if(worldY == 0)
 						chunkData[x,y,z] = new Block(Block.BlockType.BEDROCK, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
                     // Place Diamond, Redstone or Stone at certain heights and probabilities
 					else if(worldY <= Utils.GenerateStoneHeight(worldX,worldZ))
 					{
 						if(Utils.fBM3D(worldX, worldY, worldZ, 0.01f, 2) < 0.4f && worldY < 40)
 							chunkData[x,y,z] = new Block(Block.BlockType.DIAMOND, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 						else if(Utils.fBM3D(worldX, worldY, worldZ, 0.03f, 3) < 0.41f && worldY < 20)
 							chunkData[x,y,z] = new Block(Block.BlockType.REDSTONE, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 						else
 							chunkData[x,y,z] = new Block(Block.BlockType.STONE, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 					}
                     // Place trunks of a tree or grass blocks on the surface
 					else if(worldY == surfaceHeight)
 					{
 						if(Utils.fBM3D(worldX, worldY, worldZ, 0.4f, 2) < 0.4f)
 							chunkData[x,y,z] = new Block(Block.BlockType.WOODBASE, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 						else
 							chunkData[x,y,z] = new Block(Block.BlockType.GRASS, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 					}
                     // Place dirt blocks
 					else if(worldY < surfaceHeight)
 						chunkData[x,y,z] = new Block(Block.BlockType.DIRT, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this,i);
                     // Place water blocks below height 65
 					else if(worldY < 65)
 						chunkData[x,y,z] = new Block(Block.BlockType.WATER, pos, 
-						                fluid.gameObject, this);
+						                fluid.gameObject, this, i);
                     // Place air blocks
 					else
 					{
 						chunkData[x,y,z] = new Block(Block.BlockType.AIR, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 					}
 
                     // Create caves
 					if(chunkData[x,y,z].blockType != Block.BlockType.WATER && Utils.fBM3D(worldX, worldY, worldZ, 0.1f, 3) < 0.42f)
 						chunkData[x,y,z] = new Block(Block.BlockType.AIR, pos, 
-						                chunk.gameObject, this);
+						                chunk.gameObject, this, i);
 
 					status = ChunkStatus.DRAW;
 				}
@@ -218,6 +218,7 @@ public class Chunk
 		GameObject.DestroyImmediate(fluid.GetComponent<Collider>());
 		DrawChunk();
 	}
+
 
     /// <summary>
     /// Draws the chunk. If trees are not created yet, create them.
@@ -251,8 +252,7 @@ public class Chunk
 		CombineQuads(fluid.gameObject, fluidMaterial);
 
 		status = ChunkStatus.DONE;
-	}
-
+	}	
     /// <summary>
     /// Trunks are already place within the BuildChunk method.
     /// For each trunk, build a tree.
@@ -307,7 +307,7 @@ public class Chunk
     /// <param name="position">Position of the chunk</param>
     /// <param name="c">The material for the solid blocks of the chunk</param>
     /// <param name="t">The material for the transparent blocks of the chunk</param>
-	public Chunk (Vector3 position, Material c, Material t)
+	public Chunk (Vector3 position, Material c, Material t, GameObject i)
     {
         // Create GameObjects holding the chunk's meshes
 		chunk = new GameObject(World.BuildChunkName(position));         // solid chunk mesh, e.g. dirt blocks
@@ -319,7 +319,7 @@ public class Chunk
 		mb.SetOwner(this);
 		cubeMaterial = c;
 		fluidMaterial = t;
-		BuildChunk();                                                   // Start building the chunk
+		BuildChunk(i);                                                   // Start building the chunk
 	}
 	
 	public void CombineQuads(GameObject o, Material m)
@@ -350,5 +350,4 @@ public class Chunk
      		GameObject.Destroy(quad.gameObject);
  		}
 	}
-
 }
