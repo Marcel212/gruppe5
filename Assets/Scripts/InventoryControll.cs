@@ -288,6 +288,20 @@ public class InventoryControll : MonoBehaviour
         return false;
     }
 
+    public bool RemoveOneItemInHotKey(int index)
+    {
+        bool indexValid = index > -1 && (index < itemSlotsHotKey.Length);
+        if (indexValid)
+        {
+            //itemsInHotkeys[index].item = null;
+            itemsInHotkeys[index].amount--;
+            RefreshUi();
+            return true;
+        }
+        
+        return false;
+    }
+
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
     public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput, out List<int> indices)
     {
@@ -348,7 +362,19 @@ public class InventoryControll : MonoBehaviour
 
         return result;
     }
+
+    public List<Item> GetItemsInHotkey()
+    {
+        List<Item> resultList = new List<Item>();
+        foreach(var item in itemsInHotkeys)
+        {
+            resultList.Add(item.item);
+        }
+        return resultList;
+    }
     
+
+   
     public string PrintListInt(List<int> testList)
     {
         string result = "[ ";
