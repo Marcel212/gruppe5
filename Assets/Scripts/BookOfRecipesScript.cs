@@ -46,4 +46,11 @@ public class BookOfRecipesScript : MonoBehaviour
             indexInBook++;
         }
     }
+
+
+
+    public void OpenBook(GameObject book)
+    {
+        book.SetActive(!book.activeSelf);
+    }
 }
