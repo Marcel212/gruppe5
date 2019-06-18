@@ -6,8 +6,9 @@ using UnityEngine;
 /// </summary>
 public class BlockInteraction : MonoBehaviour
 {
+	InventoryControll inventoryControll;
 	public GameObject cam;
-	Block.BlockType buildtype = Block.BlockType.STONE;
+	Block.BlockType buildtype = Block.BlockType.AIR;
 	
     /// <summary>
     /// Unity lifecycle update. Pressing numbers on the keyboard selects a block type for placement.
@@ -16,19 +17,169 @@ public class BlockInteraction : MonoBehaviour
     /// </summary>
 	void Update ()
     {
+		Block temp = World.GetWorldBlock(this.transform.position);
+		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
 		if(Input.GetKeyDown("1"))
-			buildtype = Block.BlockType.SAND;
+			switch(liste[0].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+              
+           }
 		if(Input.GetKeyDown("2"))
-			buildtype = Block.BlockType.STONE;
+			switch(liste[1].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
 		if(Input.GetKeyDown("3"))
-			buildtype = Block.BlockType.DIAMOND;
+			switch(liste[2].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
 		if(Input.GetKeyDown("4"))
-			buildtype = Block.BlockType.REDSTONE;
+			switch(liste[3].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
 		if(Input.GetKeyDown("5"))
-			buildtype = Block.BlockType.GOLD;
+			switch(liste[4].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
         if (Input.GetKeyDown("6"))
-            buildtype = Block.BlockType.WATER;
-
+            switch(liste[5].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
+		   if (Input.GetKeyDown("7"))
+            switch(liste[6].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
+		   if (Input.GetKeyDown("8"))
+            switch(liste[7].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
+		   if (Input.GetKeyDown("9"))
+            switch(liste[8].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
+		   if (Input.GetKeyDown("0"))
+            switch(liste[9].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+		   }
         // If left or right mouse button
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {

@@ -41,6 +41,14 @@ public class QuadScript : MonoBehaviour
                     item = scriptableManagerScript.GetItemByName("Stein");
                     inventoryControll.AddItem(item);
                break;
+               case Block.BlockType.WOOD:
+                    item = scriptableManagerScript.GetItemByName("Holzstamm");
+                    inventoryControll.AddItem(item);
+               break;
+               case Block.BlockType.WOODBASE:
+                    item = scriptableManagerScript.GetItemByName("Holzstamm");
+                    inventoryControll.AddItem(item);
+               break;
            }
     }
 }
