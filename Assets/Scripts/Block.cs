@@ -7,6 +7,12 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
+	GameObject inventory;
+
+	InventoryControll inventoryControll;
+
+	ScriptableManagerScript scriptableManagerScript;
+
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
 							CRACK1, CRACK2, CRACK3, CRACK4, AIR};
@@ -77,13 +83,16 @@ public class Block
     /// <param name="pos">Position of the block</param>
     /// <param name="p">Parent GameObject</param>
     /// <param name="o">Owner of the block (i.e. chunk)</param>
-	public Block(BlockType b, Vector3 pos, GameObject p, Chunk o)
+	public Block(BlockType b, Vector3 pos, GameObject p, Chunk o, GameObject i)
 	{
 		blockType = b;
 		owner = o;
 		parent = p;
 		position = pos;
 		SetType(blockType);
+		inventory = i;
+		inventoryControll = inventory.GetComponent<InventoryControll>();
+		scriptableManagerScript = inventoryControll.manager;
 	}
 
     /// <summary>
@@ -170,22 +179,36 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        	cube.transform.position = new Vector3 (position.x + 8, position.y + 72, position.z + 8);
-			cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-			BoxCollider boxCollider = (BoxCollider)cube.GetComponent(typeof(BoxCollider));
-			MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
-			meshRenderer.enabled = false;
-			QuadScript quadScript = (QuadScript)cube.AddComponent(typeof(QuadScript));
-			//Rigidbody rigidbody = (Rigidbody)cube.AddComponent(typeof(Rigidbody));
-			boxCollider.isTrigger = true ;
-  			blocksize = Blocksize.SMALL;
-			parent = owner.fluid.gameObject;
-			isSolid = false;
-			health = BlockType.NOCRACK;
-			owner.Redraw();
-			owner.UpdateChunk();
-			return true;
+			if(!(blockType == BlockType.LEAVES)){
+				Vector3 cPosition = owner.mb.transform.position;
+				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        		cube.transform.position = new Vector3 (cPosition.x + position.x, cPosition.y + position.y, cPosition.z + position.z);
+				cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+				BoxCollider boxCollider = (BoxCollider)cube.GetComponent(typeof(BoxCollider));
+				MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
+				meshRenderer.enabled = false;
+				QuadScript quadScript = (QuadScript)cube.AddComponent(typeof(QuadScript));
+				quadScript.inventory = inventory;
+				quadScript.inventoryControll = inventoryControll;
+				quadScript.scriptableManagerScript = scriptableManagerScript;
+				//Rigidbody rigidbody = (Rigidbody)cube.AddComponent(typeof(Rigidbody));
+				boxCollider.isTrigger = true ;
+  				blocksize = Blocksize.SMALL;
+				parent = owner.fluid.gameObject;
+				isSolid = false;
+				health = BlockType.NOCRACK;
+				owner.Redraw();
+				owner.UpdateChunk();
+				return true;
+			}
+			else
+			{
+				isSolid = false;
+				blockType = BlockType.AIR;
+				owner.Redraw();
+				owner.UpdateChunk();
+				return true;
+			}
 		}
 
 		owner.Redraw();
@@ -439,7 +462,6 @@ public class Block
         MeshCollider meshCollider = (MeshCollider)quad.AddComponent(typeof(MeshCollider));
 	    meshCollider.convex = true;
         meshCollider.isTrigger = true;
-		Debug.Log(meshCollider.isTrigger);
 
         QuadScript quadScript = (QuadScript)quad.AddComponent(typeof(QuadScript));
     }
