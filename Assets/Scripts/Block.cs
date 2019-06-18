@@ -180,8 +180,9 @@ public class Block
 		if(currentHealth <= 0)
 		{
 			if(!(blockType == BlockType.LEAVES)){
+				Vector3 cPosition = owner.mb.transform.position;
 				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        		cube.transform.position = new Vector3 (position.x + 8, position.y + 72, position.z + 8);
+        		cube.transform.position = new Vector3 (cPosition.x + position.x, cPosition.y + position.y, cPosition.z + position.z);
 				cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 				BoxCollider boxCollider = (BoxCollider)cube.GetComponent(typeof(BoxCollider));
 				MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
