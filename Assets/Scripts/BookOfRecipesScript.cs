@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BookOfRecipesScript : MonoBehaviour
 {
-    private List<CraftingRecipe> recipes;
+    private List<CraftingRecipe> smallRecipes;
     private ItemSlots[] itemSlots;
     [SerializeField] private ScriptableManagerScript manager;
     public Slider mainSlider;
@@ -13,7 +13,7 @@ public class BookOfRecipesScript : MonoBehaviour
     private void OnValidate()
     {
         itemSlots = GetComponentsInChildren<ItemSlots>();
-        recipes = manager.GetAllRecipes();
+        smallRecipes = manager.GetAllSmallRecipes();
     }
 
     public void Start()
@@ -23,27 +23,41 @@ public class BookOfRecipesScript : MonoBehaviour
 
     public void FillPageByNumber()
     {
-        int indexInBook = (int)mainSlider.value * 20;
-        Debug.Log("IndexInBook: " + indexInBook);
-
-        for(int index = 0;index< itemSlots.Length; index++)
+        //int indexInBook = (int)mainSlider.value * 20;
+        //Debug.Log("IndexInBook: " + indexInBook);
+        int index = 0;
+        for (index = 0;index< itemSlots.Length; index++)
         {
             itemSlots[index].Item = null;
             itemSlots[index].Amount = 0;
         }
 
-        for (int index = 0; index < itemSlots.Length; index++)
+        /*for (int index = 0; index < itemSlots.Length; index++)
         {
             
-            if (indexInBook < recipes.Capacity)
+            if (indexInBook < smallRecipes.Capacity)
             {
-                Debug.Log("Index von Slots: " + index); Debug.Log("Recipes Länge: " + recipes.Capacity);
-                itemSlots[index].Item = recipes[indexInBook].GetResult().item;
-                itemSlots[index].Amount = recipes[indexInBook].GetResult().amount;
+                Debug.Log("Index von Slots: " + index); Debug.Log("Recipes Länge: " + smallRecipes.Capacity);
+                itemSlots[index].Item = smallRecipes[indexInBook].GetResult().item;
+                itemSlots[index].Amount = smallRecipes[indexInBook].GetResult().amount;
             }
-          
-
+            else
+            {
+                if (index != 0)
+                {
+                    index--;
+                }
+            }
             indexInBook++;
+        }*/
+        index = 0;
+        int firstIndexInBook = (int)mainSlider.value * 20;
+        for (int indexInBook = firstIndexInBook; indexInBook< smallRecipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
+        {
+            Debug.Log("Index von Slots: " + index); Debug.Log("Recipes Länge: " + smallRecipes.Capacity);
+            itemSlots[index].Item = smallRecipes[indexInBook].GetResult().item;
+            itemSlots[index].Amount = smallRecipes[indexInBook].GetResult().amount;
+            index++;
         }
     }
 

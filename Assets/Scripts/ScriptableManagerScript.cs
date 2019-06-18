@@ -7,7 +7,8 @@ using UnityEngine;
 public class ScriptableManagerScript : MonoBehaviour
 {
     [SerializeField] private List<Item> itemList;
-    [SerializeField] private List<CraftingRecipe> recipeList;
+    [SerializeField] private List<CraftingRecipe> smallRecipeList;
+    [SerializeField] private List<CraftingRecipe> bigRecipeList;
     public Dictionary<string, Item> _dictionary;
 
     private void Start()
@@ -28,9 +29,9 @@ public class ScriptableManagerScript : MonoBehaviour
         return itemFound;
     }
 
-    public List<CraftingRecipe> GetAllRecipes()
+    public List<CraftingRecipe> GetAllSmallRecipes()
     {
-        return recipeList;
+        return smallRecipeList;
     }
 }
 
