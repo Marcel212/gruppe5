@@ -15,7 +15,7 @@ public class Block
 
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
-							CRACK1, CRACK2, CRACK3, CRACK4, AIR};
+							CRACK1, CRACK2, CRACK3, CRACK4, AIR, WORKBENCH};
 
 	public enum Blocksize {SMALL, BIG};
 
@@ -68,13 +68,10 @@ public class Block
  								new Vector2(0.125f,0.0625f), new Vector2(0.1875f,0.0625f)},
  		/*CRACK4*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
  								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)},
-		/*SmallBlock*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
- 								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)},
-		/*SmallBlock*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
- 								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)},
-		/*SmallBlock*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
- 								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)}						 
-						}; 
+		/*WorkbenchSide1 */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
+		/*WorkbenchSide2 */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
+		/*WorkbenchTop */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)}				 
+		}; 
 
     /// <summary>
     /// Constructs a block.
@@ -249,6 +246,27 @@ public class Block
 			uv10 = blockUVs[(int)(BlockType.DIRT+1),1];
 			uv01 = blockUVs[(int)(BlockType.DIRT+1),2];
 			uv11 = blockUVs[(int)(BlockType.DIRT+1),3];
+		}
+		else if(blockType == BlockType.WORKBENCH && side == Cubeside.TOP)
+		{
+			uv00 = blockUVs[(int)(blockType+2),0];
+			uv10 = blockUVs[(int)(blockType+2),1];
+			uv01 = blockUVs[(int)(blockType+2),2];
+			uv11 = blockUVs[(int)(blockType+2),3];
+		}
+		else if(blockType == BlockType.WORKBENCH && side == Cubeside.LEFT)
+		{
+			uv00 = blockUVs[(int)(blockType),0];
+			uv10 = blockUVs[(int)(blockType),1];
+			uv01 = blockUVs[(int)(blockType),2];
+			uv11 = blockUVs[(int)(blockType),3];
+		}
+		else if(blockType == BlockType.WORKBENCH && side == Cubeside.RIGHT)
+		{
+			uv00 = blockUVs[(int)(blockType),0];
+			uv10 = blockUVs[(int)(blockType),1];
+			uv01 = blockUVs[(int)(blockType),2];
+			uv11 = blockUVs[(int)(blockType),3];
 		}
 		else
 		{

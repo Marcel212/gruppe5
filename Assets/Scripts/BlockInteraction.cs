@@ -20,22 +20,9 @@ public class BlockInteraction : MonoBehaviour
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
 		if(Input.GetKeyDown("1"))
-			switch(liste[0].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-              
-           }
+		{
+			setBuildType(liste);
+        }
 		if(Input.GetKeyDown("2"))
 			switch(liste[1].name)
            {
@@ -247,5 +234,27 @@ public class BlockInteraction : MonoBehaviour
 				}
 		   	}
    		}
+	}
+	public void setBuildType(List<Item> items)
+	{
+		switch(items[0].name)
+           {
+               case "Erde":
+					buildtype = Block.BlockType.DIRT;
+			   break;
+			   case "Holzstamm":
+					buildtype = Block.BlockType.WOOD;
+			   break;
+			   case "Stein":
+					buildtype = Block.BlockType.STONE;
+			   break;
+			   case "Werkbank":
+			   		buildtype = Block.BlockType.WORKBENCH;
+			   break;
+			   default:
+					buildtype = Block.BlockType.AIR;
+			   break;
+              
+           }
 	}
 }
