@@ -7,6 +7,12 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
+	GameObject inventory;
+
+	InventoryControll inventoryControll;
+
+	ScriptableManagerScript scriptableManagerScript;
+
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
 							CRACK1, CRACK2, CRACK3, CRACK4, AIR};
@@ -84,6 +90,9 @@ public class Block
 		parent = p;
 		position = pos;
 		SetType(blockType);
+		inventory = GameObject.Find("Inventory");
+		inventoryControll = inventory.GetComponent<InventoryControll>();
+		scriptableManagerScript = inventoryControll.manager;
 	}
 
     /// <summary>
@@ -177,6 +186,9 @@ public class Block
 			MeshRenderer meshRenderer = (MeshRenderer)cube.GetComponent(typeof(MeshRenderer));
 			meshRenderer.enabled = false;
 			QuadScript quadScript = (QuadScript)cube.AddComponent(typeof(QuadScript));
+			quadScript.inventory = inventory;
+			quadScript.inventoryControll = inventoryControll;
+			quadScript.scriptableManagerScript = scriptableManagerScript;
 			//Rigidbody rigidbody = (Rigidbody)cube.AddComponent(typeof(Rigidbody));
 			boxCollider.isTrigger = true ;
   			blocksize = Blocksize.SMALL;
@@ -439,7 +451,6 @@ public class Block
         MeshCollider meshCollider = (MeshCollider)quad.AddComponent(typeof(MeshCollider));
 	    meshCollider.convex = true;
         meshCollider.isTrigger = true;
-		Debug.Log(meshCollider.isTrigger);
 
         QuadScript quadScript = (QuadScript)quad.AddComponent(typeof(QuadScript));
     }

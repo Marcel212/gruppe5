@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class QuadScript : MonoBehaviour
 {
+
+    public GameObject inventory;
+    public InventoryControll inventoryControll;
+    public ScriptableManagerScript scriptableManagerScript;
+    Item item;
     Block.BlockType buildtype = Block.BlockType.AIR;
     public bool destroy = false;
     // Start is called before the first frame update
@@ -25,5 +30,13 @@ public class QuadScript : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         destroy = true;
+        Block b = World.GetWorldBlock(this.transform.position);
+        switch(b.blockType)
+           {
+               case Block.BlockType.GRASS:
+                    item = scriptableManagerScript.GetItemByName("Erde");
+                    inventoryControll.AddItem(item);
+               break;
+           }
     }
 }
