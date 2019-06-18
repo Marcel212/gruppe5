@@ -21,7 +21,7 @@ public class InventoryControll : MonoBehaviour
     private ItemSlots[] itemSlotsCrafting;
     
     
-    [SerializeField] private ScriptableManagerScript manager; 
+    [SerializeField] public ScriptableManagerScript manager; 
     
     Item value = null;
     private void OnValidate()
