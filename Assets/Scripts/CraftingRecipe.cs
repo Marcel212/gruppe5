@@ -12,6 +12,9 @@ public class ItemAndAmount : IComparer
      public int amount;
 
      public int indexInList;
+
+
+   
      public int CompareTo(object obj)
      {
          ItemAndAmount newObject = obj as ItemAndAmount;

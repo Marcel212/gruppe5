@@ -13,16 +13,16 @@ public class InventoryControll : MonoBehaviour
     [SerializeField] private Transform itemsParentHotkeyPanel;
     [SerializeField] private Transform itemsParentHotKeyOnScreen;
     [SerializeField] private Transform itemsParentCrafting;
-    
+
     //InventarSlots im UI
     private ItemSlots[] itemSlotsInventory;
     private ItemSlots[] itemSlotsHotKey;
     private ItemSlots[] itemSlotsHotKeyOnScreen;
     private ItemSlots[] itemSlotsCrafting;
-    
-    
-    [SerializeField] public ScriptableManagerScript manager; 
-    
+
+
+    [SerializeField] public ScriptableManagerScript manager;
+
     Item value = null;
     private void OnValidate()
     {
@@ -59,7 +59,7 @@ public class InventoryControll : MonoBehaviour
             itemSlotsHotKey[i].indexInPlacement = i;
             itemSlotsHotKey[i].placement = DropZone.Placement.Hotkeys;
 
-            itemSlotsHotKeyOnScreen[i].indexInPlacement = i;            
+            itemSlotsHotKeyOnScreen[i].indexInPlacement = i;
             itemSlotsHotKeyOnScreen[i].placement = DropZone.Placement.Hotkeys;
         }
 
@@ -69,7 +69,7 @@ public class InventoryControll : MonoBehaviour
             itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
         }
         RefreshUi();
-        
+
     }
 
     private void Update()
@@ -119,10 +119,10 @@ public class InventoryControll : MonoBehaviour
         {
             currentAmount = itemsInHotkeys[j].amount;
             currentItem = itemsInHotkeys[j].item;
-            
+
             itemSlotsHotKey[j].Amount = currentAmount;
             itemSlotsHotKey[j].Item = currentItem;
-            
+
             itemSlotsHotKeyOnScreen[j].Amount = currentAmount;
             itemSlotsHotKeyOnScreen[j].Item = currentItem;
 
@@ -132,7 +132,7 @@ public class InventoryControll : MonoBehaviour
         {
             currentAmount = 0;
             currentItem = null;
-            
+
             itemSlotsHotKey[j].Amount = currentAmount;
             itemSlotsHotKey[j].Item = currentItem;
             itemSlotsHotKeyOnScreen[j].Amount = 0;
@@ -151,11 +151,11 @@ public class InventoryControll : MonoBehaviour
             itemSlotsCrafting[k].Amount = 0;
             itemSlotsCrafting[k].Item = null;
         }
-        
-        
+
+
     }
     public event EventHandler<InventoryEventArgs> ItemAdded;
-    
+
     //TODO Mehr als ein Item muss eingefügt werden
     public bool AddItem(Item item)
     {
@@ -174,16 +174,16 @@ public class InventoryControll : MonoBehaviour
             }
             RefreshUi();
             return true;
-            
+
         }
         else
         {
             return false;
         }
-        
+
     }
 
-    public bool SwapItems(int startIndex,DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
+    public bool SwapItems(int startIndex, DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
     {
         bool validStartIndex = startIndex > -1 // mindestens index 0
                                && ((startPlacement == DropZone.Placement.Inventory &&
@@ -193,18 +193,18 @@ public class InventoryControll : MonoBehaviour
                                        startIndex < itemSlotsHotKey.Length
                                    )
                                    || (startPlacement == DropZone.Placement.Crafting && startIndex < 5));
-        
+
         Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
 
         bool validEndIndex = endIndex > -1
                              && ((endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
                                  || (endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length)
                                  || (endPlacement == DropZone.Placement.Crafting && endIndex < 4));
-        
-        
+
+
         Debug.Log("EndIndex Ok? " + endIndex + " in " + endPlacement + " ist " + validEndIndex);
 
-        ItemAndAmount temp; 
+        ItemAndAmount temp;
         if (validStartIndex && validEndIndex)
         {
             if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Inventory)
@@ -212,71 +212,71 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInInventory[startIndex];
                 itemsInInventory[startIndex] = itemsInInventory[endIndex];
                 itemsInInventory[endIndex] = temp;
-                
-            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Hotkeys)
+
+            } else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Hotkeys)
             {
                 temp = itemsInInventory[startIndex];
                 itemsInInventory[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Crafting)
+            } else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Crafting)
             {
                 temp = itemsInInventory[startIndex];
                 itemsInInventory[startIndex] = itemsInCrafting[endIndex];
                 itemsInCrafting[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
+            } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
             {
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInInventory[endIndex];
                 itemsInInventory[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Hotkeys)
+            } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Hotkeys)
             {
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Crafting)
+            } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Crafting)
             {
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp; 
-            }else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Crafting)
+                itemsInCrafting[endIndex] = temp;
+            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Crafting)
             {
                 temp = itemsInCrafting[startIndex];
                 itemsInCrafting[startIndex] = itemsInCrafting[endIndex];
                 itemsInCrafting[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Inventory)
+            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Inventory)
             {
                 temp = itemsInCrafting[startIndex];
                 itemsInCrafting[startIndex] = itemsInInventory[endIndex];
                 itemsInInventory[endIndex] = temp;
-            }else if (startPlacement == DropZone.Placement.Crafting & endPlacement == DropZone.Placement.Hotkeys)
+            } else if (startPlacement == DropZone.Placement.Crafting & endPlacement == DropZone.Placement.Hotkeys)
             {
                 temp = itemsInCrafting[startIndex];
                 itemsInCrafting[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
             }
             RefreshUi();
-            
-            return true;   
+
+            return true;
         }
         else
         {
             return false;
         }
     }
-    
-  
+
+
     public bool RemoveItemPack(int index, DropZone.Placement placement)
     {
         bool indexValid = index > -1
                           && ((placement == DropZone.Placement.Inventory && index < itemSlotsInventory.Length)
-                              || (placement == DropZone.Placement.Hotkeys && index < itemSlotsHotKey.Length)); 
-        if(indexValid)
+                              || (placement == DropZone.Placement.Hotkeys && index < itemSlotsHotKey.Length));
+        if (indexValid)
         {
             if (placement == DropZone.Placement.Inventory)
             {
                 itemsInInventory[index].item = null;
                 itemsInInventory[index].amount = 0;
-            }else if (placement == DropZone.Placement.Hotkeys)
+            } else if (placement == DropZone.Placement.Hotkeys)
             {
                 itemsInHotkeys[index].item = null;
                 itemsInHotkeys[index].amount = 0;
@@ -298,7 +298,7 @@ public class InventoryControll : MonoBehaviour
             RefreshUi();
             return true;
         }
-        
+
         return false;
     }
 
@@ -317,7 +317,7 @@ public class InventoryControll : MonoBehaviour
         }
         return itemAndAmountOutput.Count != 0;
     }
-    
+
     //Überprüft, ob ein Item dieses Typs noch reinpasst
     //IndexInList gibt -1 zurück, falls kein Platz mehr ist, ansonsten den Index an dem Platz ist
     public bool IsStillRoomForItem(Item item, out int indexInList)
@@ -329,14 +329,14 @@ public class InventoryControll : MonoBehaviour
         {
             return false;
         }
-        
+
         List<ItemAndAmount> itemAndAmountOutput = new List<ItemAndAmount>();
         List<int> indicesOfResult = new List<int>();
-       
-        
+
+
         //Testet, ob das Inventar schon Stapel dieses Items besitzt
         if (InventoryContainsItem(item, out itemAndAmountOutput, out indicesOfResult))
-        {    
+        {
             //Prüft, ob alle Stapel voll sind
             for (var i = 0; i < itemAndAmountOutput.Count; i++)
             {
@@ -352,12 +352,12 @@ public class InventoryControll : MonoBehaviour
 
         if (!result)
         {
-            if (indexInList == -1 &&InventoryContainsItem(null, out itemAndAmountOutput, out indicesOfResult))
+            if (indexInList == -1 && InventoryContainsItem(null, out itemAndAmountOutput, out indicesOfResult))
             {
                 indexInList = indicesOfResult[0];
                 result = true;
             }
-            
+
         }
 
         return result;
@@ -366,12 +366,29 @@ public class InventoryControll : MonoBehaviour
     public List<Item> GetItemsInHotkey()
     {
         List<Item> resultList = new List<Item>();
-        foreach(var item in itemsInHotkeys)
+        foreach (var item in itemsInHotkeys)
         {
             resultList.Add(item.item);
         }
         return resultList;
     }
+
+    
+
+    public ItemAndAmount[] ItemsInCrafting{
+        get
+        {
+            return itemsInCrafting;
+        }
+
+        set
+        {
+            itemsInCrafting = value;
+            RefreshUi();
+        }
+    }
+
+    
     
 
    

@@ -29,7 +29,7 @@ public class ToolTipControll : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (!visible)
         {
-            if (itemInSlot != null && eventData.dragging == false)
+            if (itemInSlot != null  && eventData.dragging == false)
             {
                 visible = true;
                 popupText.transform.position = new Vector3(transform.position.x, transform.position.y + 2, 0);

@@ -34,7 +34,7 @@ public class BookOfRecipesScript : MonoBehaviour
         int firstIndexInBook = (int)mainSlider.value * 20;
         for (int indexInBook = firstIndexInBook; indexInBook< smallRecipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
         {
-            Debug.Log("Index von Slots: " + index); Debug.Log("Recipes Länge: " + smallRecipes.Capacity);
+          
             recipeSlot[index].CraftingRecipe = smallRecipes[indexInBook];
             index++;
         }
