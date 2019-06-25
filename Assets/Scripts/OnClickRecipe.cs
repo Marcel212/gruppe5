@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class OnClickRecipe : MonoBehaviour
 {
+
+    [SerializeField] private Transform craftingBox;
+    [SerializeField] private Transform inventory;
+    [SerializeField] private ScriptableManagerScript manager;
+
+  
     public void FillCraftingField()
     {
-        Debug.Log("Gefüllt");
+       
     }
 }

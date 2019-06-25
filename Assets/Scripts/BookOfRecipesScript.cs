@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class BookOfRecipesScript : MonoBehaviour
 {
     private List<CraftingRecipe> smallRecipes;
-    private ItemSlots[] itemSlots;
+    private RecipeSlots[] recipeSlot;
     [SerializeField] private ScriptableManagerScript manager;
     public Slider mainSlider;
     // Start is called before the first frame update
     private void OnValidate()
     {
-        itemSlots = GetComponentsInChildren<ItemSlots>();
+        recipeSlot = GetComponentsInChildren<RecipeSlots>();
         smallRecipes = manager.GetAllSmallRecipes();
     }
 
@@ -25,10 +25,9 @@ public class BookOfRecipesScript : MonoBehaviour
     {
         
         int index = 0;
-        for (index = 0;index< itemSlots.Length; index++)
+        for (index = 0;index< recipeSlot.Length; index++)
         {
-            itemSlots[index].Item = null;
-            itemSlots[index].Amount = 0;
+            recipeSlot[index].CraftingRecipe = null;
         }
         
         index = 0;
@@ -36,8 +35,7 @@ public class BookOfRecipesScript : MonoBehaviour
         for (int indexInBook = firstIndexInBook; indexInBook< smallRecipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
         {
             Debug.Log("Index von Slots: " + index); Debug.Log("Recipes Länge: " + smallRecipes.Capacity);
-            itemSlots[index].Item = smallRecipes[indexInBook].GetResult().item;
-            itemSlots[index].Amount = smallRecipes[indexInBook].GetResult().amount;
+            recipeSlot[index].CraftingRecipe = smallRecipes[indexInBook];
             index++;
         }
     }
