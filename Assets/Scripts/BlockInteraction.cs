@@ -19,155 +19,57 @@ public class BlockInteraction : MonoBehaviour
     {
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
+		int temp2 = -1;
 		if(Input.GetKeyDown("1"))
 		{
-			setBuildType(liste);
-			temp.inventoryControll.RemoveOneItemInHotKey(0);
+			setBuildType(liste,0);
+			temp2 = 0;
         }
 		if(Input.GetKeyDown("2"))
-			switch(liste[1].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
+		{
+			setBuildType(liste,1);
+			temp2 = 1;
+		}
 		if(Input.GetKeyDown("3"))
-			switch(liste[2].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
+		{
+			setBuildType(liste,2);
+			temp2 = 2;
+		}
 		if(Input.GetKeyDown("4"))
-			switch(liste[3].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
+		{
+			setBuildType(liste,3);
+			temp2 = 3;
+		}
 		if(Input.GetKeyDown("5"))
-			switch(liste[4].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
+		{
+			setBuildType(liste,4);
+			temp2 = 4;
+		}
         if (Input.GetKeyDown("6"))
-            switch(liste[5].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
-		   if (Input.GetKeyDown("7"))
-            switch(liste[6].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
-		   if (Input.GetKeyDown("8"))
-            switch(liste[7].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
-		   if (Input.GetKeyDown("9"))
-            switch(liste[8].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
-		   if (Input.GetKeyDown("0"))
-            switch(liste[9].name)
-           {
-               case "Erde":
-					buildtype = Block.BlockType.DIRT;
-			   break;
-			   case "Holzstamm":
-					buildtype = Block.BlockType.WOOD;
-			   break;
-			   case "Stein":
-					buildtype = Block.BlockType.STONE;
-			   break;
-			   default:
-					buildtype = Block.BlockType.AIR;
-			   break;
-		   }
+        {
+			setBuildType(liste,5);
+			temp2 = 5;
+		}
+		if (Input.GetKeyDown("7"))
+        {
+			setBuildType(liste,6);
+			temp2 = 6;
+		}
+		if (Input.GetKeyDown("8"))
+         {
+			setBuildType(liste,7);
+			temp2 = 7;
+		}
+	    if (Input.GetKeyDown("9"))
+        {
+			setBuildType(liste,8);
+			temp2 = 8;
+		}
+		if (Input.GetKeyDown("0"))
+        {
+			setBuildType(liste,9);
+			temp2 = 9;
+		}
         // If left or right mouse button
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
@@ -199,6 +101,10 @@ public class BlockInteraction : MonoBehaviour
                 else
                 {
                     update = b.BuildBlock(buildtype);
+					if(temp2 >= 0)
+					{
+						temp.inventoryControll.RemoveOneItemInHotKey(temp2);
+					}
                 }
 
                 // If a block got destroyed, redraw the chunk and affected neighbouring chunks.
@@ -236,9 +142,9 @@ public class BlockInteraction : MonoBehaviour
 		   	}
    		}
 	}
-	public void setBuildType(List<Item> items)
+	public void setBuildType(List<Item> items, int position)
 	{
-		switch(items[0].name)
+		switch(items[position].name)
            {
                case "Erde":
 					buildtype = Block.BlockType.DIRT;
