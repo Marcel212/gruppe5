@@ -15,6 +15,11 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+
+        if(eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>() == null)
+        {
+            return;
+        }
         //Finde Placement im Inventory heraus vom Drag (Placement und Index)
         ItemSlots itemScriptDragged = eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>();
         Placement placementDragged = itemScriptDragged.placement;
