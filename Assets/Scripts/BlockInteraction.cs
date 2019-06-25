@@ -22,6 +22,7 @@ public class BlockInteraction : MonoBehaviour
 		if(Input.GetKeyDown("1"))
 		{
 			setBuildType(liste);
+			temp.inventoryControll.RemoveOneItemInHotKey(0);
         }
 		if(Input.GetKeyDown("2"))
 			switch(liste[1].name)
