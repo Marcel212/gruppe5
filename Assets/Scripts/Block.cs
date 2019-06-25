@@ -14,8 +14,8 @@ public class Block
 	 public ScriptableManagerScript scriptableManagerScript;
 
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
-	public enum BlockType {GRASS, DIRT, WATER, STONE, LEAVES, WOOD, WOODBASE, SAND, GOLD, BEDROCK, REDSTONE, DIAMOND, NOCRACK, 
-							CRACK1, CRACK2, CRACK3, CRACK4, AIR, WORKBENCH};
+	public enum BlockType {/*1 */GRASS,/*2 */ DIRT,/*3 */ WATER,/*4 */ STONE,/*5 */ LEAVES,/*6 */ WOOD,/*7 */ WOODBASE,/*8 */ SAND,/*9 */ GOLD,/*10 */ BEDROCK,/*11 */ REDSTONE,
+							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK};
 
 	public enum Blocksize {SMALL, BIG};
 
@@ -32,45 +32,48 @@ public class Block
 
     // Hard-coded UVs based on blockuvs.txt
 	Vector2[,] blockUVs = { 
-		/*GRASS TOP*/		{new Vector2( 0.125f, 0.375f ), new Vector2( 0.1875f, 0.375f),
+		/*1GRASS TOP*/		{new Vector2( 0.125f, 0.375f ), new Vector2( 0.1875f, 0.375f),
 								new Vector2( 0.125f, 0.4375f ),new Vector2( 0.1875f, 0.4375f )},
-		/*GRASS SIDE*/		{new Vector2( 0.1875f, 0.9375f ), new Vector2( 0.25f, 0.9375f),
+		/*2GRASS SIDE*/		{new Vector2( 0.1875f, 0.9375f ), new Vector2( 0.25f, 0.9375f),
 								new Vector2( 0.1875f, 1.0f ),new Vector2( 0.25f, 1.0f )},
-		/*DIRT*/			{new Vector2( 0.125f, 0.9375f ), new Vector2( 0.1875f, 0.9375f),
+		/*3DIRT*/			{new Vector2( 0.125f, 0.9375f ), new Vector2( 0.1875f, 0.9375f),
 								new Vector2( 0.125f, 1.0f ),new Vector2( 0.1875f, 1.0f )},
-		/*WATER*/			{ new Vector2(0.875f,0.125f),  new Vector2(0.9375f,0.125f),
+		/*4WATER*/			{ new Vector2(0.875f,0.125f),  new Vector2(0.9375f,0.125f),
  								new Vector2(0.875f,0.1875f), new Vector2(0.9375f,0.1875f)},
-		/*STONE*/			{new Vector2( 0, 0.875f ), new Vector2( 0.0625f, 0.875f),
+		/*5STONE*/			{new Vector2( 0, 0.875f ), new Vector2( 0.0625f, 0.875f),
 								new Vector2( 0, 0.9375f ),new Vector2( 0.0625f, 0.9375f )},
-		/*LEAVES*/			{ new Vector2(0.0625f,0.375f),  new Vector2(0.125f,0.375f),
+		/*6LEAVES*/			{ new Vector2(0.0625f,0.375f),  new Vector2(0.125f,0.375f),
  								new Vector2(0.0625f,0.4375f), new Vector2(0.125f,0.4375f)},
- 		/*WOOD*/			{ new Vector2(0.375f,0.625f),  new Vector2(0.4375f,0.625f),
+ 		/*7WOOD*/			{ new Vector2(0.375f,0.625f),  new Vector2(0.4375f,0.625f),
  								new Vector2(0.375f,0.6875f), new Vector2(0.4375f,0.6875f)},
- 		/*WOODBASE*/		{ new Vector2(0.375f,0.625f),  new Vector2(0.4375f,0.625f),
+ 		/*8WOODBASE*/		{ new Vector2(0.375f,0.625f),  new Vector2(0.4375f,0.625f),
  								new Vector2(0.375f,0.6875f), new Vector2(0.4375f,0.6875f)},	    
-		/*SAND*/			{ new Vector2(0.125f,0.875f),  new Vector2(0.1875f,0.875f),
+		/*9SAND*/			{ new Vector2(0.125f,0.875f),  new Vector2(0.1875f,0.875f),
  								new Vector2(0.125f,0.9375f), new Vector2(0.1875f,0.9375f)},
- 		/*GOLD*/			{ new Vector2(0f,0.8125f),  new Vector2(0.0625f,0.8125f),
+ 		/*10GOLD*/			{ new Vector2(0f,0.8125f),  new Vector2(0.0625f,0.8125f),
  								new Vector2(0f,0.875f), new Vector2(0.0625f,0.875f)},
-		/*BEDROCK*/			{new Vector2( 0.3125f, 0.8125f ), new Vector2( 0.375f, 0.8125f),
+		/*11BEDROCK*/			{new Vector2( 0.3125f, 0.8125f ), new Vector2( 0.375f, 0.8125f),
 								new Vector2( 0.3125f, 0.875f ),new Vector2( 0.375f, 0.875f )},
-		/*REDSTONE*/		{new Vector2( 0.1875f, 0.75f ), new Vector2( 0.25f, 0.75f),
+		/*12REDSTONE*/		{new Vector2( 0.1875f, 0.75f ), new Vector2( 0.25f, 0.75f),
 								new Vector2( 0.1875f, 0.8125f ),new Vector2( 0.25f, 0.8125f )},
-		/*DIAMOND*/			{new Vector2( 0.125f, 0.75f ), new Vector2( 0.1875f, 0.75f),
+		/*13DIAMOND*/			{new Vector2( 0.125f, 0.75f ), new Vector2( 0.1875f, 0.75f),
 								new Vector2( 0.125f, 0.8125f ),new Vector2( 0.1875f, 0.8125f )},
-		/*NOCRACK*/			{new Vector2( 0.6875f, 0f ), new Vector2( 0.75f, 0f),
+		/*14NOCRACK*/			{new Vector2( 0.6875f, 0f ), new Vector2( 0.75f, 0f),
 								new Vector2( 0.6875f, 0.0625f ),new Vector2( 0.75f, 0.0625f )},
-		/*CRACK1*/			{ new Vector2(0f,0f),  new Vector2(0.0625f,0f),
+		/*15CRACK1*/			{ new Vector2(0f,0f),  new Vector2(0.0625f,0f),
  								new Vector2(0f,0.0625f), new Vector2(0.0625f,0.0625f)},
- 		/*CRACK2*/			{ new Vector2(0.0625f,0f),  new Vector2(0.125f,0f),
+ 		/*16CRACK2*/			{ new Vector2(0.0625f,0f),  new Vector2(0.125f,0f),
  								new Vector2(0.0625f,0.0625f), new Vector2(0.125f,0.0625f)},
- 		/*CRACK3*/			{ new Vector2(0.125f,0f),  new Vector2(0.1875f,0f),
+ 		/*17CRACK3*/			{ new Vector2(0.125f,0f),  new Vector2(0.1875f,0f),
  								new Vector2(0.125f,0.0625f), new Vector2(0.1875f,0.0625f)},
- 		/*CRACK4*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
+ 		/*18CRACK4*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
  								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)},
-		/*WorkbenchSide1 */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
-		/*WorkbenchSide2 */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
-		/*WorkbenchTop */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)}				 
+		/*19WorkbenchSide1 */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
+		/*20WorkbenchSide2 */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
+		/*21WorkbenchTop */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)},
+		/*22TrunkFront */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
+		/*23TrunkSide */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
+		/*24TrunkTop/Down */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)}		 
 		}; 
 
     /// <summary>
@@ -212,6 +215,78 @@ public class Block
 		return false;
 	}
 
+	private Vector2[] getUVs(Cubeside side)
+	{
+		// All possible UVs
+		Vector2 uv00 = blockUVs[0,0];
+		Vector2 uv10 = blockUVs[0,0];
+		Vector2 uv01 = blockUVs[0,0];
+		Vector2 uv11 = blockUVs[0,0];
+		switch(blockType)
+		{
+			case BlockType.GRASS:
+				if(side == Cubeside.TOP)
+				{
+					uv00 = blockUVs[0,0];
+					uv10 = blockUVs[0,1];
+					uv01 = blockUVs[0,2];
+					uv11 = blockUVs[0,3];
+				}
+				else if(side == Cubeside.BOTTOM)
+				{
+					uv00 = blockUVs[(int)(BlockType.DIRT+1),0];
+					uv10 = blockUVs[(int)(BlockType.DIRT+1),1];
+					uv01 = blockUVs[(int)(BlockType.DIRT+1),2];
+					uv11 = blockUVs[(int)(BlockType.DIRT+1),3];
+				}
+				else
+				{
+					uv00 = blockUVs[(int)(blockType+1),0];
+					uv10 = blockUVs[(int)(blockType+1),1];
+					uv01 = blockUVs[(int)(blockType+1),2];
+					uv11 = blockUVs[(int)(blockType+1),3];
+				}
+			break;
+			case BlockType.WORKBENCH:
+				if(side == Cubeside.TOP)
+				{
+					uv00 = blockUVs[(int)(blockType+2),0];
+					uv10 = blockUVs[(int)(blockType+2),1];
+					uv01 = blockUVs[(int)(blockType+2),2];
+					uv11 = blockUVs[(int)(blockType+2),3];
+				}
+				else if(side == Cubeside.LEFT || side == Cubeside.RIGHT)
+				{
+					uv00 = blockUVs[(int)(blockType),0];
+					uv10 = blockUVs[(int)(blockType),1];
+					uv01 = blockUVs[(int)(blockType),2];
+					uv11 = blockUVs[(int)(blockType),3];
+				}
+				else
+				{
+					uv00 = blockUVs[(int)(blockType+1),0];
+					uv10 = blockUVs[(int)(blockType+1),1];
+					uv01 = blockUVs[(int)(blockType+1),2];
+					uv11 = blockUVs[(int)(blockType+1),3];
+				}
+			break;
+			default:
+				uv00 = blockUVs[(int)(blockType+1),0];
+				uv10 = blockUVs[(int)(blockType+1),1];
+				uv01 = blockUVs[(int)(blockType+1),2];
+				uv11 = blockUVs[(int)(blockType+1),3];
+			break;
+		}
+		Vector2[] uvs  = new Vector2[]
+		{
+			uv00,
+			uv10,
+			uv01,
+			uv11			
+		};
+
+		return uvs;
+	}
     /// <summary>
     /// Assembles one side of a cube's mesh by selecting the UVs, defining the vertices and calculating the normals.
     /// </summary>
@@ -228,54 +303,12 @@ public class Block
 		int[] triangles = new int[6];
 
 		// All possible UVs
-		Vector2 uv00;
-		Vector2 uv10;
-		Vector2 uv01;
-		Vector2 uv11;
-
-		if(blockType == BlockType.GRASS && side == Cubeside.TOP)
-		{
-			uv00 = blockUVs[0,0];
-			uv10 = blockUVs[0,1];
-			uv01 = blockUVs[0,2];
-			uv11 = blockUVs[0,3];
-		}
-		else if(blockType == BlockType.GRASS && side == Cubeside.BOTTOM)
-		{
-			uv00 = blockUVs[(int)(BlockType.DIRT+1),0];
-			uv10 = blockUVs[(int)(BlockType.DIRT+1),1];
-			uv01 = blockUVs[(int)(BlockType.DIRT+1),2];
-			uv11 = blockUVs[(int)(BlockType.DIRT+1),3];
-		}
-		else if(blockType == BlockType.WORKBENCH && side == Cubeside.TOP)
-		{
-			uv00 = blockUVs[(int)(blockType+2),0];
-			uv10 = blockUVs[(int)(blockType+2),1];
-			uv01 = blockUVs[(int)(blockType+2),2];
-			uv11 = blockUVs[(int)(blockType+2),3];
-		}
-		else if(blockType == BlockType.WORKBENCH && side == Cubeside.LEFT)
-		{
-			uv00 = blockUVs[(int)(blockType),0];
-			uv10 = blockUVs[(int)(blockType),1];
-			uv01 = blockUVs[(int)(blockType),2];
-			uv11 = blockUVs[(int)(blockType),3];
-		}
-		else if(blockType == BlockType.WORKBENCH && side == Cubeside.RIGHT)
-		{
-			uv00 = blockUVs[(int)(blockType),0];
-			uv10 = blockUVs[(int)(blockType),1];
-			uv01 = blockUVs[(int)(blockType),2];
-			uv11 = blockUVs[(int)(blockType),3];
-		}
-		else
-		{
-			uv00 = blockUVs[(int)(blockType+1),0];
-			uv10 = blockUVs[(int)(blockType+1),1];
-			uv01 = blockUVs[(int)(blockType+1),2];
-			uv11 = blockUVs[(int)(blockType+1),3];
-		}
-
+		Vector2[] allUvs = getUVs(side);
+		Vector2 uv00 = allUvs[0];
+		Vector2 uv10 = allUvs[1];
+		Vector2 uv01 = allUvs[2];
+		Vector2 uv11 = allUvs[3];
+		
 		// Set cracks
 		suvs.Add(blockUVs[(int)(health+1),3]);
 		suvs.Add(blockUVs[(int)(health+1),2]);
@@ -369,32 +402,11 @@ public class Block
 		int[] triangles = new int[6];
 
 		// All possible UVs
-		Vector2 uv00;
-		Vector2 uv10;
-		Vector2 uv01;
-		Vector2 uv11;
-
-		if(blockType == BlockType.GRASS && side == Cubeside.TOP)
-		{
-			uv00 = blockUVs[0,0];
-			uv10 = blockUVs[0,1];
-			uv01 = blockUVs[0,2];
-			uv11 = blockUVs[0,3];
-		}
-		else if(blockType == BlockType.GRASS && side == Cubeside.BOTTOM)
-		{
-			uv00 = blockUVs[(int)(BlockType.DIRT+1),0];
-			uv10 = blockUVs[(int)(BlockType.DIRT+1),1];
-			uv01 = blockUVs[(int)(BlockType.DIRT+1),2];
-			uv11 = blockUVs[(int)(BlockType.DIRT+1),3];
-		}
-		else
-		{
-			uv00 = blockUVs[(int)(blockType+1),0];
-			uv10 = blockUVs[(int)(blockType+1),1];
-			uv01 = blockUVs[(int)(blockType+1),2];
-			uv11 = blockUVs[(int)(blockType+1),3];
-		}
+		Vector2[] allUvs = getUVs(side);
+		Vector2 uv00 = allUvs[0];
+		Vector2 uv10 = allUvs[1];
+		Vector2 uv01 = allUvs[2];
+		Vector2 uv11 = allUvs[3];
 
 		// Set cracks
 		suvs.Add(blockUVs[(int)(health+1),3]);
