@@ -20,6 +20,7 @@ public class InventoryControll : MonoBehaviour
     private ItemSlots[] itemSlotsHotKeyOnScreen;
     private ItemSlots[] itemSlotsCrafting;
 
+    public bool[] enoughItemsForCrafting = new bool[5];
 
     [SerializeField] public ScriptableManagerScript manager;
 
@@ -68,10 +69,32 @@ public class InventoryControll : MonoBehaviour
             itemSlotsCrafting[i].indexInPlacement = i;
             itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
         }
+
+        EnoughItemsForCrafting = enoughItemsForCrafting;
         RefreshUi();
 
     }
 
+    public bool[] EnoughItemsForCrafting
+    {
+        get
+        {
+            return enoughItemsForCrafting;
+        }
+
+        set
+        {
+            enoughItemsForCrafting = value;
+
+            for (int index = 0; index < enoughItemsForCrafting.Length; index++)
+            {
+                var tempColor = itemSlotsCrafting[index]._currentImage.color;
+                if (!enoughItemsForCrafting[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
+                itemSlotsCrafting[index]._currentImage.color = tempColor;
+            }
+            RefreshUi();
+        }
+    }
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.KeypadPlus))
