@@ -15,7 +15,7 @@ public class Block
 
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {/*1 */GRASS,/*2 */ DIRT,/*3 */ WATER,/*4 */ STONE,/*5 */ LEAVES,/*6 */ WOOD,/*7 */ WOODBASE,/*8 */ SAND,/*9 */ GOLD,/*10 */ BEDROCK,/*11 */ REDSTONE,
-							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK};
+							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK,/*21 */PLANK};
 
 	public enum Blocksize {SMALL, BIG};
 
@@ -28,7 +28,7 @@ public class Block
 
 	public BlockType health;
 	public int currentHealth;
-	int[] blockHealthMax = {3, 3, 10, 4, 2, 4, 4, 2, 3, -1, 4, 4, 0, 0, 0, 0, 0, 0, 0};
+	int[] blockHealthMax = {3, 3, 10, 4, 2, 4, 4, 2, 3, -1, 4, 4, 0, 0, 0, 0, 0, 0, 3,3,3};
 
     // Hard-coded UVs based on blockuvs.txt
 	Vector2[,] blockUVs = { 
@@ -71,9 +71,9 @@ public class Block
 		/*19WorkbenchSide1 */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
 		/*20WorkbenchSide2 */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
 		/*21WorkbenchTop */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)},
-		/*22TrunkFront */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
-		/*23TrunkSide */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
-		/*24TrunkTop/Down */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)}		 
+		/*22TrunkFront */		{new Vector2(0.6875f, 0.875f), new Vector2(0.75f,0.875f), new Vector2(0.6875f,0.9375f), new Vector2(0.75f,0.9375f)},
+		/*23TrunkSide */		{new Vector2(0.5625f, 0.75f), new Vector2(0.625f,0.75f), new Vector2(0.5625f,0.8125f), new Vector2(0.625f,0.8125f)},
+		/*24TrunkTop/Down */		{new Vector2(0.5625f, 0.875f), new Vector2(0.6255f,0.875f), new Vector2(0.5625f,0.9375f), new Vector2(0.625f,0.9375f)}		 
 		}; 
 
     /// <summary>
@@ -270,12 +270,36 @@ public class Block
 					uv11 = blockUVs[(int)(blockType+1),3];
 				}
 			break;
+			case BlockType.TRUNK:
+				if(side == Cubeside.TOP || side == Cubeside.BOTTOM)
+				{
+					uv00 = blockUVs[(int)(blockType+4),0];
+					uv10 = blockUVs[(int)(blockType+4),1];
+					uv01 = blockUVs[(int)(blockType+4),2];
+					uv11 = blockUVs[(int)(blockType+4),3];
+				}
+				else if(side == Cubeside.FRONT)
+				{
+					uv00 = blockUVs[(int)(blockType+2),0];
+					uv10 = blockUVs[(int)(blockType+2),1];
+					uv01 = blockUVs[(int)(blockType+2),2];
+					uv11 = blockUVs[(int)(blockType+2),3];
+				}
+				else
+				{
+					uv00 = blockUVs[(int)(blockType+3),0];
+					uv10 = blockUVs[(int)(blockType+3),1];
+					uv01 = blockUVs[(int)(blockType+3),2];
+					uv11 = blockUVs[(int)(blockType+3),3];
+				}
+			break;
 			default:
 				uv00 = blockUVs[(int)(blockType+1),0];
 				uv10 = blockUVs[(int)(blockType+1),1];
 				uv01 = blockUVs[(int)(blockType+1),2];
 				uv11 = blockUVs[(int)(blockType+1),3];
 			break;
+		
 		}
 		Vector2[] uvs  = new Vector2[]
 		{

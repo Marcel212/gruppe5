@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1714,7 +1714,7 @@ PrefabInstance:
     - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6470785977760845937, guid: e9271b565ccf0c647b19d7f064b1ced3,
         type: 3}
@@ -3346,7 +3346,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 224e9390fb2d38448ace48cef5e303ac, type: 2}
   - {fileID: 11400000, guid: 9d13c18522762474b8ca14b38961726c, type: 2}
   - {fileID: 11400000, guid: 54a594b24284bc746b11e5a26f000ce7, type: 2}
-  - {fileID: 11400000, guid: b4de88fcf682cfc47805d9bab204860b, type: 2}
+  - {fileID: 11400000, guid: 24fd5e5e6eba15d44b4d3ba042dd02dd, type: 2}
+  - {fileID: 11400000, guid: 717d6196f70f03e48a21e1494652187a, type: 2}
+  - {fileID: 11400000, guid: b7e3bd9940070c646aa52515a771751d, type: 2}
+  - {fileID: 11400000, guid: fdd51353cb9768d469bd30502b52cc83, type: 2}
+  - {fileID: 11400000, guid: 8e1de7bf1aaf4f243a8c29b322f50760, type: 2}
   smallRecipeList:
   - {fileID: 11400000, guid: d17b3444c63d8d64d82688966e75a9f1, type: 2}
   - {fileID: 11400000, guid: b5d3e275e3b76e04d961980075d58995, type: 2}
@@ -6887,6 +6891,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HK_ItemImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6470785977760845939, guid: e9271b565ccf0c647b19d7f064b1ced3, type: 3}
@@ -12951,11 +12960,11 @@ MonoBehaviour:
     amount: 0
     indexInList: 0
   itemsInHotkeys:
-  - item: {fileID: 11400000, guid: b4de88fcf682cfc47805d9bab204860b, type: 2}
+  - item: {fileID: 11400000, guid: 24fd5e5e6eba15d44b4d3ba042dd02dd, type: 2}
     amount: 3
     indexInList: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: b4de88fcf682cfc47805d9bab204860b, type: 2}
+    amount: 10
     indexInList: 0
   - item: {fileID: 0}
     amount: 0

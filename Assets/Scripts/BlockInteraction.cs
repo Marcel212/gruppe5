@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class BlockInteraction : MonoBehaviour
 {
+	int temp2 = -1;
 	InventoryControll inventoryControll;
 	public GameObject cam;
 	Block.BlockType buildtype = Block.BlockType.AIR;
@@ -19,7 +20,7 @@ public class BlockInteraction : MonoBehaviour
     {
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
-		int temp2 = -1;
+		//int temp2 = -1;
 		if(Input.GetKeyDown("1"))
 		{
 			setBuildType(liste,0);
@@ -100,6 +101,7 @@ public class BlockInteraction : MonoBehaviour
                 }
                 else
                 {
+					Debug.Log(buildtype);
                     update = b.BuildBlock(buildtype);
 					if(temp2 >= 0)
 					{
@@ -157,6 +159,21 @@ public class BlockInteraction : MonoBehaviour
 			   break;
 			   case "Werkbank":
 			   		buildtype = Block.BlockType.WORKBENCH;
+			   break;
+			   case "Diamant":
+					buildtype = Block.BlockType.DIAMOND;
+			   break;
+			   case "Gold":
+					buildtype = Block.BlockType.GOLD;
+			   break;
+			   case "Truhe":
+					buildtype = Block.BlockType.TRUNK;
+			   break;
+			   case "RedStone":
+			   		buildtype = Block.BlockType.REDSTONE;
+			   break;
+			   case "Hokzbrett":
+			   		buildtype = Block.BlockType.PLANK;
 			   break;
 			   default:
 					buildtype = Block.BlockType.AIR;
