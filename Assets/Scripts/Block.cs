@@ -68,12 +68,13 @@ public class Block
  								new Vector2(0.125f,0.0625f), new Vector2(0.1875f,0.0625f)},
  		/*18CRACK4*/			{ new Vector2(0.1875f,0f),  new Vector2(0.25f,0f),
  								new Vector2(0.1875f,0.0625f), new Vector2(0.25f,0.0625f)},
-		/*19WorkbenchSide1 */		{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
-		/*20WorkbenchSide2 */		{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
+		/*19WorkbenchSide1 */	{new Vector2(0.75f, 0.75f), new Vector2(0.8125f,0.75f), new Vector2(0.75f,0.8125f), new Vector2(0.8125f,0.8125f)},
+		/*20WorkbenchSide2 */	{new Vector2(0.6875f, 0.75f), new Vector2(0.75f,0.75f), new Vector2(0.6875f,0.8125f), new Vector2(0.75f,0.8125f)},
 		/*21WorkbenchTop */		{new Vector2(0.6875f, 0.8125f), new Vector2(0.75f,0.8125f), new Vector2(0.6875f,0.875f), new Vector2(0.75f,0.875f)},
 		/*22TrunkFront */		{new Vector2(0.6875f, 0.875f), new Vector2(0.75f,0.875f), new Vector2(0.6875f,0.9375f), new Vector2(0.75f,0.9375f)},
 		/*23TrunkSide */		{new Vector2(0.5625f, 0.75f), new Vector2(0.625f,0.75f), new Vector2(0.5625f,0.8125f), new Vector2(0.625f,0.8125f)},
-		/*24TrunkTop/Down */		{new Vector2(0.5625f, 0.875f), new Vector2(0.6255f,0.875f), new Vector2(0.5625f,0.9375f), new Vector2(0.625f,0.9375f)}		 
+		/*24TrunkTop/Down */	{new Vector2(0.5625f, 0.875f), new Vector2(0.6255f,0.875f), new Vector2(0.5625f,0.9375f), new Vector2(0.625f,0.9375f)},
+		/*25Plank */	 		{new Vector2(0.25f, 0.9375f), new Vector2(0.3125f,0.9375f), new Vector2(0.25f,1f), new Vector2(0.3125f,1f)}
 		}; 
 
     /// <summary>
@@ -278,7 +279,7 @@ public class Block
 					uv01 = blockUVs[(int)(blockType+4),2];
 					uv11 = blockUVs[(int)(blockType+4),3];
 				}
-				else if(side == Cubeside.FRONT)
+				else if(side == Cubeside.LEFT)
 				{
 					uv00 = blockUVs[(int)(blockType+2),0];
 					uv10 = blockUVs[(int)(blockType+2),1];
@@ -292,6 +293,12 @@ public class Block
 					uv01 = blockUVs[(int)(blockType+3),2];
 					uv11 = blockUVs[(int)(blockType+3),3];
 				}
+			break;
+			case BlockType.PLANK:
+				uv00 = blockUVs[(int)(blockType+4),0];
+				uv10 = blockUVs[(int)(blockType+4),1];
+				uv01 = blockUVs[(int)(blockType+4),2];
+				uv11 = blockUVs[(int)(blockType+4),3];
 			break;
 			default:
 				uv00 = blockUVs[(int)(blockType+1),0];

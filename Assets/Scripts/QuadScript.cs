@@ -31,8 +31,15 @@ public class QuadScript : MonoBehaviour
     {
         destroy = true;
         Block b = World.GetWorldBlock(this.transform.position);
+        Debug.Log(b.blockType);
         switch(b.blockType)
            {
+
+                case Block.BlockType.DIRT:
+                    item = scriptableManagerScript.GetItemByName("Erde");
+                    inventoryControll.AddItem(item);
+               break;
+                
                case Block.BlockType.GRASS:
                     item = scriptableManagerScript.GetItemByName("Erde");
                     inventoryControll.AddItem(item);
@@ -65,7 +72,14 @@ public class QuadScript : MonoBehaviour
                     item = scriptableManagerScript.GetItemByName("Sand");
                     inventoryControll.AddItem(item);
                break;
-
+               case Block.BlockType.REDSTONE:
+                    item = scriptableManagerScript.GetItemByName("RedStone");
+                    inventoryControll.AddItem(item);
+               break;
+               case Block.BlockType.TRUNK:
+                    item = scriptableManagerScript.GetItemByName("Truhe");
+                    inventoryControll.AddItem(item);
+               break;
            }
     }
 }
