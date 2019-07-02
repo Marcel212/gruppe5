@@ -314,15 +314,28 @@ public class InventoryControll : MonoBehaviour
     public bool RemoveOneItemInHotKey(int index)
     {
         bool indexValid = index > -1 && (index < itemSlotsHotKey.Length);
+        bool returnvalue =false;
         if (indexValid)
         {
-            //itemsInHotkeys[index].item = null;
-            itemsInHotkeys[index].amount--;
-            RefreshUi();
-            return true;
-        }
+            if(itemsInHotkeys[index].amount > 0 && itemsInHotkeys[index].item != null)
+            {
+                itemsInHotkeys[index].amount--;
+                returnvalue = true;
+            }
 
-        return false;
+            //Löscht bei 0 das Item
+            if(itemsInHotkeys[index].amount == 0)
+            {
+                itemsInHotkeys[index].item = null;
+            }
+           
+            
+            RefreshUi();
+
+        }
+       
+        Debug.Log(returnvalue);
+        return returnvalue;
     }
 
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
