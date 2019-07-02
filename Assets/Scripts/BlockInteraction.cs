@@ -101,10 +101,16 @@ public class BlockInteraction : MonoBehaviour
                 }
                 else
                 {
-                    update = b.BuildBlock(buildtype);
 					if(temp2 >= 0)
 					{
-						temp.inventoryControll.RemoveOneItemInHotKey(temp2);
+						if(temp.inventoryControll.RemoveOneItemInHotKey(temp2))
+						{
+							update = b.BuildBlock(buildtype);
+						}
+						else
+						{
+							buildtype = Block.BlockType.AIR;
+						}
 					}
                 }
 
