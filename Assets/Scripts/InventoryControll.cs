@@ -343,6 +343,7 @@ public class InventoryControll : MonoBehaviour
 
     }
 
+    //TODO Parameter true false für crafting oder nur leeren?
     public void ClearCraftingField()
     {
         int i = 0;

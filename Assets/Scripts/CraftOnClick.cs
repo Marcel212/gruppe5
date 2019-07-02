@@ -10,7 +10,7 @@ public class CraftOnClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            inventory.ClearCraftingField();
+           //Crafting
         }
     }
 }
