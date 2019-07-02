@@ -20,7 +20,7 @@ public class RecipeSlots : MonoBehaviour
             }
             else
             {
-                return recipeToShow.result.item;
+                return recipeToShow.Result.item;
             }
         }
     }
@@ -34,7 +34,7 @@ public class RecipeSlots : MonoBehaviour
             recipeToShow = value;
             if (recipeToShow != null)
             {
-                _currentImage.sprite = recipeToShow.GetResult().item.itemPicuture;
+                _currentImage.sprite = recipeToShow.Result.item.itemPicuture;
             }
             else
             {

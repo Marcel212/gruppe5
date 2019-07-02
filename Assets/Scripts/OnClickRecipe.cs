@@ -17,48 +17,48 @@ public class OnClickRecipe : MonoBehaviour
         //craftingSlots = craftingBox.GetComponentsInChildren<ItemSlots>();
         //listForCraftingmaterial = inventory.ItemsInCrafting;
     }
-    private void Start()
-    {
-        Debug.Log(inventory.ItemsInCrafting.Length);
-
-    }
-
+    
     public void Fill()
     {
+       
         // TODO Prüfe ob Items Im Inventar sind -> Verschiebe sie. Sonst ausgrauen? 
         RecipeSlots recipeSlot =  GetComponentInParent<RecipeSlots>();
-        CraftingRecipe recipe = recipeSlot.recipeToShow;
+        CraftingRecipe recipe =Instantiate( recipeSlot.recipeToShow);
         
         ItemAndAmount[] toFill = new ItemAndAmount[LengthOfCraftingField];
         var tempArray = new bool[LengthOfCraftingField];
+        var resultBool = true;
 
-        for (int index = 0; index < recipe.materials.Length; index++)
+        for (int index = 0; index < recipe.Materials.Length; index++)
         {
             List<ItemAndAmount> ItemsFound;
             List<int> IndicesFound;
 
 
             //Überprüfung
-            if (inventory.InventoryContainsItem(recipe.materials[index].item, out ItemsFound, out IndicesFound) && ItemsFound[0].amount >=recipe.materials[index].amount)
+            if (recipe.Materials[index].item == null || inventory.RemoveItemInInventory(recipe.Materials[index].item))
             {
-                // Menge abziehen
                 tempArray[index] = true;
             }
             else
             {
+                Debug.Log("Element not exist");
                 tempArray[index] = false;
-
+                resultBool = false;
             }
 
            
-            toFill[index] = recipe.materials[index]; 
+            toFill[index] = recipe.Materials[index]; 
         }
         
-        toFill[toFill.Length - 1] = recipe.GetResult();
-        tempArray[tempArray.Length - 1] = true;
-        
-        inventory.ItemsInCrafting = toFill;
+        toFill[toFill.Length - 1] = recipe.Result;
+        tempArray[tempArray.Length - 1] = resultBool;
+        var testArray = (ItemAndAmount[]) toFill.Clone() ;
+       
+        inventory.ItemsInCrafting = testArray;
+
+        Debug.Log(testArray.GetHashCode() + "  " + inventory.ItemsInCrafting.GetHashCode());
         inventory.EnoughItemsForCrafting = tempArray;
-        Debug.Log(inventory.ItemsInCrafting.Length);
+       
     }
 }

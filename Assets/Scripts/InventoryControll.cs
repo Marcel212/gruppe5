@@ -256,26 +256,6 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Crafting)
-            {
-                temp = itemsInHotkeys[startIndex];
-                itemsInHotkeys[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Crafting)
-            {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Inventory)
-            {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInInventory[endIndex];
-                itemsInInventory[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting & endPlacement == DropZone.Placement.Hotkeys)
-            {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInHotkeys[endIndex];
-                itemsInHotkeys[endIndex] = temp;
             }
             RefreshUi();
 
@@ -338,6 +318,47 @@ public class InventoryControll : MonoBehaviour
         return returnvalue;
     }
 
+    public bool RemoveItemInInventory(Item item)
+    {
+        List<ItemAndAmount> itemAndAmountOutput;
+        List<int> indices;
+
+        if(InventoryContainsItem(item, out itemAndAmountOutput, out indices) && itemAndAmountOutput[0].amount>0)
+        {
+            itemsInInventory[indices[0]].amount--;
+
+            //Löscht bei 0 das Item
+            if (itemsInInventory[indices[0]].amount == 0)
+            {
+                itemsInInventory[indices[0]].item = null;
+            }
+            return true;
+        }
+
+
+       
+        RefreshUi();
+        return false;
+        
+
+    }
+
+    public void ClearCraftingField()
+    {
+        int i = 0;
+        for ( i = 0; i < itemsInCrafting.Length-1; i++)
+        {
+            AddItem(itemsInCrafting[i].item);
+            itemsInCrafting[i].item = null;
+            itemsInCrafting[i].amount = 0;
+        }
+
+        itemsInCrafting[i].item = null;
+        itemsInCrafting[i].amount = 0;
+        RefreshUi();
+    }
+    
+    
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
     public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput, out List<int> indices)
     {
@@ -353,6 +374,8 @@ public class InventoryControll : MonoBehaviour
         }
         return itemAndAmountOutput.Count != 0;
     }
+
+
 
     //Überprüft, ob ein Item dieses Typs noch reinpasst
     //IndexInList gibt -1 zurück, falls kein Platz mehr ist, ansonsten den Index an dem Platz ist

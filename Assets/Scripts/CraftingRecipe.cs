@@ -5,29 +5,13 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [Serializable]
-public class ItemAndAmount : IComparer
+public class ItemAndAmount
  {
      public Item item;
      [Range(0,64)]
      public int amount;
 
-     public int indexInList;
-
-
-   
-     public int CompareTo(object obj)
-     {
-         ItemAndAmount newObject = obj as ItemAndAmount;
-         return String.Compare(item.name, newObject.item.name, StringComparison.Ordinal);
-     }
-
-     public int Compare(object x, object y)
-     {
-         ItemAndAmount firstObject = x as ItemAndAmount;
-         ItemAndAmount secondObject = y as ItemAndAmount;
-
-         return String.CompareOrdinal(firstObject.item.name, secondObject.item.name);
-     }
+    public int indexInList;
  }
 
 
@@ -38,12 +22,20 @@ public class CraftingRecipe : ScriptableObject
 {
 
     public CraftingField size;
-    public ItemAndAmount[] materials;
-    public ItemAndAmount result;
+    [SerializeField]
+    private ItemAndAmount[] materials;
+    [SerializeField] private ItemAndAmount result;
 
-    public ItemAndAmount GetResult()
+    public ItemAndAmount[] Materials
     {
-        return result;
+        get {
+            return materials;
+        }
+    }
+
+    public ItemAndAmount Result
+    {
+        get { return result; }
     }
 
     
