@@ -101,7 +101,6 @@ public class BlockInteraction : MonoBehaviour
                 }
                 else
                 {
-					Debug.Log(buildtype);
                     update = b.BuildBlock(buildtype);
 					if(temp2 >= 0)
 					{
@@ -172,7 +171,7 @@ public class BlockInteraction : MonoBehaviour
 			   case "RedStone":
 			   		buildtype = Block.BlockType.REDSTONE;
 			   break;
-			   case "Hokzbrett":
+			   case "Holzbretter":
 			   		buildtype = Block.BlockType.PLANK;
 			   break;
 			   default:
