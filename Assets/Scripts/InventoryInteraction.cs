@@ -11,6 +11,7 @@ public class InventoryInteraction : MonoBehaviour
     private FirstPersonController fpc;
     private BlockInteraction blockInteraction;
     private GameObject crosshair;
+    private InventoryControll inventoryControll;
     
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class InventoryInteraction : MonoBehaviour
         fpc = fpcObject.GetComponent<FirstPersonController>();
         blockInteraction = fpcObject.GetComponent<BlockInteraction>();
         crosshair = GameObject.Find("Crosshair");
+        inventoryControll = inventory.GetComponent<InventoryControll>();
     }
 
     // Update is called once per frame
@@ -45,20 +47,8 @@ public class InventoryInteraction : MonoBehaviour
             blockInteraction.enabled = true;
             toolTip.gameObject.SetActive(false);
             crosshair.SetActive(true);
-
+            inventoryControll.ClearCraftingField();
         }
     }
 
-
-
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        // Wenn der Collider ein InventarItem ist, füge es hinzu 
-        IInventoryItem item = hit.collider.GetComponent<IInventoryItem>();
-        if (item != null)
-        {
-//s            inventory.GetComponent<InventoryControll>().AddItem(item);
-        }
-    }
 }

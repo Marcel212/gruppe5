@@ -20,7 +20,7 @@ public class OnClickRecipe : MonoBehaviour
     
     public void Fill()
     {
-       
+        inventory.ClearCraftingField();
         // TODO Prüfe ob Items Im Inventar sind -> Verschiebe sie. Sonst ausgrauen? 
         RecipeSlots recipeSlot =  GetComponentInParent<RecipeSlots>();
         CraftingRecipe recipe =Instantiate( recipeSlot.recipeToShow);
