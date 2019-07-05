@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public class InventoryControll : MonoBehaviour
 {
+    
+    [SerializeField] public ScriptableManagerScript manager;
+    
+    
     //Inventar & HotKey Intern
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
     [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
@@ -20,12 +24,10 @@ public class InventoryControll : MonoBehaviour
     private ItemSlots[] itemSlotsHotKeyOnScreen;
     private ItemSlots[] itemSlotsCrafting;
 
-    public bool[] enoughItemsForCraftingSmall = new bool[5];
+    private bool[] enoughItemsForCraftingSmall = new bool[5];
 
     
-    [SerializeField] public ScriptableManagerScript manager;
 
-    Item value = null;
     
     private void OnValidate()
     {
@@ -335,7 +337,6 @@ public class InventoryControll : MonoBehaviour
         return false;
     }
 
-    //TODO verschiebt er nicht vorhandene Materialien? 
     //Leert das CraftingFeld, falls der Boolean craft true ist, wird nur das Ergebnis in das Inventar verschoben
     // bei False werden die Materialien wieder verschoben 
     public void ClearCraftingField(bool craft)

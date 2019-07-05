@@ -6,8 +6,8 @@ public class WorkbenchControll : MonoBehaviour
 {
     [SerializeField] private InventoryControll inventory;
 
-    public ItemAndAmount[] itemsInCrafting;
-    public ItemSlots[] itemSlotsCrafting;
+    [SerializeField] private ItemAndAmount[] itemsInCrafting;
+    private ItemSlots[] itemSlotsCrafting;
 
     private bool[] enoughItemsForCraftingBig= new bool[10];
 

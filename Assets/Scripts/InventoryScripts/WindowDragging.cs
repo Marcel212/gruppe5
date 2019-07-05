@@ -16,10 +16,10 @@ public class WindowDragging : MonoBehaviour,IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = false;
-        Debug.Log("Drag WIndow"); 
     }
 
 
+    //TODO eventuell Fenster besser positionieren, damit es nicht spring? 
     public void OnDrag(PointerEventData eventData)
     {
             transform.position = Input.mousePosition;

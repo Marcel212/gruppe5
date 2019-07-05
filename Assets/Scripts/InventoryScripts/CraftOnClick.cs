@@ -5,13 +5,12 @@ using UnityEngine;
 public class CraftOnClick : MonoBehaviour
 {
     [SerializeField] private InventoryControll inventory;
-
     [SerializeField] private WorkbenchControll workbench;
-    // Update is called once per frame
+   
+    //Craftet, falls ein mögliches Rezept sich in dem Crafting Feld befindet. 
     public void CraftIt()
     {
-        inventory.ClearCraftingField(true);
+            inventory.ClearCraftingField(true);
             workbench.ClearCraftingField(true);
-
     }
 }
