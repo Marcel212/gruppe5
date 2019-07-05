@@ -83,7 +83,7 @@ public class WorkbenchControll : MonoBehaviour
             itemsInCrafting[i].amount = 0;
         }
 
-        if (craft)
+        if (craft && enoughItemsForCraftingBig[i])
         {
             int amount = itemsInCrafting[i].amount;
             for (int counter = 0; counter < amount; counter++)

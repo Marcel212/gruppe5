@@ -10,8 +10,7 @@ public class CraftOnClick : MonoBehaviour
     // Update is called once per frame
     public void CraftIt()
     {
-        
-            inventory.ClearCraftingField(true);
+        inventory.ClearCraftingField(true);
             workbench.ClearCraftingField(true);
 
     }
