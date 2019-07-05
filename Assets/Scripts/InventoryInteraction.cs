@@ -38,13 +38,12 @@ public class InventoryInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Das Inventar wird hier auf I geöffnet bzw. geschlossen. 
         if (Input.GetKeyUp(KeyCode.I))
         {
             inventory.transform.position = originalPositionInventory;
             inventoryOpen = !inventoryOpen;
             inventory.gameObject.SetActive(inventoryOpen);
-            
-
         }
 
         // TODO Crafting herausnehmen sobald es in die Workbench integriert ist
@@ -54,7 +53,9 @@ public class InventoryInteraction : MonoBehaviour
             craftingOpen = !craftingOpen;
             workbench.gameObject.SetActive(craftingOpen);
         }
-
+        
+        
+        // Sorgt für das befreien des Cursors und entfernt das Kreuz in der Mitte falls ein Fenster offen ist. 
         if (inventoryOpen || craftingOpen)
         {
             fpc.m_MouseLook.SetCursorLock(false);
@@ -69,8 +70,9 @@ public class InventoryInteraction : MonoBehaviour
             toolTip.gameObject.SetActive(false);
             crosshair.SetActive(true);
             inventoryControll.ClearCraftingField(false);
-            workbenchControll.ClearCraftingField(false);
             inventoryControll.RefreshInventory();
+            
+            workbenchControll.ClearCraftingField(false);
             workbenchControll.RefreshWorkbench();
         }
     }

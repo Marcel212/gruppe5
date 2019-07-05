@@ -7,27 +7,29 @@ public class WorkbenchControll : MonoBehaviour
     [SerializeField] private InventoryControll inventory;
 
     public ItemAndAmount[] itemsInCrafting;
-    
-    private ItemSlots[] itemSlotsCrafting;
+    public ItemSlots[] itemSlotsCrafting;
 
-    public bool[] enoughItemsForCraftingBig= new bool[10];
+    private bool[] enoughItemsForCraftingBig= new bool[10];
 
 
+    //Zuweisung von CraftingSlots an das Script
     private void OnValidate()
     {
         itemSlotsCrafting = GetComponentsInChildren<ItemSlots>();
-        
+        //itemsInCrafting = new ItemAndAmount[10];
+
         EnoughItemsForCraftingBig = enoughItemsForCraftingBig;
         RefreshWorkbench();
 
     }
 
+    //Lasst es zu, das es bei Awake gefunden wird, aber nicht beim Start des Spiels sichtbar ist. 
     private void Start()
     {
         gameObject.SetActive(false);
     }
 
-    //TODO WHAT? 
+    // Färbt die CraftingFelder nach den Angaben im Array neu ein. 
     public bool[] EnoughItemsForCraftingBig
     {
         get { return enoughItemsForCraftingBig; }
@@ -43,19 +45,8 @@ public class WorkbenchControll : MonoBehaviour
             RefreshWorkbench();
         }
     }
-
-
-    public void RefreshWorkbench()
-    {
-        // Passe alle UI Elemente an die Liste der InventarElemente an
-        int i = 0;
-        for (; i < itemsInCrafting.Length & i < itemSlotsCrafting.Length; i++)
-        {
-            itemSlotsCrafting[i].Amount = itemsInCrafting[i].amount;
-            itemSlotsCrafting[i].Item = itemsInCrafting[i].item;
-        }
-    }
     
+    // Weißt den CraftingSlots neue Werte zu. 
     public ItemAndAmount[] ItemsInCrafting{
         get
         {
@@ -69,7 +60,27 @@ public class WorkbenchControll : MonoBehaviour
             inventory.RefreshInventory();
         }
     }
+
+    // Passe alle UI Elemente an die Liste der InventarElemente an
+    public void RefreshWorkbench()
+    {
+        int k = 0;
+        for (; k < itemsInCrafting.Length & k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = itemsInCrafting[k].amount;
+            itemSlotsCrafting[k].Item = itemsInCrafting[k].item;
+        }
+
+        for (; k < itemSlotsCrafting.Length; k++)
+        {
+            itemSlotsCrafting[k].Amount = 0;
+            itemSlotsCrafting[k].Item = null;
+        }
+    }
     
+    
+    //Leert das CraftingFeld, bei craft ist True, wird nur das Ergebnis ins Inventar hinzgefügt
+    // Bei False werden die Materialien hinzugefügt. 
     public void ClearCraftingField(bool craft)
     {
         int i = 0;
