@@ -16,8 +16,6 @@ public class WorkbenchControll : MonoBehaviour
     private void OnValidate()
     {
         itemSlotsCrafting = GetComponentsInChildren<ItemSlots>();
-        //itemsInCrafting = new ItemAndAmount[10];
-
         EnoughItemsForCraftingBig = enoughItemsForCraftingBig;
         RefreshWorkbench();
 
@@ -86,7 +84,7 @@ public class WorkbenchControll : MonoBehaviour
         int i = 0;
         for ( i = 0; i < itemsInCrafting.Length-1; i++)
         {
-            if (!craft)
+            if (!craft && enoughItemsForCraftingBig[i])
             {
                 inventory.AddItem(itemsInCrafting[i].item);
             }

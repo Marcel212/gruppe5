@@ -343,7 +343,7 @@ public class InventoryControll : MonoBehaviour
         int i = 0;
         for ( i = 0; i < itemsInCrafting.Length-1; i++)
         {
-            if (!craft)
+            if (!craft && enoughItemsForCraftingSmall[i])
             {
                 AddItem(itemsInCrafting[i].item);
             }
