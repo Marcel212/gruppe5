@@ -7,9 +7,9 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     private InventoryControll inventoryControllScript;
 
-    private void Start()
+    private void Awake()
     {
-        inventoryControllScript = GameObject.Find("Inventory").GetComponent<InventoryControll>();
+        inventoryControllScript = GameObject.FindWithTag("Inventory").GetComponent<InventoryControll>();
     }
 
 
@@ -35,7 +35,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             {
                 //Platz von DraggedItem Löschen
                 inventoryControllScript.RemoveItemPack(indexDragged, placementDragged);
-                inventoryControllScript.RefreshUi();
+                inventoryControllScript.RefreshInventory();
             }else if(ownPlacement == Placement.Forbidden)
             {
                 Debug.Log("Verboten");

@@ -5,12 +5,14 @@ using UnityEngine;
 public class CraftOnClick : MonoBehaviour
 {
     [SerializeField] private InventoryControll inventory;
+
+    [SerializeField] private WorkbenchControll workbench;
     // Update is called once per frame
-    void Update()
+    public void CraftIt()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
+        
             inventory.ClearCraftingField(true);
-        }
+            workbench.ClearCraftingField(true);
+
     }
 }

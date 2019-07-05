@@ -20,8 +20,9 @@ public class InventoryControll : MonoBehaviour
     private ItemSlots[] itemSlotsHotKeyOnScreen;
     private ItemSlots[] itemSlotsCrafting;
 
-    public bool[] enoughItemsForCrafting = new bool[5];
-
+    public bool[] enoughItemsForCraftingSmall = new bool[5];
+   // public bool[] enoughItemsForCraftingBig= new bool[10];
+    
     [SerializeField] public ScriptableManagerScript manager;
 
     Item value = null;
@@ -70,31 +71,50 @@ public class InventoryControll : MonoBehaviour
             itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
         }
 
-        EnoughItemsForCrafting = enoughItemsForCrafting;
-        RefreshUi();
+        EnoughItemsForCraftingSmall = enoughItemsForCraftingSmall;
+        RefreshInventory();
 
     }
 
-    public bool[] EnoughItemsForCrafting
+    public bool[] EnoughItemsForCraftingSmall
     {
         get
         {
-            return enoughItemsForCrafting;
+            return enoughItemsForCraftingSmall;
         }
 
         set
         {
-            enoughItemsForCrafting = value;
+            enoughItemsForCraftingSmall = value;
 
-            for (int index = 0; index < enoughItemsForCrafting.Length; index++)
+            for (int index = 0; index < enoughItemsForCraftingSmall.Length; index++)
             {
                 var tempColor = itemSlotsCrafting[index]._currentImage.color;
-                if (!enoughItemsForCrafting[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
+                if (!enoughItemsForCraftingSmall[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
+                itemSlotsCrafting[index]._currentImage.color = tempColor;
+            }
+            RefreshInventory();
+        }
+    }
+
+    
+    /*//TODO WHAT? 
+    public bool[] EnoughItemsForCraftingBig
+    {
+        get { return enoughItemsForCraftingBig; }
+        set
+        {
+            enoughItemsForCraftingBig = value; 
+            for (int index = 0; index < enoughItemsForCraftingSmall.Length; index++)
+            {
+                var tempColor = itemSlotsCrafting[index]._currentImage.color;
+                if (!enoughItemsForCraftingSmall[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
                 itemSlotsCrafting[index]._currentImage.color = tempColor;
             }
             RefreshUi();
         }
-    }
+    }*/
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.KeypadPlus))
@@ -112,13 +132,13 @@ public class InventoryControll : MonoBehaviour
 
     private void Start()
     {
-        manager._dictionary.TryGetValue("Erde", out value);
-        RefreshUi();
+        this.gameObject.SetActive(false);
+        
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
     //Bindet die Liste an Items an die ItemSlots
-    public void RefreshUi()
+    public void RefreshInventory()
     {
         // Passe alle UI Elemente an die Liste der InventarElemente an
         int i = 0;
@@ -195,7 +215,7 @@ public class InventoryControll : MonoBehaviour
                 itemsInInventory[index].item = item;
                 itemsInInventory[index].amount = 1;
             }
-            RefreshUi();
+            RefreshInventory();
             return true;
 
         }
@@ -257,7 +277,7 @@ public class InventoryControll : MonoBehaviour
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
             }
-            RefreshUi();
+            RefreshInventory();
 
             return true;
         }
@@ -284,7 +304,7 @@ public class InventoryControll : MonoBehaviour
                 itemsInHotkeys[index].item = null;
                 itemsInHotkeys[index].amount = 0;
             }
-            RefreshUi();
+            RefreshInventory();
             return true;
         }
 
@@ -310,7 +330,7 @@ public class InventoryControll : MonoBehaviour
             }
            
             
-            RefreshUi();
+            RefreshInventory();
 
         }
        
@@ -337,13 +357,12 @@ public class InventoryControll : MonoBehaviour
 
 
        
-        RefreshUi();
+        RefreshInventory();
         return false;
         
 
     }
 
-    //TODO Parameter true false für crafting oder nur leeren?
     public void ClearCraftingField(bool craft)
     {
         int i = 0;
@@ -359,11 +378,15 @@ public class InventoryControll : MonoBehaviour
 
         if (craft)
         {
-            AddItem(itemsInCrafting[i].item);
+            int amount = itemsInCrafting[i].amount;
+            for (int counter = 0; counter < amount; counter++)
+            {
+                AddItem(itemsInCrafting[i].item);                
+            }
         }
         itemsInCrafting[i].item = null;
         itemsInCrafting[i].amount = 0;
-        RefreshUi();
+        RefreshInventory();
     }
     
     
@@ -451,7 +474,7 @@ public class InventoryControll : MonoBehaviour
         set
         {
             itemsInCrafting = value;
-            RefreshUi();
+            RefreshInventory();
         }
     }
 

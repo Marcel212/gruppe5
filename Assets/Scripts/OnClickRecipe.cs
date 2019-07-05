@@ -7,25 +7,31 @@ public class OnClickRecipe : MonoBehaviour
 {
     [SerializeField] private Transform craftingBox;
     [SerializeField] private InventoryControll inventory;
-    [SerializeField] private ScriptableManagerScript manager;
+    [SerializeField] private WorkbenchControll workbench;
     public ItemSlots[] craftingSlots;
-    private ItemAndAmount[] listForCraftingmaterial;
+  
 
-    private int LengthOfCraftingField = 5;
+    private int lengthOfCraftingField;
     private void OnValidate()
     {
-        //craftingSlots = craftingBox.GetComponentsInChildren<ItemSlots>();
-        //listForCraftingmaterial = inventory.ItemsInCrafting;
+        craftingSlots = craftingBox.GetComponentsInChildren<ItemSlots>();
+        lengthOfCraftingField = craftingSlots.Length;
     }
     
     public void Fill()
     {
         inventory.ClearCraftingField(false);
+        workbench.ClearCraftingField(false);
         RecipeSlots recipeSlot =  GetComponentInParent<RecipeSlots>();
-        CraftingRecipe recipe =Instantiate( recipeSlot.recipeToShow);
+        if (recipeSlot.recipeToShow == null)
+        {
+            return;
+        }
+        CraftingRecipe recipe = Instantiate( recipeSlot.recipeToShow);
+
         
-        ItemAndAmount[] toFill = new ItemAndAmount[LengthOfCraftingField];
-        var tempArray = new bool[LengthOfCraftingField];
+        ItemAndAmount[] toFill = new ItemAndAmount[lengthOfCraftingField];
+        var tempArray = new bool[lengthOfCraftingField];
         var resultBool = true;
 
         for (int index = 0; index < recipe.Materials.Length; index++)
@@ -54,10 +60,19 @@ public class OnClickRecipe : MonoBehaviour
         tempArray[tempArray.Length - 1] = resultBool;
         var testArray = (ItemAndAmount[]) toFill.Clone() ;
        
-        inventory.ItemsInCrafting = testArray;
-
-        Debug.Log(testArray.GetHashCode() + "  " + inventory.ItemsInCrafting.GetHashCode());
-        inventory.EnoughItemsForCrafting = tempArray;
        
+
+      
+        if (lengthOfCraftingField == 5)
+        {
+            inventory.EnoughItemsForCraftingSmall = tempArray;
+            inventory.ItemsInCrafting = testArray;
+        }
+        else
+        {
+            workbench.EnoughItemsForCraftingBig = tempArray;
+            workbench.ItemsInCrafting = testArray;
+        }
+        
     }
 }

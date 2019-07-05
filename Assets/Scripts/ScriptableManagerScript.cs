@@ -33,5 +33,10 @@ public class ScriptableManagerScript : MonoBehaviour
     {
         return smallRecipeList;
     }
+
+    public List<CraftingRecipe> GetAllBigRecipes()
+    {
+        return bigRecipeList;
+    }
 }
 
