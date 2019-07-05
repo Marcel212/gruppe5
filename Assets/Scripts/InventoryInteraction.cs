@@ -47,7 +47,7 @@ public class InventoryInteraction : MonoBehaviour
             blockInteraction.enabled = true;
             toolTip.gameObject.SetActive(false);
             crosshair.SetActive(true);
-            inventoryControll.ClearCraftingField();
+            inventoryControll.ClearCraftingField(false);
         }
     }
 
