@@ -45,6 +45,10 @@ public class DropZone : MonoBehaviour, IDropHandler
                 //Finde Placement im Inventory heraus von Drop (Placement und Index)
                 Debug.Log(eventData.pointerEnter.transform.name + " Placement " + ownPlacement);
                 ItemSlots itemScriptDropped = eventData.pointerEnter.transform.GetComponentInParent<ItemSlots>();
+                if (itemScriptDropped == null)
+                {
+                    return;
+                }
                 Placement placementDropped = itemScriptDropped.placement;
                 int indexDropped = itemScriptDropped.indexInPlacement;
 
