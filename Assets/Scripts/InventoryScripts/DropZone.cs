@@ -7,16 +7,19 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     private InventoryControll inventoryControllScript;
 
+    private BoxControll boxControllScript;
     //Findet das InventoryScript bevor das Spiel startet
     private void Awake()
     {
         inventoryControllScript = GameObject.FindWithTag("Inventory").GetComponent<InventoryControll>();
+        boxControllScript = GameObject.FindWithTag("Box").GetComponent<BoxControll>();
     }
 
 
     public void OnDrop(PointerEventData eventData)
     {
 
+        Debug.Log("Want to Drop");
         if(eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>() == null)
         {
             return;
@@ -37,26 +40,22 @@ public class DropZone : MonoBehaviour, IDropHandler
                 //Platz von DraggedItem Löschen
                 inventoryControllScript.RemoveItemPack(indexDragged, placementDragged);
                 inventoryControllScript.RefreshInventory();
-            }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys)
+            }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys || ownPlacement == Placement.Box)
             {
                 //Finde Placement im Inventory heraus von Drop (Placement und Index)
+                Debug.Log(eventData.pointerEnter.transform.name + " Placement " + ownPlacement);
                 ItemSlots itemScriptDropped = eventData.pointerEnter.transform.GetComponentInParent<ItemSlots>();
                 Placement placementDropped = itemScriptDropped.placement;
                 int indexDropped = itemScriptDropped.indexInPlacement;
-                
-                //Items tauschen im Inventoryscript 
-                inventoryControllScript.SwapItems(indexDragged, placementDragged, indexDropped, placementDropped);
 
+                //Items tauschen im Inventoryscript 
+                inventoryControllScript.SwapItems(indexDragged, placementDragged, indexDropped, placementDropped);   
                 
             }
-            
         }
-
-
-
     }
     
     
-    public enum Placement {Hotkeys, Forbidden, Inventory, World, Crafting};
+    public enum Placement {Hotkeys, Forbidden, Inventory, World, Crafting, Box};
 
 }

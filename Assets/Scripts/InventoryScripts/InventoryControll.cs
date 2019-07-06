@@ -11,6 +11,7 @@ public class InventoryControll : MonoBehaviour
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
     [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
     [SerializeField] private ItemAndAmount[] itemsInCrafting;
+    [SerializeField] private BoxControll boxControll;
     
     //Parents der Slots zum finden der Scripte
     [SerializeField] private Transform itemsParentInventory;
@@ -223,16 +224,20 @@ public class InventoryControll : MonoBehaviour
         bool validStartIndex = startIndex > -1 
                                && ((startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length)
                                    || (startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length)
-                                   || (startPlacement == DropZone.Placement.Crafting && startIndex < 5));
+                                   || (startPlacement == DropZone.Placement.Crafting && startIndex < 5)
+                                   || (startPlacement == DropZone.Placement.Box && startIndex < 3)
+                                   );
 
 
         bool validEndIndex = endIndex > -1
                              && ((endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
                                  || (endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length)
-                                 || (endPlacement == DropZone.Placement.Crafting && endIndex < 4));
+                                 || (endPlacement == DropZone.Placement.Crafting && endIndex < 4)
+                                 || (endPlacement == DropZone.Placement.Box && endIndex < 3)
+                                 );
 
 
-
+        Debug.Log("Start: " + startPlacement + "  " + startIndex + " . Ziel: " + endPlacement + "  " + endIndex + " . Valide? " + validStartIndex + "  " +validEndIndex + "  ." );
         ItemAndAmount temp;
         if (validStartIndex && validEndIndex)
         {
@@ -257,8 +262,32 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
+            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Box)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = boxControll.AddItemsByIndex(temp, endIndex);
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Box)
+            {
+                temp = itemsInHotkeys[startIndex];
+                itemsInHotkeys[startIndex] = boxControll.AddItemsByIndex(temp, endIndex);
+
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Box)
+            {
+                boxControll.SwapItemsByIndex(startIndex, endIndex);
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Inventory)
+            {
+                temp = boxControll.AddItemsByIndex(itemsInInventory[endIndex], startIndex);
+                itemsInInventory[endIndex] = temp;
+
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Hotkeys)
+            {
+                temp = boxControll.AddItemsByIndex(itemsInHotkeys[endIndex], startIndex);
+                itemsInHotkeys[endIndex] = temp;
+
             }
             RefreshInventory();
+            boxControll.RefreshBox();
+            
 
             return true;
         }

@@ -8,17 +8,22 @@ public class InventoryInteraction : MonoBehaviour
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject toolTip;
     [SerializeField] private GameObject workbench;
+    [SerializeField] private GameObject box;
+    
     private bool inventoryOpen;
     private bool craftingOpen;
+    private bool boxOpen;
 
     private FirstPersonController fpc;
     private BlockInteraction blockInteraction;
     private GameObject crosshair;
     private InventoryControll inventoryControll;
     private WorkbenchControll workbenchControll;
+    private BoxControll boxControll;
 
     private Vector3 originalPositionInventory;
     private Vector3 originalPositionWorkbench;
+    private Vector3 originalPositionBox;
     
     // Start is called before the first frame update
     void Start()
@@ -28,10 +33,15 @@ public class InventoryInteraction : MonoBehaviour
         blockInteraction = fpcObject.GetComponent<BlockInteraction>();
         crosshair = GameObject.Find("Crosshair");
         inventoryControll = inventory.GetComponent<InventoryControll>();
+        
         workbenchControll = workbench.GetComponent<WorkbenchControll>();
-        craftingOpen = false;
+        boxControll = box.GetComponent<BoxControll>();
+       
+        
         originalPositionInventory = inventory.transform.position;
+        
         originalPositionWorkbench = workbench.transform.position;
+        originalPositionBox = box.transform.position;
 
     }
 
@@ -53,10 +63,17 @@ public class InventoryInteraction : MonoBehaviour
             craftingOpen = !craftingOpen;
             workbench.gameObject.SetActive(craftingOpen);
         }
-        
+
+        //TODO Box rausnehmen sobald es woander integriert ist 
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            box.transform.position = originalPositionBox;
+            boxOpen = !boxOpen;
+            box.gameObject.SetActive(boxOpen);
+        }
         
         // Sorgt für das befreien des Cursors und entfernt das Kreuz in der Mitte falls ein Fenster offen ist. 
-        if (inventoryOpen || craftingOpen)
+        if (inventoryOpen || craftingOpen || boxOpen)
         {
             fpc.m_MouseLook.SetCursorLock(false);
             blockInteraction.enabled = false;
@@ -74,6 +91,8 @@ public class InventoryInteraction : MonoBehaviour
             
             workbenchControll.ClearCraftingField(false);
             workbenchControll.RefreshWorkbench();
+            
+            boxControll.RefreshBox();
         }
     }
 
