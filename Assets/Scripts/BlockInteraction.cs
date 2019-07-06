@@ -105,7 +105,16 @@ public class BlockInteraction : MonoBehaviour
 					{
 						if(temp.inventoryControll.RemoveOneItemInHotKey(temp2))
 						{
-							update = b.BuildBlock(buildtype);
+							if(!(buildtype == Block.BlockType.DOORDOWN || buildtype == Block.BlockType.DOORTOP))
+							{
+								update = b.BuildBlock(buildtype);
+							}
+							if(!(b.HasSolidNeighbour((int)b.position.x,(int)b.position.y + 1,(int)b.position.z)))
+							{
+								update = b.BuildBlock(buildtype);
+								b = b.getTop();
+								if(update){update = b.BuildBlock(Block.BlockType.DOORTOP);}
+							}
 						}
 						else
 						{
@@ -179,6 +188,9 @@ public class BlockInteraction : MonoBehaviour
 			   break;
 			   case "Holzbretter":
 			   		buildtype = Block.BlockType.PLANK;
+			   break;
+			   case "Tuer":
+			   		buildtype = Block.BlockType.DOORDOWN;
 			   break;
 			   default:
 					buildtype = Block.BlockType.AIR;

@@ -34,6 +34,10 @@ public class QuadScript : MonoBehaviour
         Debug.Log(b.blockType);
         switch(b.blockType)
            {
+                case Block.BlockType.PLANK:
+                    item = scriptableManagerScript.GetItemByName("Holzbretter");
+                    inventoryControll.AddItem(item);
+               break;
 
                 case Block.BlockType.DIRT:
                     item = scriptableManagerScript.GetItemByName("Erde");
@@ -78,6 +82,15 @@ public class QuadScript : MonoBehaviour
                break;
                case Block.BlockType.TRUNK:
                     item = scriptableManagerScript.GetItemByName("Truhe");
+                    inventoryControll.AddItem(item);
+               break;
+               case Block.BlockType.DOORDOWN:
+                    item = scriptableManagerScript.GetItemByName("Holzbretter");
+                    inventoryControll.AddItem(item);
+                    inventoryControll.AddItem(item);
+                    inventoryControll.AddItem(item);
+                    inventoryControll.AddItem(item);
+                    inventoryControll.AddItem(item);
                     inventoryControll.AddItem(item);
                break;
            }
