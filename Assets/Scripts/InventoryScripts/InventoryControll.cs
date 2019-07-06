@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class InventoryControll : MonoBehaviour
 {
+    
+    [SerializeField] public ScriptableManagerScript manager;
+    
+    
     //Inventar & HotKey Intern
     [SerializeField] private List<ItemAndAmount> itemsInInventory;
     [SerializeField] private List<ItemAndAmount> itemsInHotkeys;
-
     [SerializeField] private ItemAndAmount[] itemsInCrafting;
+    [SerializeField] private BoxControll boxControll;
+    
     //Parents der Slots zum finden der Scripte
     [SerializeField] private Transform itemsParentInventory;
     [SerializeField] private Transform itemsParentHotkeyPanel;
@@ -20,14 +25,14 @@ public class InventoryControll : MonoBehaviour
     private ItemSlots[] itemSlotsHotKeyOnScreen;
     private ItemSlots[] itemSlotsCrafting;
 
-    public bool[] enoughItemsForCrafting = new bool[5];
+    private bool[] enoughItemsForCraftingSmall = new bool[5];
 
-    [SerializeField] public ScriptableManagerScript manager;
+    
 
-    Item value = null;
+    
     private void OnValidate()
     {
-        //Legt eine Liste mit allen ItemSlotScript an
+        //Legt eine Liste mit allen ItemSlotScripts an
         if (itemsParentInventory != null)
         {
             itemSlotsInventory = itemsParentInventory.GetComponentsInChildren<ItemSlots>();
@@ -69,56 +74,60 @@ public class InventoryControll : MonoBehaviour
             itemSlotsCrafting[i].indexInPlacement = i;
             itemSlotsCrafting[i].placement = DropZone.Placement.Crafting;
         }
-
-        EnoughItemsForCrafting = enoughItemsForCrafting;
-        RefreshUi();
+        
+        //Werkseinstellungen herstellen 
+        EnoughItemsForCraftingSmall = enoughItemsForCraftingSmall;
+        RefreshInventory();
 
     }
 
-    public bool[] EnoughItemsForCrafting
+    // Bei Zuweisung einer neuen Liste wird die Hintergrundfarbe den Werten der Liste entsprechend angepasst
+    public bool[] EnoughItemsForCraftingSmall
     {
         get
         {
-            return enoughItemsForCrafting;
+            return enoughItemsForCraftingSmall;
         }
 
         set
         {
-            enoughItemsForCrafting = value;
+            enoughItemsForCraftingSmall = value;
 
-            for (int index = 0; index < enoughItemsForCrafting.Length; index++)
+            for (int index = 0; index < enoughItemsForCraftingSmall.Length; index++)
             {
                 var tempColor = itemSlotsCrafting[index]._currentImage.color;
-                if (!enoughItemsForCrafting[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
+                if (!enoughItemsForCraftingSmall[index]){  tempColor.a = 0.5f;} else { tempColor.a = 1f; }
                 itemSlotsCrafting[index]._currentImage.color = tempColor;
             }
-            RefreshUi();
-        }
-    }
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.KeypadPlus))
-        {
-            manager._dictionary.TryGetValue("Erde", out value);
-
-            AddItem(value);
-        }
-
-        if (Input.GetKeyUp(KeyCode.KeypadMinus))
-        {
-            RemoveItemPack(0, DropZone.Placement.Inventory);
+            RefreshInventory();
         }
     }
 
+    // Getter und Setter für das CraftingFeld, wobei es auch erneuert wird.
+    public ItemAndAmount[] ItemsInCrafting{
+        get
+        {
+            return itemsInCrafting;
+        }
+
+        set
+        {
+            itemsInCrafting = value;
+            RefreshInventory();
+        }
+    }
+    
+
+    //Sorgt dafür das beim Awake alle Zuweisungen gefunden werden, beim Start allerdings alles geschlossen ist. 
     private void Start()
     {
-        manager._dictionary.TryGetValue("Erde", out value);
-        RefreshUi();
+        this.gameObject.SetActive(false);
+        
     }
 
     //Soll aufgerufen werden, wenn sich etwas im Inventar ändert
     //Bindet die Liste an Items an die ItemSlots
-    public void RefreshUi()
+    public void RefreshInventory()
     {
         // Passe alle UI Elemente an die Liste der InventarElemente an
         int i = 0;
@@ -177,12 +186,15 @@ public class InventoryControll : MonoBehaviour
 
 
     }
-    public event EventHandler<InventoryEventArgs> ItemAdded;
 
-    //TODO Mehr als ein Item muss eingefügt werden
+    //Fügt genau ein Item hinzu. Bei mehreren Items muss eine for Schleife verwendet werden über Amount. 
     public bool AddItem(Item item)
     {
         int index = -1;
+        if (item == null)
+        {
+            return true;
+        }
         bool canInsert = IsStillRoomForItem(item, out index);
         if (canInsert)
         {
@@ -195,9 +207,8 @@ public class InventoryControll : MonoBehaviour
                 itemsInInventory[index].item = item;
                 itemsInInventory[index].amount = 1;
             }
-            RefreshUi();
+            RefreshInventory();
             return true;
-
         }
         else
         {
@@ -205,28 +216,28 @@ public class InventoryControll : MonoBehaviour
         }
 
     }
-
+    
+    // Tauscht den Itemplatz zweierItems
     public bool SwapItems(int startIndex, DropZone.Placement startPlacement, int endIndex, DropZone.Placement endPlacement)
     {
-        bool validStartIndex = startIndex > -1 // mindestens index 0
-                               && ((startPlacement == DropZone.Placement.Inventory &&
-                                    startIndex < itemSlotsInventory.Length
-                                   )
-                                   || (startPlacement == DropZone.Placement.Hotkeys &&
-                                       startIndex < itemSlotsHotKey.Length
-                                   )
-                                   || (startPlacement == DropZone.Placement.Crafting && startIndex < 5));
+        //Überprüfe ob die Indices valide sind.
+        bool validStartIndex = startIndex > -1 
+                               && ((startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length)
+                                   || (startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length)
+                                   || (startPlacement == DropZone.Placement.Crafting && startIndex < 5)
+                                   || (startPlacement == DropZone.Placement.Box && startIndex < 33)
+                                   );
 
-        Debug.Log("Startindex Ok? " + startIndex + " in " + startPlacement + " ist " + validStartIndex);
 
         bool validEndIndex = endIndex > -1
                              && ((endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
                                  || (endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length)
-                                 || (endPlacement == DropZone.Placement.Crafting && endIndex < 4));
+                                 || (endPlacement == DropZone.Placement.Crafting && endIndex < 4)
+                                 || (endPlacement == DropZone.Placement.Box && endIndex < 33)
+                                 );
 
 
-        Debug.Log("EndIndex Ok? " + endIndex + " in " + endPlacement + " ist " + validEndIndex);
-
+        Debug.Log("Start: " + startPlacement + "  " + startIndex + " . Ziel: " + endPlacement + "  " + endIndex + " . Valide? " + validStartIndex + "  " +validEndIndex + "  ." );
         ItemAndAmount temp;
         if (validStartIndex && validEndIndex)
         {
@@ -241,11 +252,6 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInInventory[startIndex];
                 itemsInInventory[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Crafting)
-            {
-                temp = itemsInInventory[startIndex];
-                itemsInInventory[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp;
             } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Inventory)
             {
                 temp = itemsInHotkeys[startIndex];
@@ -256,28 +262,32 @@ public class InventoryControll : MonoBehaviour
                 temp = itemsInHotkeys[startIndex];
                 itemsInHotkeys[startIndex] = itemsInHotkeys[endIndex];
                 itemsInHotkeys[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Crafting)
+            }else if (startPlacement == DropZone.Placement.Inventory && endPlacement == DropZone.Placement.Box)
+            {
+                temp = itemsInInventory[startIndex];
+                itemsInInventory[startIndex] = boxControll.AddItemsByIndex(temp, endIndex);
+            }else if (startPlacement == DropZone.Placement.Hotkeys && endPlacement == DropZone.Placement.Box)
             {
                 temp = itemsInHotkeys[startIndex];
-                itemsInHotkeys[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Crafting)
+                itemsInHotkeys[startIndex] = boxControll.AddItemsByIndex(temp, endIndex);
+
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Box)
             {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInCrafting[endIndex];
-                itemsInCrafting[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting && endPlacement == DropZone.Placement.Inventory)
+                boxControll.SwapItemsByIndex(startIndex, endIndex);
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Inventory)
             {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInInventory[endIndex];
+                temp = boxControll.AddItemsByIndex(itemsInInventory[endIndex], startIndex);
                 itemsInInventory[endIndex] = temp;
-            } else if (startPlacement == DropZone.Placement.Crafting & endPlacement == DropZone.Placement.Hotkeys)
+
+            }else if (startPlacement == DropZone.Placement.Box && endPlacement == DropZone.Placement.Hotkeys)
             {
-                temp = itemsInCrafting[startIndex];
-                itemsInCrafting[startIndex] = itemsInHotkeys[endIndex];
+                temp = boxControll.AddItemsByIndex(itemsInHotkeys[endIndex], startIndex);
                 itemsInHotkeys[endIndex] = temp;
+
             }
-            RefreshUi();
+            RefreshInventory();
+            boxControll.RefreshBox();
+            
 
             return true;
         }
@@ -288,6 +298,7 @@ public class InventoryControll : MonoBehaviour
     }
 
 
+    //Entfernt einen ganzen Stapel aus dem Inventar oder den Hotkeys
     public bool RemoveItemPack(int index, DropZone.Placement placement)
     {
         bool indexValid = index > -1
@@ -304,17 +315,18 @@ public class InventoryControll : MonoBehaviour
                 itemsInHotkeys[index].item = null;
                 itemsInHotkeys[index].amount = 0;
             }
-            RefreshUi();
+            RefreshInventory();
             return true;
         }
 
         return false;
     }
 
+    //Entfernt ein Item aus den Hotkeys an der Stelle des Indices
     public bool RemoveOneItemInHotKey(int index)
     {
         bool indexValid = index > -1 && (index < itemSlotsHotKey.Length);
-        bool returnvalue =false;
+        bool returnvalue = false;
         if (indexValid)
         {
             if(itemsInHotkeys[index].amount > 0 && itemsInHotkeys[index].item != null)
@@ -328,16 +340,61 @@ public class InventoryControll : MonoBehaviour
             {
                 itemsInHotkeys[index].item = null;
             }
-           
-            
-            RefreshUi();
-
+            RefreshInventory();
         }
-       
-        Debug.Log(returnvalue);
         return returnvalue;
     }
 
+    //Entfernt ein Item aus dem Inventar
+    public bool RemoveItemInInventory(Item item)
+    {
+        List<ItemAndAmount> itemAndAmountOutput;
+        List<int> indices;
+
+        if(InventoryContainsItem(item, out itemAndAmountOutput, out indices) && itemAndAmountOutput[0].amount>0)
+        {
+            itemsInInventory[indices[0]].amount--;
+
+            //Löscht bei 0 das Item
+            if (itemsInInventory[indices[0]].amount == 0)
+            {
+                itemsInInventory[indices[0]].item = null;
+            }
+            return true;
+        }
+        RefreshInventory();
+        return false;
+    }
+
+    //Leert das CraftingFeld, falls der Boolean craft true ist, wird nur das Ergebnis in das Inventar verschoben
+    // bei False werden die Materialien wieder verschoben 
+    public void ClearCraftingField(bool craft)
+    {
+        int i = 0;
+        for ( i = 0; i < itemsInCrafting.Length-1; i++)
+        {
+            if (!craft && enoughItemsForCraftingSmall[i])
+            {
+                AddItem(itemsInCrafting[i].item);
+            }
+            itemsInCrafting[i].item = null;
+            itemsInCrafting[i].amount = 0;
+        }
+
+        if (craft && enoughItemsForCraftingSmall[i])
+        {
+            int amount = itemsInCrafting[i].amount;
+            for (int counter = 0; counter < amount; counter++)
+            {
+                AddItem(itemsInCrafting[i].item);                
+            }
+        }
+        itemsInCrafting[i].item = null;
+        itemsInCrafting[i].amount = 0;
+        RefreshInventory();
+    }
+    
+    
     //Gibt eine Liste an ItemAndAmount Objekten zurück, die das angefragte Item enthalten
     public bool InventoryContainsItem(Item item, out List<ItemAndAmount> itemAndAmountOutput, out List<int> indices)
     {
@@ -353,6 +410,8 @@ public class InventoryControll : MonoBehaviour
         }
         return itemAndAmountOutput.Count != 0;
     }
+
+
 
     //Überprüft, ob ein Item dieses Typs noch reinpasst
     //IndexInList gibt -1 zurück, falls kein Platz mehr ist, ansonsten den Index an dem Platz ist
@@ -398,7 +457,8 @@ public class InventoryControll : MonoBehaviour
 
         return result;
     }
-
+    
+    //Gibt eine Liste mit allen Items aus die sich in den Hotkeys befinden.
     public List<Item> GetItemsInHotkey()
     {
         List<Item> resultList = new List<Item>();
@@ -408,50 +468,5 @@ public class InventoryControll : MonoBehaviour
         }
         return resultList;
     }
-
-    
-
-    public ItemAndAmount[] ItemsInCrafting{
-        get
-        {
-            return itemsInCrafting;
-        }
-
-        set
-        {
-            itemsInCrafting = value;
-            RefreshUi();
-        }
-    }
-
-    
-    
-
-   
-    public string PrintListInt(List<int> testList)
-    {
-        string result = "[ ";
-        foreach (var i in testList)
-        {
-            result = result + " " +  i + ",";
-        }
-
-        result = result + " ]";
-        return result; 
-    }
-
-    public string PrintItemAndAmountList(List<ItemAndAmount> testList)
-    {
-        string result = "[ ";
-        foreach (var item in testList)
-        {
-            result = result + "(" + item.item + ", " + item.amount + ") ;";
-        }
-
-        result = result + " ]";
-        return result;
-    }
-    
-    
 }
 

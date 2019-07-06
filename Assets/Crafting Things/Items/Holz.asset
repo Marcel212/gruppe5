@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c5de4b6962b7f94781241e20a2df991, type: 3}
-  m_Name: Holzbretter
+  m_Name: Holz
   m_EditorClassIdentifier: 
-  name: Holzbretter
-  itemPicuture: {fileID: 21300000, guid: c75ef241dd45f1844ae952954c85cd4b, type: 3}
+  name: Holz
+  itemPicuture: {fileID: 21300000, guid: 6c3fd308ef3e00e41a2ee88662b7b5c3, type: 3}
   objectInGame: {fileID: 0}

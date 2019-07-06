@@ -1,19 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BookOfRecipesScript : MonoBehaviour
 {
-    private List<CraftingRecipe> smallRecipes;
+    private List<CraftingRecipe> recipes;
     private RecipeSlots[] recipeSlot;
     [SerializeField] private ScriptableManagerScript manager;
     public Slider mainSlider;
+
+    public CraftingField size;
     // Start is called before the first frame update
     private void OnValidate()
     {
         recipeSlot = GetComponentsInChildren<RecipeSlots>();
-        smallRecipes = manager.GetAllSmallRecipes();
+        if (size == CraftingField.Small)
+        {
+            recipes = manager.GetAllSmallRecipes();
+        }
+        else
+        {
+            recipes = manager.GetAllBigRecipes();
+        }
+       
     }
 
     public void Start()
@@ -32,10 +41,10 @@ public class BookOfRecipesScript : MonoBehaviour
         
         index = 0;
         int firstIndexInBook = (int)mainSlider.value * 20;
-        for (int indexInBook = firstIndexInBook; indexInBook< smallRecipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
+        for (int indexInBook = firstIndexInBook; indexInBook< recipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
         {
           
-            recipeSlot[index].CraftingRecipe = smallRecipes[indexInBook];
+            recipeSlot[index].CraftingRecipe = recipes[indexInBook];
             index++;
         }
     }
