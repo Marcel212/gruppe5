@@ -29,7 +29,7 @@ public class BoxControll : MonoBehaviour
 
     public bool SwapItemsByIndex(int startindex, int endindex)
     {
-        bool indexValid = startindex > -1 && startindex < itemsInBox.Length && endindex > -1 && endindex < itemsInBox.Length;
+        bool indexValid = startindex > -1 && startindex < ItemSlotsInBox.Length && endindex > -1 && endindex < ItemSlotsInBox.Length;
 
         if (indexValid)
         {

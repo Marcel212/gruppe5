@@ -225,7 +225,7 @@ public class InventoryControll : MonoBehaviour
                                && ((startPlacement == DropZone.Placement.Inventory && startIndex < itemSlotsInventory.Length)
                                    || (startPlacement == DropZone.Placement.Hotkeys && startIndex < itemSlotsHotKey.Length)
                                    || (startPlacement == DropZone.Placement.Crafting && startIndex < 5)
-                                   || (startPlacement == DropZone.Placement.Box && startIndex < 3)
+                                   || (startPlacement == DropZone.Placement.Box && startIndex < 33)
                                    );
 
 
@@ -233,7 +233,7 @@ public class InventoryControll : MonoBehaviour
                              && ((endPlacement == DropZone.Placement.Inventory && endIndex < itemSlotsInventory.Length)
                                  || (endPlacement == DropZone.Placement.Hotkeys && endIndex < itemSlotsHotKey.Length)
                                  || (endPlacement == DropZone.Placement.Crafting && endIndex < 4)
-                                 || (endPlacement == DropZone.Placement.Box && endIndex < 3)
+                                 || (endPlacement == DropZone.Placement.Box && endIndex < 33)
                                  );
 
 
