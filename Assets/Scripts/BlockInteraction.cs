@@ -90,7 +90,7 @@ public class BlockInteraction : MonoBehaviour
 			temp2 = 9;
 		}
         // If left or right mouse button
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l"))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l") || Input.GetKeyDown("q"))
         {
             RaycastHit hit;
             
@@ -101,7 +101,7 @@ public class BlockInteraction : MonoBehaviour
    				if(!World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc)) return;
 
    				Vector3 hitBlockPosition;
-   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l"))
+   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l")||Input.GetKeyDown("q"))
    				{
    					hitBlockPosition = hit.point - hit.normal/2.0f; // in case we want to hit a block
    					
@@ -128,6 +128,10 @@ public class BlockInteraction : MonoBehaviour
             		boxOpen = !boxOpen;
             		box.gameObject.SetActive(boxOpen);
         		}
+				if(Input.GetKeyDown("q"))
+				{
+					update = b.turnBlock();
+				}
                 if (Input.GetMouseButtonDown(0))
                 {
                     update = b.HitBlock();

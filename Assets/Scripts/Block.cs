@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
+	bool isTurnBlock = false;
+	int rotationCounter = 0;
 	public GameObject inventory;
 
 	public InventoryControll inventoryControll;
@@ -168,6 +170,22 @@ public class Block
         return true;
 	}
 
+	public bool turnBlock()
+	{
+		if(rotationCounter <= 2 && rotationCounter >= 0)
+		{
+			rotationCounter++;
+		}
+		else
+		{
+			rotationCounter = 0;
+		}
+		isTurnBlock = true;
+		owner.Redraw();
+		owner.UpdateChunk();
+		return true;
+	}
+
     /// <summary>
     /// Reduces the blocks heatlh. Destroys the block if it does not have any health remaining.
     /// </summary>
@@ -223,6 +241,64 @@ public class Block
 
 	private Vector2[] getUVs(Cubeside side)
 	{
+		Cubeside tempSide = side;
+		switch(rotationCounter)
+		{
+			case 1:
+				if(side == Cubeside.LEFT)
+				{
+					tempSide = Cubeside.BACK;
+				}
+				if(side == Cubeside.RIGHT)
+				{
+					tempSide = Cubeside.FRONT;
+				}
+				if(side == Cubeside.FRONT)
+				{
+					tempSide = Cubeside.LEFT;
+				}
+				if(side == Cubeside.BACK)
+				{
+					tempSide = Cubeside.RIGHT;
+				}
+			break;
+			case 2:
+				if(side == Cubeside.LEFT)
+				{
+					tempSide = Cubeside.RIGHT;
+				}
+				if(side == Cubeside.RIGHT)
+				{
+					tempSide = Cubeside.LEFT;
+				}
+				if(side == Cubeside.FRONT)
+				{
+					tempSide = Cubeside.BACK;
+				}
+				if(side == Cubeside.BACK)
+				{
+					tempSide = Cubeside.FRONT;
+				}
+			break;
+			case 3:
+				if(side == Cubeside.LEFT)
+				{
+					tempSide = Cubeside.FRONT;
+				}
+				if(side == Cubeside.RIGHT)
+				{
+					tempSide = Cubeside.BACK;
+				}
+				if(side == Cubeside.FRONT)
+				{
+					tempSide = Cubeside.RIGHT;
+				}
+				if(side == Cubeside.BACK)
+				{
+					tempSide = Cubeside.LEFT;
+				}
+			break;
+		}
 		// All possible UVs
 		Vector2 uv00 = blockUVs[0,0];
 		Vector2 uv10 = blockUVs[0,0];
@@ -231,14 +307,14 @@ public class Block
 		switch(blockType)
 		{
 			case BlockType.GRASS:
-				if(side == Cubeside.TOP)
+				if(tempSide == Cubeside.TOP)
 				{
 					uv00 = blockUVs[0,0];
 					uv10 = blockUVs[0,1];
 					uv01 = blockUVs[0,2];
 					uv11 = blockUVs[0,3];
 				}
-				else if(side == Cubeside.BOTTOM)
+				else if(tempSide == Cubeside.BOTTOM)
 				{
 					uv00 = blockUVs[(int)(BlockType.DIRT+1),0];
 					uv10 = blockUVs[(int)(BlockType.DIRT+1),1];
@@ -254,14 +330,14 @@ public class Block
 				}
 			break;
 			case BlockType.WORKBENCH:
-				if(side == Cubeside.TOP)
+				if(tempSide == Cubeside.TOP)
 				{
 					uv00 = blockUVs[(int)(blockType+2),0];
 					uv10 = blockUVs[(int)(blockType+2),1];
 					uv01 = blockUVs[(int)(blockType+2),2];
 					uv11 = blockUVs[(int)(blockType+2),3];
 				}
-				else if(side == Cubeside.LEFT || side == Cubeside.RIGHT)
+				else if(tempSide == Cubeside.LEFT || side == Cubeside.RIGHT)
 				{
 					uv00 = blockUVs[(int)(blockType),0];
 					uv10 = blockUVs[(int)(blockType),1];
@@ -277,14 +353,14 @@ public class Block
 				}
 			break;
 			case BlockType.TRUNK:
-				if(side == Cubeside.TOP || side == Cubeside.BOTTOM)
+				if(tempSide == Cubeside.TOP || tempSide == Cubeside.BOTTOM)
 				{
 					uv00 = blockUVs[(int)(blockType+4),0];
 					uv10 = blockUVs[(int)(blockType+4),1];
 					uv01 = blockUVs[(int)(blockType+4),2];
 					uv11 = blockUVs[(int)(blockType+4),3];
 				}
-				else if(side == Cubeside.LEFT)
+				else if(tempSide == Cubeside.LEFT)
 				{
 					uv00 = blockUVs[(int)(blockType+2),0];
 					uv10 = blockUVs[(int)(blockType+2),1];
@@ -306,30 +382,34 @@ public class Block
 				uv11 = blockUVs[(int)(blockType+4),3];
 			break;
 			case BlockType.DOORDOWN:
-				if(side == Cubeside.LEFT)
+				if(tempSide == Cubeside.LEFT)
 				{
 					uv00 = blockUVs[(int)(blockType+4),0];
 					uv10 = blockUVs[(int)(blockType+4),1];
 					uv01 = blockUVs[(int)(blockType+4),2];
 					uv11 = blockUVs[(int)(blockType+4),3];
 				}
-				uv00 = blockUVs[(int)(blockType+3),0];
-				uv10 = blockUVs[(int)(blockType+3),1];
-				uv01 = blockUVs[(int)(blockType+3),2];
-				uv11 = blockUVs[(int)(blockType+3),3];
+				else{
+					uv00 = blockUVs[(int)(blockType+3),0];
+					uv10 = blockUVs[(int)(blockType+3),1];
+					uv01 = blockUVs[(int)(blockType+3),2];
+					uv11 = blockUVs[(int)(blockType+3),3];
+				}
 			break;
 			case BlockType.DOORTOP:
-				if(side == Cubeside.LEFT)
+				if(tempSide == Cubeside.LEFT)
 				{
 					uv00 = blockUVs[(int)(blockType+4),0];
 					uv10 = blockUVs[(int)(blockType+4),1];
 					uv01 = blockUVs[(int)(blockType+4),2];
 					uv11 = blockUVs[(int)(blockType+4),3];
 				}
-				uv00 = blockUVs[(int)(blockType+2),0];
-				uv10 = blockUVs[(int)(blockType+2),1];
-				uv01 = blockUVs[(int)(blockType+2),2];
-				uv11 = blockUVs[(int)(blockType+2),3];
+				else{
+					uv00 = blockUVs[(int)(blockType+2),0];
+					uv10 = blockUVs[(int)(blockType+2),1];
+					uv01 = blockUVs[(int)(blockType+2),2];
+					uv11 = blockUVs[(int)(blockType+2),3];
+				}
 			break;
 			default:
 				uv00 = blockUVs[(int)(blockType+1),0];
@@ -467,6 +547,122 @@ public class Block
      	MeshFilter meshFilter = (MeshFilter) quad.AddComponent(typeof(MeshFilter));
 		meshFilter.mesh = mesh;
 	}
+	
+	private void CreateQuadRotation(Cubeside side)
+	{
+		Mesh mesh = new Mesh();
+	    mesh.name = "ScriptedMesh" + side.ToString(); 
+
+		Vector3[] vertices = new Vector3[4];
+		Vector3[] normals = new Vector3[4];
+		Vector2[] uvs = new Vector2[4];
+		List<Vector2> suvs = new List<Vector2>();
+		int[] triangles = new int[6];
+
+		// All possible UVs
+		Vector2[] allUvs = getUVs(side);
+		Vector2 uv00 = allUvs[0];
+		Vector2 uv10 = allUvs[1];
+		Vector2 uv01 = allUvs[2];
+		Vector2 uv11 = allUvs[3];
+		
+		// Set cracks
+		suvs.Add(blockUVs[(int)(health+1),3]);
+		suvs.Add(blockUVs[(int)(health+1),2]);
+		suvs.Add(blockUVs[(int)(health+1),0]);
+		suvs.Add(blockUVs[(int)(health+1),1]);
+
+		//{uv11, uv01, uv00, uv10};
+
+		// All possible vertices 
+		// Top vertices
+		Vector3 p0 = new Vector3( -0.5f,  -0.5f,  0.5f );
+		Vector3 p1 = new Vector3(  0.5f,  -0.5f,  0.5f );
+		Vector3 p2 = new Vector3(  0.5f,  -0.5f, -0.5f );
+		Vector3 p3 = new Vector3( -0.5f,  -0.5f, -0.5f );		 
+		// Bottom vertices
+		Vector3 p4 = new Vector3( -0.5f,   0.5f,  0.5f );
+		Vector3 p5 = new Vector3(  0.5f,   0.5f,  0.5f );
+		Vector3 p6 = new Vector3(  0.5f,   0.5f, -0.5f );
+		Vector3 p7 = new Vector3( -0.5f,   0.5f, -0.5f );
+		// Door Top vertices
+		Vector3 d0 = new Vector3( -0.001f,  -0.5f,  0.5f );
+		Vector3 d1 = new Vector3(  0.001f,  -0.5f,  0.5f );
+		Vector3 d2 = new Vector3(  0.001f,  -0.5f, -0.5f );
+		Vector3 d3 = new Vector3( -0.001f,  -0.5f, -0.5f );		 
+		// Door Bottom vertices
+		Vector3 d4 = new Vector3( -0.001f,   0.5f,  0.5f );
+		Vector3 d5 = new Vector3(  0.001f,   0.5f,  0.5f );
+		Vector3 d6 = new Vector3(  0.001f,   0.5f, -0.5f );
+		Vector3 d7 = new Vector3( -0.001f,   0.5f, -0.5f );
+		
+		switch(side)
+		{
+			case Cubeside.BOTTOM:
+				vertices = new Vector3[] {p0, p1, p2, p3};
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN){vertices = new Vector3[] {p0,d1,d2,p3};}
+				normals = new Vector3[] {Vector3.down, Vector3.down, 
+											Vector3.down, Vector3.down};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] { 3, 1, 0, 3, 2, 1};
+			break;
+			case Cubeside.TOP:
+				vertices = new Vector3[] {p7, p6, p5, p4};
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN){vertices = new Vector3[] {p7,d6,d5,p4};}
+				normals = new Vector3[] {Vector3.up, Vector3.up, 
+											Vector3.up, Vector3.up};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] {3, 1, 0, 3, 2, 1};
+			break;
+			case Cubeside.LEFT:
+				vertices = new Vector3[] {p7, p4, p0, p3};
+				normals = new Vector3[] {Vector3.left, Vector3.left, 
+											Vector3.left, Vector3.left};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] {3, 1, 0, 3, 2, 1};
+			break;
+			case Cubeside.RIGHT:
+				vertices = new Vector3[] {p5, p6, p2, p1};
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN){vertices = new Vector3[] {d5,d6,d2,d1};}
+				normals = new Vector3[] {Vector3.right, Vector3.right, 
+											Vector3.right, Vector3.right};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] {3, 1, 0, 3, 2, 1};
+			break;
+			case Cubeside.FRONT:
+				vertices = new Vector3[] {p4, p5, p1, p0};
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN){vertices = new Vector3[] {p4,d5,d1,p0};}
+				normals = new Vector3[] {Vector3.forward, Vector3.forward, 
+											Vector3.forward, Vector3.forward};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] {3, 1, 0, 3, 2, 1};
+			break;
+			case Cubeside.BACK:
+				vertices = new Vector3[] {p6, p7, p3, p2};
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN){vertices = new Vector3[] {d6,p7,p3,d2};}
+				normals = new Vector3[] {Vector3.back, Vector3.back, 
+											Vector3.back, Vector3.back};
+				uvs = new Vector2[] {uv11, uv01, uv00, uv10};
+				triangles = new int[] {3, 1, 0, 3, 2, 1};
+			break;
+		}
+
+		mesh.vertices = vertices;
+		mesh.normals = normals;
+		mesh.uv = uvs;
+		mesh.SetUVs(1,suvs);
+		mesh.triangles = triangles;
+		 
+		mesh.RecalculateBounds();
+		
+		GameObject quad = new GameObject("Quad");
+		quad.transform.position = position;
+	    quad.transform.parent = this.parent.transform;
+
+     	MeshFilter meshFilter = (MeshFilter) quad.AddComponent(typeof(MeshFilter));
+		meshFilter.mesh = mesh;
+	}
+	
 	private void CreateSmallQuad(Cubeside side)
 	{
 		Mesh mesh = new Mesh();
@@ -677,20 +873,20 @@ public class Block
 	public void Draw()
 	{
 		if(!(blocksize == Blocksize.SMALL)){
-			if(blockType == BlockType.AIR) return;
-			// Solid or same neighbour
-			if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z + 1) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.FRONT);
-			if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z -1) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.BACK);
-			if(!HasSolidNeighbour((int)position.x,(int)position.y+1,(int)position.z) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.TOP);
-			if(!HasSolidNeighbour((int)position.x,(int)position.y-1,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.BOTTOM);
-			if(!HasSolidNeighbour((int)position.x -1,(int)position.y,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.LEFT);
-			if(!HasSolidNeighbour((int)position.x +1,(int)position.y,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
-				CreateQuad(Cubeside.RIGHT);
+				if(blockType == BlockType.AIR) return;
+				// Solid or same neighbour
+				if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z + 1) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.FRONT);
+				if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z -1) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.BACK);
+				if(!HasSolidNeighbour((int)position.x,(int)position.y+1,(int)position.z) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.TOP);
+				if(!HasSolidNeighbour((int)position.x,(int)position.y-1,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.BOTTOM);
+				if(!HasSolidNeighbour((int)position.x -1,(int)position.y,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.LEFT);
+				if(!HasSolidNeighbour((int)position.x +1,(int)position.y,(int)position.z ) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
+					CreateQuad(Cubeside.RIGHT);
 		}
 		else{
 			if(blockType == BlockType.AIR) return;
