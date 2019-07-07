@@ -10,14 +10,32 @@ public class BlockInteraction : MonoBehaviour
 	InventoryControll inventoryControll;
 	public GameObject cam;
 	Block.BlockType buildtype = Block.BlockType.AIR;
+	public bool craftingOpen = true;
+	private bool boxOpen = true;
+	 private GameObject workbench;
+	 private GameObject box;
+	 private Vector3 originalPositionBox;
+
+	private Vector3 originalPositionWorkbench;
 	
     /// <summary>
     /// Unity lifecycle update. Pressing numbers on the keyboard selects a block type for placement.
     /// Placing a block is done with a right click.
     /// A left click damages blocks, which got hit by a raycast.
     /// </summary>
+
+	void Start()
+	{
+		workbench = GameObject.Find("CraftingBench");
+		originalPositionWorkbench = workbench.transform.position;
+		box = GameObject.Find("KistenUI");
+		originalPositionBox = box.transform.position;
+	}
+
 	void Update ()
     {
+			
+
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
 		//int temp2 = -1;
@@ -72,7 +90,7 @@ public class BlockInteraction : MonoBehaviour
 			temp2 = 9;
 		}
         // If left or right mouse button
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l"))
         {
             RaycastHit hit;
             
@@ -83,7 +101,7 @@ public class BlockInteraction : MonoBehaviour
    				if(!World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc)) return;
 
    				Vector3 hitBlockPosition;
-   				if(Input.GetMouseButtonDown(0))
+   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l"))
    				{
    					hitBlockPosition = hit.point - hit.normal/2.0f; // in case we want to hit a block
    					
@@ -95,11 +113,26 @@ public class BlockInteraction : MonoBehaviour
 				hitc = b.owner;
 
 				bool update = false; // Update determines whether a block got destroyed.
+				if(Input.GetKeyDown("c"))
+				{
+					if(b.blockType == Block.BlockType.WORKBENCH)
+					{
+						workbench.transform.position = originalPositionWorkbench;
+            			craftingOpen = !craftingOpen;
+           				workbench.gameObject.SetActive(craftingOpen);
+					}
+				}
+				if (Input.GetKeyDown("l") && b.blockType == Block.BlockType.TRUNK)
+        		{
+            		box.transform.position = originalPositionBox;
+            		boxOpen = !boxOpen;
+            		box.gameObject.SetActive(boxOpen);
+        		}
                 if (Input.GetMouseButtonDown(0))
                 {
                     update = b.HitBlock();
                 }
-                else
+				if(Input.GetMouseButtonDown(1))
                 {
 					if(temp2 >= 0)
 					{
@@ -109,7 +142,7 @@ public class BlockInteraction : MonoBehaviour
 							{
 								update = b.BuildBlock(buildtype);
 							}
-							if(!(b.HasSolidNeighbour((int)b.position.x,(int)b.position.y + 1,(int)b.position.z)))
+							if(!(b.HasSolidNeighbour((int)b.position.x,(int)b.position.y + 1,(int)b.position.z))&& buildtype == Block.BlockType.DOORDOWN)
 							{
 								update = b.BuildBlock(buildtype);
 								b = b.getTop();

@@ -56,21 +56,7 @@ public class InventoryInteraction : MonoBehaviour
             inventory.gameObject.SetActive(inventoryOpen);
         }
 
-        // TODO Crafting herausnehmen sobald es in die Workbench integriert ist
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            workbench.transform.position = originalPositionWorkbench;
-            craftingOpen = !craftingOpen;
-            workbench.gameObject.SetActive(craftingOpen);
-        }
-
-        //TODO Box rausnehmen sobald es woander integriert ist 
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            box.transform.position = originalPositionBox;
-            boxOpen = !boxOpen;
-            box.gameObject.SetActive(boxOpen);
-        }
+        
         
         // Sorgt für das befreien des Cursors und entfernt das Kreuz in der Mitte falls ein Fenster offen ist. 
         if (inventoryOpen || craftingOpen || boxOpen)
