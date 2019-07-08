@@ -21,7 +21,7 @@ public class OnClickRecipe : MonoBehaviour
         inventory.ClearCraftingField(false);
         workbench.ClearCraftingField(false);
         
-        // Sucht das richtige Rezept heraus
+        // Sucht das zugehörige Rezept heraus
         RecipeSlots recipeSlot =  GetComponentInParent<RecipeSlots>();
         if (recipeSlot.recipeToShow == null)
         {
@@ -36,7 +36,7 @@ public class OnClickRecipe : MonoBehaviour
 
         for (int index = 0; index < recipe.Materials.Length; index++)
         {
-            //Überprüfung ob Materialien vorhanden sind und für Einfärbung sorgen durch true oder false
+            //Überprüfung ob Materialien vorhanden sind und sorgt für Einfärbung durch true oder false Array
             if (recipe.Materials[index].item == null || inventory.RemoveItemInInventory(recipe.Materials[index].item))
             {
                 tempArray[index] = true;
@@ -46,7 +46,6 @@ public class OnClickRecipe : MonoBehaviour
                 tempArray[index] = false;
                 resultBool = false;
             }
-
             
             toFill[index] = recipe.Materials[index]; 
         }
@@ -67,7 +66,6 @@ public class OnClickRecipe : MonoBehaviour
         {
             workbench.EnoughItemsForCraftingBig = tempArray;
             workbench.ItemsInCrafting = testArray;
-        }
-        
+        } 
     }
 }

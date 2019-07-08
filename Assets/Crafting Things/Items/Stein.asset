@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Stein
   m_EditorClassIdentifier: 
   name: Stein
-  description: Eingesammelter Stein
-  itemPicuture: {fileID: 21301472, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: 78539bf55ae2a3e46a82c9f02dd74270, type: 3}
   objectInGame: {fileID: 0}
