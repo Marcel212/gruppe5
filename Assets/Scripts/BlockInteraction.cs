@@ -8,10 +8,14 @@ public class BlockInteraction : MonoBehaviour
 {
 	int temp2 = -1;
 	InventoryControll inventoryControll;
+
+	InventoryInteraction inventoryInteraction;
+	
+	GameObject fpc;
 	public GameObject cam;
 	Block.BlockType buildtype = Block.BlockType.AIR;
-	public bool craftingOpen = true;
-	private bool boxOpen = true;
+	public bool craftingOpen = false;
+	private bool boxOpen = false;
 	 private GameObject workbench;
 	 private GameObject box;
 	 private Vector3 originalPositionBox;
@@ -30,11 +34,20 @@ public class BlockInteraction : MonoBehaviour
 		originalPositionWorkbench = workbench.transform.position;
 		box = GameObject.Find("KistenUI");
 		originalPositionBox = box.transform.position;
+		fpc = GameObject.Find("FPSController");
+		inventoryInteraction = fpc.GetComponent<InventoryInteraction>();
 	}
 
 	void Update ()
     {
-			
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			craftingOpen = false;
+			boxOpen = false;
+			workbench.gameObject.SetActive(craftingOpen);
+			box.gameObject.SetActive(boxOpen);
+			inventoryInteraction.OpenUI(false);
+		}
 
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
@@ -120,6 +133,7 @@ public class BlockInteraction : MonoBehaviour
 						workbench.transform.position = originalPositionWorkbench;
             			craftingOpen = !craftingOpen;
            				workbench.gameObject.SetActive(craftingOpen);
+						inventoryInteraction.OpenUI(craftingOpen);
 					}
 				}
 				if (Input.GetKeyDown("l") && b.blockType == Block.BlockType.TRUNK)
@@ -127,10 +141,20 @@ public class BlockInteraction : MonoBehaviour
             		box.transform.position = originalPositionBox;
             		boxOpen = !boxOpen;
             		box.gameObject.SetActive(boxOpen);
+					inventoryInteraction.OpenUI(boxOpen);
         		}
+				
 				if(Input.GetKeyDown("q"))
 				{
 					update = b.turnBlock();
+					if(b.blockType == Block.BlockType.DOORDOWN){
+						b = b.getTop();
+						update = b.turnBlock();
+					}
+					if(b.blockType == Block.BlockType.DOORTOP){
+						b = b.getDown();
+						update = b.turnBlock();
+					}
 				}
                 if (Input.GetMouseButtonDown(0))
                 {

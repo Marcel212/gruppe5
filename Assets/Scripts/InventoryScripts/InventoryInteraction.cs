@@ -54,12 +54,18 @@ public class InventoryInteraction : MonoBehaviour
             inventory.transform.position = originalPositionInventory;
             inventoryOpen = !inventoryOpen;
             inventory.gameObject.SetActive(inventoryOpen);
+            OpenUI(inventoryOpen);
         }
-
+        if(Input.GetKeyUp(KeyCode.Escape))
+        {   
+            OpenUI(false);
+            inventoryOpen = false;
+            inventory.gameObject.SetActive(inventoryOpen);
+        }
         
         
         // Sorgt für das befreien des Cursors und entfernt das Kreuz in der Mitte falls ein Fenster offen ist. 
-        if (inventoryOpen || craftingOpen || boxOpen)
+        /*/if (inventoryOpen || craftingOpen || boxOpen)
         {
             fpc.m_MouseLook.SetCursorLock(false);
             blockInteraction.enabled = false;
@@ -70,6 +76,31 @@ public class InventoryInteraction : MonoBehaviour
         {
             fpc.m_MouseLook.SetCursorLock(true);
             blockInteraction.enabled = true;
+            toolTip.gameObject.SetActive(false);
+            crosshair.SetActive(true);
+            inventoryControll.ClearCraftingField(false);
+            inventoryControll.RefreshInventory();
+            
+            workbenchControll.ClearCraftingField(false);
+            workbenchControll.RefreshWorkbench();
+            
+            boxControll.RefreshBox();
+        }
+        */
+    }
+    public void OpenUI(bool isOpen)
+    {
+        if (isOpen)
+        {
+            fpc.m_MouseLook.SetCursorLock(false);
+            //blockInteraction.enabled = false;
+            crosshair.SetActive(false);
+            // TODO RotateView ausstellen? 
+        }
+        else
+        {
+            fpc.m_MouseLook.SetCursorLock(true);
+            //blockInteraction.enabled = true;
             toolTip.gameObject.SetActive(false);
             crosshair.SetActive(true);
             inventoryControll.ClearCraftingField(false);

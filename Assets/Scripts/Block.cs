@@ -471,15 +471,15 @@ public class Block
 		Vector3 p6 = new Vector3(  0.5f,   0.5f, -0.5f );
 		Vector3 p7 = new Vector3( -0.5f,   0.5f, -0.5f );
 		// Door Top vertices
-		Vector3 d0 = new Vector3( -0.001f,  -0.5f,  0.5f );
-		Vector3 d1 = new Vector3(  0.001f,  -0.5f,  0.5f );
-		Vector3 d2 = new Vector3(  0.001f,  -0.5f, -0.5f );
-		Vector3 d3 = new Vector3( -0.001f,  -0.5f, -0.5f );		 
+		Vector3 d0 = new Vector3( -0.00001f,  -0.5f,  0.5f );
+		Vector3 d1 = new Vector3(  0.00001f,  -0.5f,  0.5f );
+		Vector3 d2 = new Vector3(  0.00001f,  -0.5f, -0.5f );
+		Vector3 d3 = new Vector3( -0.00001f,  -0.5f, -0.5f );		 
 		// Door Bottom vertices
-		Vector3 d4 = new Vector3( -0.001f,   0.5f,  0.5f );
-		Vector3 d5 = new Vector3(  0.001f,   0.5f,  0.5f );
-		Vector3 d6 = new Vector3(  0.001f,   0.5f, -0.5f );
-		Vector3 d7 = new Vector3( -0.001f,   0.5f, -0.5f );
+		Vector3 d4 = new Vector3( -0.00001f,   0.5f,  0.5f );
+		Vector3 d5 = new Vector3(  0.00001f,   0.5f,  0.5f );
+		Vector3 d6 = new Vector3(  0.00001f,   0.5f, -0.5f );
+		Vector3 d7 = new Vector3( -0.00001f,   0.5f, -0.5f );
 		
 		switch(side)
 		{
@@ -874,6 +874,10 @@ public class Block
 	{
 		if(!(blocksize == Blocksize.SMALL)){
 				if(blockType == BlockType.AIR) return;
+				if(blockType == BlockType.DOORTOP || blockType == BlockType.DOORDOWN)
+				{
+					CreateQuad(Cubeside.BACK);
+				}
 				// Solid or same neighbour
 				if(!HasSolidNeighbour((int)position.x,(int)position.y,(int)position.z + 1) /*getFront().blockType == BlockType.DOORDOWN) ||(getFront().blockType == BlockType.DOORTOP)*/)
 					CreateQuad(Cubeside.FRONT);
