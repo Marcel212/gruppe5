@@ -80,7 +80,7 @@ public class Block
 		/*24TrunkTop/Down */	{new Vector2(0.5625f, 0.875f), new Vector2(0.6255f,0.875f), new Vector2(0.5625f,0.9375f), new Vector2(0.625f,0.9375f)},
 		/*25Plank */	 		{new Vector2(0.25f, 0.9375f), new Vector2(0.3125f,0.9375f), new Vector2(0.25f,1f), new Vector2(0.3125f,1f)},
 		/*26DoorDown */			{new Vector2(0.0625f, 0.5625f), new Vector2(0.125f,0.5625f), new Vector2(0.0625f,0.625f), new Vector2(0.125f,0.625f)},
-		/*27DoorTop */			{new Vector2(0.0625f, 0.5625f), new Vector2(0.125f,0.5625f), new Vector2(0.0625f,0.625f), new Vector2(0.125f,0.625f)}
+		/*27DoorTop */			{new Vector2(0.0625f, 0.625f), new Vector2(0.125f,0.625f), new Vector2(0.0625f,0.6875f), new Vector2(0.125f,0.687f)}
 		}; 
 
     /// <summary>
@@ -382,7 +382,7 @@ public class Block
 				uv11 = blockUVs[(int)(blockType+4),3];
 			break;
 			case BlockType.DOORDOWN:
-				if(tempSide == Cubeside.LEFT)
+				if(tempSide == Cubeside.LEFT || tempSide == Cubeside.RIGHT)
 				{
 					uv00 = blockUVs[(int)(blockType+4),0];
 					uv10 = blockUVs[(int)(blockType+4),1];
@@ -397,7 +397,7 @@ public class Block
 				}
 			break;
 			case BlockType.DOORTOP:
-				if(tempSide == Cubeside.LEFT)
+				if(tempSide == Cubeside.LEFT || tempSide == Cubeside.RIGHT)
 				{
 					uv00 = blockUVs[(int)(blockType+4),0];
 					uv10 = blockUVs[(int)(blockType+4),1];
