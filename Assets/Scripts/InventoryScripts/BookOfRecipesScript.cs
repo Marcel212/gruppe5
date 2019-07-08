@@ -28,6 +28,7 @@ public class BookOfRecipesScript : MonoBehaviour
     public void Start()
     {
         mainSlider.onValueChanged.AddListener(delegate { FillPageByNumber(); });
+        mainSlider.value = 0;
     }
 
     public void FillPageByNumber()
@@ -40,10 +41,11 @@ public class BookOfRecipesScript : MonoBehaviour
         }
         
         index = 0;
-        int firstIndexInBook = (int)mainSlider.value * 20;
-        for (int indexInBook = firstIndexInBook; indexInBook< recipes.Capacity && indexInBook< firstIndexInBook+20 ; indexInBook++)
+        int firstIndexInBook = (int)mainSlider.value * 15;
+        Debug.Log(firstIndexInBook);
+        for (int indexInBook = firstIndexInBook; indexInBook< recipes.Capacity && indexInBook< firstIndexInBook+15 ; indexInBook++)
         {
-          
+            Debug.Log("Index: " + indexInBook);
             recipeSlot[index].CraftingRecipe = recipes[indexInBook];
             index++;
         }
