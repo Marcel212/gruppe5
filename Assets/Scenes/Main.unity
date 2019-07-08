@@ -7409,14 +7409,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e1f74ef40e2886f46bbf600e1951297e, type: 2}
   - {fileID: 11400000, guid: aa1e3de845596284298d50c2ee7063c2, type: 2}
   - {fileID: 11400000, guid: b4de88fcf682cfc47805d9bab204860b, type: 2}
+  - {fileID: 11400000, guid: a1280363e610175418ab788c242ee1e1, type: 2}
+  - {fileID: 11400000, guid: 947468764e0e09e48a4b9cd2e12c6138, type: 2}
+  - {fileID: 11400000, guid: e240bb616499bbd488f4a3030df407cb, type: 2}
+  - {fileID: 11400000, guid: 8161c9744b6be6e4394e4a20693efee9, type: 2}
+  - {fileID: 11400000, guid: 7f6b254ba441d4f45a6f9381f0e260c6, type: 2}
   smallRecipeList:
   - {fileID: 11400000, guid: d17b3444c63d8d64d82688966e75a9f1, type: 2}
   - {fileID: 11400000, guid: b5d3e275e3b76e04d961980075d58995, type: 2}
+  - {fileID: 11400000, guid: 35b7bc2f2ba82ed47a5340215829c112, type: 2}
+  - {fileID: 11400000, guid: a66a7a120cb9f3a44a277d15d4946bf8, type: 2}
+  - {fileID: 11400000, guid: b714d19215091d14ba61fbb2960aacc3, type: 2}
   bigRecipeList:
   - {fileID: 11400000, guid: 89492074f7b560542afeecc55c697d9d, type: 2}
   - {fileID: 11400000, guid: 90d00a5de63e079429f26fa047e23149, type: 2}
   - {fileID: 11400000, guid: 42c87ed3c6a88df42a94ab31b1b709d1, type: 2}
   - {fileID: 11400000, guid: 3b06de9ff9951d643ab7e9d6c8086a17, type: 2}
+  - {fileID: 11400000, guid: f41e3bf454f170d4db45ec7f03b5c02d, type: 2}
 --- !u!224 &535018738 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6470785978763383915, guid: e9271b565ccf0c647b19d7f064b1ced3,
