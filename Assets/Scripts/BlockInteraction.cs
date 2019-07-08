@@ -103,7 +103,7 @@ public class BlockInteraction : MonoBehaviour
 			temp2 = 9;
 		}
         // If left or right mouse button
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l") || Input.GetKeyDown("q"))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l") || Input.GetKeyDown("q") || Input.GetKeyDown("o"))
         {
             RaycastHit hit;
             
@@ -114,7 +114,7 @@ public class BlockInteraction : MonoBehaviour
    				if(!World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc)) return;
 
    				Vector3 hitBlockPosition;
-   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l")||Input.GetKeyDown("q"))
+   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l")||Input.GetKeyDown("q")||Input.GetKeyDown("o"))
    				{
    					hitBlockPosition = hit.point - hit.normal/2.0f; // in case we want to hit a block
    					
@@ -126,6 +126,13 @@ public class BlockInteraction : MonoBehaviour
 				hitc = b.owner;
 
 				bool update = false; // Update determines whether a block got destroyed.
+                if (Input.GetKeyDown("o"))
+                {
+                    if (b.blockType == Block.BlockType.OFEN)
+                    {
+                        update = b.OfenAnMachen();
+                    }
+                }
 				if(Input.GetKeyDown("c"))
 				{
 					if(b.blockType == Block.BlockType.WORKBENCH)
@@ -253,7 +260,10 @@ public class BlockInteraction : MonoBehaviour
 			   case "Tuer":
 			   		buildtype = Block.BlockType.DOORDOWN;
 			   break;
-			   default:
+            case "Ofen":
+                buildtype = Block.BlockType.OFEN;
+                break;
+            default:
 					buildtype = Block.BlockType.AIR;
 			   break;
               

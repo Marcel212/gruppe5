@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
+    public bool ofenAn = false;
 	bool isTurnBlock = false;
 	int rotationCounter = 0;
 	public GameObject inventory;
@@ -17,7 +18,8 @@ public class Block
 
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {/*1 */GRASS,/*2 */ DIRT,/*3 */ WATER,/*4 */ STONE,/*5 */ LEAVES,/*6 */ WOOD,/*7 */ WOODBASE,/*8 */ SAND,/*9 */ GOLD,/*10 */ BEDROCK,/*11 */ REDSTONE,
-							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK,/*21 */PLANK,/*22 */DOORDOWN,/*23 */DOORTOP};
+							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK,/*21 */PLANK
+                            ,/*22 */DOORDOWN,/*23 */DOORTOP, /*24*/OFEN};
 
 	public enum Blocksize {SMALL, BIG};
 
@@ -80,8 +82,11 @@ public class Block
 		/*24TrunkTop/Down */	{new Vector2(0.5625f, 0.875f), new Vector2(0.6255f,0.875f), new Vector2(0.5625f,0.9375f), new Vector2(0.625f,0.9375f)},
 		/*25Plank */	 		{new Vector2(0.25f, 0.9375f), new Vector2(0.3125f,0.9375f), new Vector2(0.25f,1f), new Vector2(0.3125f,1f)},
 		/*26DoorDown */			{new Vector2(0.0625f, 0.5625f), new Vector2(0.125f,0.5625f), new Vector2(0.0625f,0.625f), new Vector2(0.125f,0.625f)},
-		/*27DoorTop */			{new Vector2(0.0625f, 0.625f), new Vector2(0.125f,0.625f), new Vector2(0.0625f,0.6875f), new Vector2(0.125f,0.687f)}
-		}; 
+		/*27DoorTop */			{new Vector2(0.0625f, 0.625f), new Vector2(0.125f,0.625f), new Vector2(0.0625f,0.6875f), new Vector2(0.125f,0.687f)},
+       /*28OfenFront */			{new Vector2(0.75f, 0.8125f), new Vector2(0.8125f,0.8125f), new Vector2(0.75f,0.875f), new Vector2(0.8125f,0.875f)},
+       /*29OfenFrontAn */		{new Vector2(0.8125f, 0.75f), new Vector2(0.875f,0.75f), new Vector2(0.8125f,0.8125f), new Vector2(0.875f,0.8125f)},
+       /*30Ofen */			    {new Vector2(0.8125f, 0.8125f), new Vector2(0.875f,0.8125f), new Vector2(0.8125f,0.875f), new Vector2(0.875f,0.87f)}
+        }; 
 
     /// <summary>
     /// Constructs a block.
@@ -169,7 +174,13 @@ public class Block
         }
         return true;
 	}
-
+    public bool OfenAnMachen()
+    {
+        ofenAn = !ofenAn;
+        owner.Redraw();
+        owner.UpdateChunk();
+        return true;
+    }
 	public bool turnBlock()
 	{
 		if(rotationCounter <= 2 && rotationCounter >= 0)
@@ -203,7 +214,7 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-			if(!(blockType == BlockType.LEAVES)){
+			if(!(blockType == BlockType.LEAVES) || !(blockType == BlockType.DOORTOP)){
 				Vector3 cPosition = owner.mb.transform.position;
 				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         		cube.transform.position = new Vector3 (cPosition.x + position.x, cPosition.y + position.y, cPosition.z + position.z);
@@ -411,6 +422,29 @@ public class Block
 					uv11 = blockUVs[(int)(blockType+2),3];
 				}
 			break;
+            case BlockType.OFEN:
+                if (tempSide == Cubeside.LEFT)
+                {
+                    uv00 = blockUVs[(int)(blockType + 4), 0];
+                    uv10 = blockUVs[(int)(blockType + 4), 1];
+                    uv01 = blockUVs[(int)(blockType + 4), 2];
+                    uv11 = blockUVs[(int)(blockType + 4), 3];
+                    if (ofenAn)
+                    {
+                        uv00 = blockUVs[(int)(blockType + 5), 0];
+                        uv10 = blockUVs[(int)(blockType + 5), 1];
+                        uv01 = blockUVs[(int)(blockType + 5), 2];
+                        uv11 = blockUVs[(int)(blockType + 5), 3];
+                    }
+                }
+                else
+                {
+                    uv00 = blockUVs[(int)(blockType + 6), 0];
+                    uv10 = blockUVs[(int)(blockType + 6), 1];
+                    uv01 = blockUVs[(int)(blockType + 6), 2];
+                    uv11 = blockUVs[(int)(blockType + 6), 3];
+                }
+                break;
 			default:
 				uv00 = blockUVs[(int)(blockType+1),0];
 				uv10 = blockUVs[(int)(blockType+1),1];
