@@ -9579,6 +9579,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1741488217}
+    - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9271b565ccf0c647b19d7f064b1ced3, type: 3}
 --- !u!224 &690318350 stripped
@@ -14743,6 +14748,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1741488217}
+    - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9271b565ccf0c647b19d7f064b1ced3, type: 3}
 --- !u!224 &1148762488 stripped
@@ -14966,7 +14976,7 @@ PrefabInstance:
     - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6470785977311251150, guid: e9271b565ccf0c647b19d7f064b1ced3,
         type: 3}
@@ -21667,6 +21677,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1741488217}
+    - target: {fileID: 2968822829193436815, guid: e9271b565ccf0c647b19d7f064b1ced3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9271b565ccf0c647b19d7f064b1ced3, type: 3}
 --- !u!224 &1671839473 stripped
@@ -24235,22 +24250,22 @@ MonoBehaviour:
   manager: {fileID: 529132859}
   itemsInInventory:
   - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
-    amount: 22
+    amount: 64
     indexInList: 0
   - item: {fileID: 11400000, guid: 224e9390fb2d38448ace48cef5e303ac, type: 2}
-    amount: 28
+    amount: 64
     indexInList: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: 0b9fda7fb0708f041accc92632316aba, type: 2}
+    amount: 20
     indexInList: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: 940519984a3c20046b76f1f08be2e4a5, type: 2}
+    amount: 64
     indexInList: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: 7f6b254ba441d4f45a6f9381f0e260c6, type: 2}
+    amount: 64
     indexInList: 0
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: 66bb5c773c22199498c13dd4a7845a85, type: 2}
+    amount: 20
     indexInList: 0
   - item: {fileID: 0}
     amount: 0
