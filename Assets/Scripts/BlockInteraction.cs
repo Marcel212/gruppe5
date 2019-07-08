@@ -10,7 +10,7 @@ public class BlockInteraction : MonoBehaviour
 	InventoryControll inventoryControll;
 
 	InventoryInteraction inventoryInteraction;
-	
+    public bool uiOpen = false;
 	GameObject fpc;
 	public GameObject cam;
 	Block.BlockType buildtype = Block.BlockType.AIR;
@@ -47,6 +47,7 @@ public class BlockInteraction : MonoBehaviour
 			workbench.gameObject.SetActive(craftingOpen);
 			box.gameObject.SetActive(boxOpen);
 			inventoryInteraction.OpenUI(false);
+            uiOpen = false;
 		}
 
 		Block temp = World.GetWorldBlock(this.transform.position);
@@ -103,128 +104,134 @@ public class BlockInteraction : MonoBehaviour
 			temp2 = 9;
 		}
         // If left or right mouse button
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l") || Input.GetKeyDown("q") || Input.GetKeyDown("o"))
+        if (!uiOpen)
         {
-            RaycastHit hit;
-            
-   			// Raycast starting from the position of the crosshair
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 10))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown("c") || Input.GetKeyDown("l") || Input.GetKeyDown("q") || Input.GetKeyDown("o"))
             {
-   				Chunk hitc;
-   				if(!World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc)) return;
+                RaycastHit hit;
 
-   				Vector3 hitBlockPosition;
-   				if(Input.GetMouseButtonDown(0)||Input.GetKeyDown("c")||Input.GetKeyDown("l")||Input.GetKeyDown("q")||Input.GetKeyDown("o"))
-   				{
-   					hitBlockPosition = hit.point - hit.normal/2.0f; // in case we want to hit a block
-   					
-   				}
-   				else
-   				 	hitBlockPosition = hit.point + hit.normal/2.0f; // in case we want to place a block
-				
-				Block b = World.GetWorldBlock(hitBlockPosition);
-				hitc = b.owner;
-
-				bool update = false; // Update determines whether a block got destroyed.
-                if (Input.GetKeyDown("o"))
+                // Raycast starting from the position of the crosshair
+                if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 10))
                 {
-                    if (b.blockType == Block.BlockType.OFEN)
+                    Chunk hitc;
+                    if (!World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc)) return;
+
+                    Vector3 hitBlockPosition;
+                    if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("c") || Input.GetKeyDown("l") || Input.GetKeyDown("q") || Input.GetKeyDown("o"))
                     {
-                        update = b.OfenAnMachen();
+                        hitBlockPosition = hit.point - hit.normal / 2.0f; // in case we want to hit a block
+
+                    }
+                    else
+                        hitBlockPosition = hit.point + hit.normal / 2.0f; // in case we want to place a block
+
+                    Block b = World.GetWorldBlock(hitBlockPosition);
+                    hitc = b.owner;
+
+                    bool update = false; // Update determines whether a block got destroyed.
+                    if (Input.GetKeyDown("o"))
+                    {
+                        if (b.blockType == Block.BlockType.OFEN)
+                        {
+                            update = b.OfenAnMachen();
+                        }
+                    }
+                    if (Input.GetKeyDown("c"))
+                    {
+                        if (b.blockType == Block.BlockType.WORKBENCH)
+                        {
+                            workbench.transform.position = originalPositionWorkbench;
+                            craftingOpen = !craftingOpen;
+                            workbench.gameObject.SetActive(craftingOpen);
+                            inventoryInteraction.OpenUI(craftingOpen);
+                            uiOpen = true;
+                        }
+                    }
+                    if (Input.GetKeyDown("l") && b.blockType == Block.BlockType.TRUNK)
+                    {
+                        box.transform.position = originalPositionBox;
+                        boxOpen = !boxOpen;
+                        box.gameObject.SetActive(boxOpen);
+                        inventoryInteraction.OpenUI(boxOpen);
+                        uiOpen = true;
+                    }
+
+                    if (Input.GetKeyDown("q"))
+                    {
+                        update = b.turnBlock();
+                        if (b.blockType == Block.BlockType.DOORDOWN)
+                        {
+                            b = b.getTop();
+                            update = b.turnBlock();
+                        }
+                        if (b.blockType == Block.BlockType.DOORTOP)
+                        {
+                            b = b.getDown();
+                            update = b.turnBlock();
+                        }
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        update = b.HitBlock();
+                    }
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        if (temp2 >= 0)
+                        {
+                            if (temp.inventoryControll.RemoveOneItemInHotKey(temp2))
+                            {
+                                if (!(buildtype == Block.BlockType.DOORDOWN || buildtype == Block.BlockType.DOORTOP))
+                                {
+                                    update = b.BuildBlock(buildtype);
+                                }
+                                if (!(b.HasSolidNeighbour((int)b.position.x, (int)b.position.y + 1, (int)b.position.z)) && buildtype == Block.BlockType.DOORDOWN)
+                                {
+                                    update = b.BuildBlock(buildtype);
+                                    b = b.getTop();
+                                    if (update) { update = b.BuildBlock(Block.BlockType.DOORTOP); }
+                                }
+                            }
+                            else
+                            {
+                                buildtype = Block.BlockType.AIR;
+                            }
+                        }
+                    }
+                    // If a block got destroyed, redraw the chunk and affected neighbouring chunks.
+                    if (update)
+                    {
+                        hitc.changed = true;
+                        List<string> updates = new List<string>();
+                        float thisChunkx = hitc.chunk.transform.position.x;
+                        float thisChunky = hitc.chunk.transform.position.y;
+                        float thisChunkz = hitc.chunk.transform.position.z;
+
+                        // Update affected neighbours
+                        if (b.position.x == 0)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx - World.chunkSize, thisChunky, thisChunkz)));
+                        if (b.position.x == World.chunkSize - 1)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx + World.chunkSize, thisChunky, thisChunkz)));
+                        if (b.position.y == 0)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx, thisChunky - World.chunkSize, thisChunkz)));
+                        if (b.position.y == World.chunkSize - 1)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx, thisChunky + World.chunkSize, thisChunkz)));
+                        if (b.position.z == 0)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx, thisChunky, thisChunkz - World.chunkSize)));
+                        if (b.position.z == World.chunkSize - 1)
+                            updates.Add(World.BuildChunkName(new Vector3(thisChunkx, thisChunky, thisChunkz + World.chunkSize)));
+
+                        foreach (string cname in updates)
+                        {
+                            Chunk c;
+                            if (World.chunks.TryGetValue(cname, out c))
+                            {
+                                c.Redraw();
+                            }
+                        }
                     }
                 }
-				if(Input.GetKeyDown("c"))
-				{
-					if(b.blockType == Block.BlockType.WORKBENCH)
-					{
-						workbench.transform.position = originalPositionWorkbench;
-            			craftingOpen = !craftingOpen;
-           				workbench.gameObject.SetActive(craftingOpen);
-						inventoryInteraction.OpenUI(craftingOpen);
-					}
-				}
-				if (Input.GetKeyDown("l") && b.blockType == Block.BlockType.TRUNK)
-        		{
-            		box.transform.position = originalPositionBox;
-            		boxOpen = !boxOpen;
-            		box.gameObject.SetActive(boxOpen);
-					inventoryInteraction.OpenUI(boxOpen);
-        		}
-				
-				if(Input.GetKeyDown("q"))
-				{
-					update = b.turnBlock();
-					if(b.blockType == Block.BlockType.DOORDOWN){
-						b = b.getTop();
-						update = b.turnBlock();
-					}
-					if(b.blockType == Block.BlockType.DOORTOP){
-						b = b.getDown();
-						update = b.turnBlock();
-					}
-				}
-                if (Input.GetMouseButtonDown(0))
-                {
-                    update = b.HitBlock();
-                }
-				if(Input.GetMouseButtonDown(1))
-                {
-					if(temp2 >= 0)
-					{
-						if(temp.inventoryControll.RemoveOneItemInHotKey(temp2))
-						{
-							if(!(buildtype == Block.BlockType.DOORDOWN || buildtype == Block.BlockType.DOORTOP))
-							{
-								update = b.BuildBlock(buildtype);
-							}
-							if(!(b.HasSolidNeighbour((int)b.position.x,(int)b.position.y + 1,(int)b.position.z))&& buildtype == Block.BlockType.DOORDOWN)
-							{
-								update = b.BuildBlock(buildtype);
-								b = b.getTop();
-								if(update){update = b.BuildBlock(Block.BlockType.DOORTOP);}
-							}
-						}
-						else
-						{
-							buildtype = Block.BlockType.AIR;
-						}
-					}
-                }
-
-                // If a block got destroyed, redraw the chunk and affected neighbouring chunks.
-				if(update)
-   				{
-   					hitc.changed = true;
-	   				List<string> updates = new List<string>();
-	   				float thisChunkx = hitc.chunk.transform.position.x;
-	   				float thisChunky = hitc.chunk.transform.position.y;
-	   				float thisChunkz = hitc.chunk.transform.position.z;
-
-	   				// Update affected neighbours
-	   				if(b.position.x == 0) 
-	   					updates.Add(World.BuildChunkName(new Vector3(thisChunkx-World.chunkSize,thisChunky,thisChunkz)));
-					if(b.position.x == World.chunkSize - 1) 
-						updates.Add(World.BuildChunkName(new Vector3(thisChunkx+World.chunkSize,thisChunky,thisChunkz)));
-					if(b.position.y == 0) 
-						updates.Add(World.BuildChunkName(new Vector3(thisChunkx,thisChunky-World.chunkSize,thisChunkz)));
-					if(b.position.y == World.chunkSize - 1) 
-						updates.Add(World.BuildChunkName(new Vector3(thisChunkx,thisChunky+World.chunkSize,thisChunkz)));
-					if(b.position.z == 0) 
-						updates.Add(World.BuildChunkName(new Vector3(thisChunkx,thisChunky,thisChunkz-World.chunkSize)));
-					if(b.position.z == World.chunkSize - 1) 
-						updates.Add(World.BuildChunkName(new Vector3(thisChunkx,thisChunky,thisChunkz+World.chunkSize)));
-
-		   			foreach(string cname in updates)
-		   			{
-		   				Chunk c;
-						if(World.chunks.TryGetValue(cname, out c))
-						{
-							c.Redraw();
-				   		}
-				   	}
-				}
-		   	}
-   		}
+            }
+        }
 	}
 	public void setBuildType(List<Item> items, int position)
 	{
@@ -242,16 +249,16 @@ public class BlockInteraction : MonoBehaviour
 			   case "Werkbank":
 			   		buildtype = Block.BlockType.WORKBENCH;
 			   break;
-			   case "Diamant":
+			   case "Diamanterz":
 					buildtype = Block.BlockType.DIAMOND;
 			   break;
-			   case "Gold":
+			   case "Golderz":
 					buildtype = Block.BlockType.GOLD;
 			   break;
 			   case "Truhe":
 					buildtype = Block.BlockType.TRUNK;
 			   break;
-			   case "RedStone":
+			   case "RedStoneerz":
 			   		buildtype = Block.BlockType.REDSTONE;
 			   break;
 			   case "Holzbretter":

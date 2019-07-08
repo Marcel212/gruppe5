@@ -55,12 +55,14 @@ public class InventoryInteraction : MonoBehaviour
             inventoryOpen = !inventoryOpen;
             inventory.gameObject.SetActive(inventoryOpen);
             OpenUI(inventoryOpen);
+            blockInteraction.uiOpen = true;
         }
         if(Input.GetKeyUp(KeyCode.Escape))
         {   
             OpenUI(false);
             inventoryOpen = false;
             inventory.gameObject.SetActive(inventoryOpen);
+            blockInteraction.uiOpen = false;
         }
         
         
