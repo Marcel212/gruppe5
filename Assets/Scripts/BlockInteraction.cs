@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class BlockInteraction : MonoBehaviour
 {
+	public bool uiOpen = false;
 	int temp2 = -1;
 	InventoryControll inventoryControll;
 
