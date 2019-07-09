@@ -103,6 +103,7 @@ public class BlockInteraction : MonoBehaviour
 			setBuildType(liste,9);
 			temp2 = 9;
 		}
+		if(!uiOpen){
         // If left or right mouse button
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)|| Input.GetKeyDown("c")|| Input.GetKeyDown("l") || Input.GetKeyDown("q") || Input.GetKeyDown("o"))
         {
@@ -142,6 +143,7 @@ public class BlockInteraction : MonoBehaviour
             			craftingOpen = !craftingOpen;
            				workbench.gameObject.SetActive(craftingOpen);
 						inventoryInteraction.OpenUI(craftingOpen);
+						uiOpen = true;
 					}
 				}
 				if (Input.GetKeyDown("l") && b.blockType == Block.BlockType.TRUNK)
@@ -150,6 +152,7 @@ public class BlockInteraction : MonoBehaviour
             		boxOpen = !boxOpen;
             		box.gameObject.SetActive(boxOpen);
 					inventoryInteraction.OpenUI(boxOpen);
+					uiOpen = true;
         		}
 				
 				if(Input.GetKeyDown("q"))
@@ -233,7 +236,7 @@ public class BlockInteraction : MonoBehaviour
 				   	}
 				}
 		   	}
-   		}
+   		}}
 	}
 	public void setBuildType(List<Item> items, int position)
 	{
