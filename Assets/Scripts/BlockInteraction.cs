@@ -166,7 +166,7 @@ public class BlockInteraction : MonoBehaviour
 				}
                 if (Input.GetMouseButtonDown(0))
                 {
-                   update = b.HitBlock();
+                  	 update = b.HitBlock();
 					if(b.blockType == Block.BlockType.DOORDOWN){
 						b = b.getTop();
 						update = b.HitBlock();
