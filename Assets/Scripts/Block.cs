@@ -19,7 +19,7 @@ public class Block
 	enum Cubeside {BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK};
 	public enum BlockType {/*1 */GRASS,/*2 */ DIRT,/*3 */ WATER,/*4 */ STONE,/*5 */ LEAVES,/*6 */ WOOD,/*7 */ WOODBASE,/*8 */ SAND,/*9 */ GOLD,/*10 */ BEDROCK,/*11 */ REDSTONE,
 							/*12 */ DIAMOND,/*13 */ NOCRACK,/*14 */CRACK1,/*15 */ CRACK2,/*16 */ CRACK3,/*17 */ CRACK4,/*18 */ AIR,/*19 */ WORKBENCH,/*20 */ TRUNK,/*21 */PLANK
-                            ,/*22 */DOORDOWN,/*23 */DOORTOP, /*24*/OFEN};
+                            ,/*22 */DOORDOWN,/*23 */DOORTOP, /*24*/OFEN, /*25*/ BOOK};
 
 	public enum Blocksize {SMALL, BIG};
 
@@ -85,7 +85,9 @@ public class Block
 		/*27DoorTop */			{new Vector2(0.0625f, 0.625f), new Vector2(0.125f,0.625f), new Vector2(0.0625f,0.6875f), new Vector2(0.125f,0.687f)},
        /*28OfenFront */			{new Vector2(0.75f, 0.8125f), new Vector2(0.8125f,0.8125f), new Vector2(0.75f,0.875f), new Vector2(0.8125f,0.875f)},
        /*29OfenFrontAn */		{new Vector2(0.8125f, 0.75f), new Vector2(0.875f,0.75f), new Vector2(0.8125f,0.8125f), new Vector2(0.875f,0.8125f)},
-       /*30Ofen */			    {new Vector2(0.8125f, 0.8125f), new Vector2(0.875f,0.8125f), new Vector2(0.8125f,0.875f), new Vector2(0.875f,0.87f)}
+       /*30Ofen */			    {new Vector2(0.8125f, 0.8125f), new Vector2(0.875f,0.8125f), new Vector2(0.8125f,0.875f), new Vector2(0.875f,0.87f)},
+	    /*31BOOK */			    {new Vector2(0.1875f, 0.8125f), new Vector2(0.25f,0.8125f), new Vector2(0.1875f,0.875f), new Vector2(0.25f,0.875f)},
+		 /*32BOOK*/			    {new Vector2(0.25f, 0.9375f), new Vector2(0.3125f,0.9375f), new Vector2(0.25f,1f), new Vector2(0.3125f,1f)}
         }; 
 
     /// <summary>
@@ -445,6 +447,21 @@ public class Block
                     uv11 = blockUVs[(int)(blockType + 6), 3];
                 }
                 break;
+			case BlockType.BOOK:
+				if(tempSide == Cubeside.TOP || tempSide == Cubeside.BOTTOM)
+				{
+					uv00 = blockUVs[(int)(blockType+7),0];
+					uv10 = blockUVs[(int)(blockType+7),1];
+					uv01 = blockUVs[(int)(blockType+7),2];
+					uv11 = blockUVs[(int)(blockType+7),3];
+				}
+				else{
+					uv00 = blockUVs[(int)(blockType+6),0];
+					uv10 = blockUVs[(int)(blockType+6),1];
+					uv01 = blockUVs[(int)(blockType+6),2];
+					uv11 = blockUVs[(int)(blockType+6),3];
+				}
+			break;
 			default:
 				uv00 = blockUVs[(int)(blockType+1),0];
 				uv10 = blockUVs[(int)(blockType+1),1];

@@ -93,10 +93,10 @@ public class QuadScript : MonoBehaviour
                     inventoryControll.AddItem(item);
                     inventoryControll.AddItem(item);
                break;
-            case Block.BlockType.OFEN:
+               case Block.BlockType.OFEN:
                 item = scriptableManagerScript.GetItemByName("Ofen");
                 inventoryControll.AddItem(item);
-                break;
+               break;
         }
     }
 }

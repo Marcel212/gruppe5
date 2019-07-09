@@ -236,7 +236,8 @@ public class BlockInteraction : MonoBehaviour
 				   	}
 				}
 		   	}
-   		}}
+   		}
+		}
 	}
 	public void setBuildType(List<Item> items, int position)
 	{
@@ -275,8 +276,9 @@ public class BlockInteraction : MonoBehaviour
             	case "Ofen":
                 	buildtype = Block.BlockType.OFEN;
                 break;
+				case "Buecherregal":
             	default:
-					buildtype = Block.BlockType.AIR;
+					buildtype = Block.BlockType.BOOK;
 			   break;
               
            }
