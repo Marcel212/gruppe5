@@ -237,7 +237,7 @@ public class InventoryControll : MonoBehaviour
                                  );
 
 
-        Debug.Log("Start: " + startPlacement + "  " + startIndex + " . Ziel: " + endPlacement + "  " + endIndex + " . Valide? " + validStartIndex + "  " +validEndIndex + "  ." );
+
         ItemAndAmount temp;
         if (validStartIndex && validEndIndex)
         {

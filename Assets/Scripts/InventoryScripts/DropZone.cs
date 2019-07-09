@@ -17,9 +17,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
 
     public void OnDrop(PointerEventData eventData)
-    {
-
-        Debug.Log("Want to Drop");
+    { 
         if(eventData.pointerDrag.transform.GetComponentInParent<ItemSlots>() == null)
         {
             return;
@@ -43,7 +41,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             }else if (ownPlacement == Placement.Inventory || ownPlacement == Placement.Hotkeys || ownPlacement == Placement.Box)
             {
                 //Finde Placement im Inventory heraus von Drop (Placement und Index)
-                Debug.Log(eventData.pointerEnter.transform.name + " Placement " + ownPlacement);
+
                 ItemSlots itemScriptDropped = eventData.pointerEnter.transform.GetComponentInParent<ItemSlots>();
                 if (itemScriptDropped == null)
                 {
