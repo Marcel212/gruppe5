@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sand
   m_EditorClassIdentifier: 
   name: Sand
-  itemPicuture: {fileID: 21301152, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: f99a215a5aaae854f9e6543b43fbbafe, type: 3}
   objectInGame: {fileID: 0}

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4dfaa3a8b77164e93faade37acf6cf, type: 3}
+  m_Name: "B\xFCcherregal"
+  m_EditorClassIdentifier: 
+  size: 1
+  materials:
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 0b9fda7fb0708f041accc92632316aba, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 0b9fda7fb0708f041accc92632316aba, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 0b9fda7fb0708f041accc92632316aba, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  - item: {fileID: 11400000, guid: 42259da663a55224d8f37d9879f860f1, type: 2}
+    amount: 1
+    indexInList: 0
+  result:
+    item: {fileID: 11400000, guid: 2a4bf901ed877954ca9fc2e3f60160a8, type: 2}
+    amount: 2
+    indexInList: 0

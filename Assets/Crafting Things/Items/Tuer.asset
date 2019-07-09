@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Tuer
   m_EditorClassIdentifier: 
   name: Tuer
-  itemPicuture: {fileID: 21301314, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: 2086ce0d3785c7140943e2bc3c36aff2, type: 3}
   objectInGame: {fileID: 0}

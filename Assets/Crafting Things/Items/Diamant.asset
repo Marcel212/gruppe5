@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Diamant
   m_EditorClassIdentifier: 
   name: Diamant
-  itemPicuture: {fileID: 21301412, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: c05569f1b0cac1643a3c5df72e1364ea, type: 3}
   objectInGame: {fileID: 0}

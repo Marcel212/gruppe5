@@ -9,7 +9,7 @@ public class BoxControll : MonoBehaviour
     [SerializeField] private ItemAndAmount[] itemsInBox;
     private ItemSlots[] ItemSlotsInBox;
 
-
+    
     public ItemAndAmount[] ItemsInBox
     {
         get { return itemsInBox; }
@@ -19,6 +19,28 @@ public class BoxControll : MonoBehaviour
             RefreshBox();
         }
     }
+    
+    //Zuweisung von CraftingSlots an das Script
+    private void OnValidate()
+    {
+        ItemSlotsInBox = GetComponentsInChildren<ItemSlots>();
+
+        
+        for (int i = 0; i < ItemSlotsInBox.Length; i++)
+        {
+            ItemSlotsInBox[i].indexInPlacement = i;
+            ItemSlotsInBox[i].placement = DropZone.Placement.Box;
+        }
+
+        RefreshBox();
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
+
 
     public ItemAndAmount AddItemsByIndex(ItemAndAmount itemAndAmount, int index)
     {
@@ -42,26 +64,7 @@ public class BoxControll : MonoBehaviour
         return indexValid; 
     }
 
-    //Zuweisung von CraftingSlots an das Script
-    private void OnValidate()
-    {
-        ItemSlotsInBox = GetComponentsInChildren<ItemSlots>();
-
-        
-        for (int i = 0; i < ItemSlotsInBox.Length; i++)
-        {
-            ItemSlotsInBox[i].indexInPlacement = i;
-            ItemSlotsInBox[i].placement = DropZone.Placement.Box;
-        }
-
-        RefreshBox();
-    }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.gameObject.SetActive(false);
-    }
 
     public void RefreshBox()
     {

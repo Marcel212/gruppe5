@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Erde
   m_EditorClassIdentifier: 
   name: Erde
-  itemPicuture: {fileID: 21301328, guid: 26314a43b55ce490f9f74a1814e1739d, type: 3}
+  itemPicuture: {fileID: 21300000, guid: 60b724c7ed3771c438d515e665b34634, type: 3}
   objectInGame: {fileID: 0}

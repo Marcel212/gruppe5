@@ -65,11 +65,11 @@ public class QuadScript : MonoBehaviour
                     inventoryControll.AddItem(item);
                break;
                case Block.BlockType.DIAMOND:
-                    item = scriptableManagerScript.GetItemByName("Diamant");
+                    item = scriptableManagerScript.GetItemByName("Diamanterz");
                     inventoryControll.AddItem(item);
                break;
                case Block.BlockType.GOLD:
-                    item = scriptableManagerScript.GetItemByName("Gold");
+                    item = scriptableManagerScript.GetItemByName("Golderz");
                     inventoryControll.AddItem(item);
                break;
                case Block.BlockType.SAND:
@@ -77,7 +77,7 @@ public class QuadScript : MonoBehaviour
                     inventoryControll.AddItem(item);
                break;
                case Block.BlockType.REDSTONE:
-                    item = scriptableManagerScript.GetItemByName("RedStone");
+                    item = scriptableManagerScript.GetItemByName("RedStoneerz");
                     inventoryControll.AddItem(item);
                break;
                case Block.BlockType.TRUNK:

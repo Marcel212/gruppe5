@@ -30,7 +30,6 @@ public class ItemSlots : MonoBehaviour
             {
                 _currentImage.sprite = null;
                 amount = 0;
-
             }
         }
     }
@@ -51,12 +50,14 @@ public class ItemSlots : MonoBehaviour
             {
                 _textAmount.gameObject.SetActive(false);
                 Item = null;
-
             }
         }
     }
 
-
+     /*
+      * Hier werden den Attributen von Mengenangabe und Bild die jeweiligen Komponenten zugewiesen.
+      * Außerdem werden Nutzereingaben aus dem Editor überprüft und ein Default Zustand hergestellt.
+      */
     private void OnValidate()
     {
         if (_currentImage == null)
@@ -67,15 +68,11 @@ public class ItemSlots : MonoBehaviour
         if (_textAmount == null)
         {
             _textAmount = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-
         }
-        //Auf Default setzen & alle Eingaben vom Editor prüfen 
+        
         _textAmount.gameObject.SetActive(false);
         Item = itemToShow;
         Amount = amount;
-        
-
-
     }
 
 
