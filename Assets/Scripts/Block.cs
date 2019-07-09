@@ -214,7 +214,7 @@ public class Block
 
 		if(currentHealth <= 0)
 		{
-			if(!(blockType == BlockType.LEAVES) || !(blockType == BlockType.DOORTOP)){
+			if(!(blockType == BlockType.LEAVES) && !(blockType == BlockType.DOORTOP)){
 				Vector3 cPosition = owner.mb.transform.position;
 				GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         		cube.transform.position = new Vector3 (cPosition.x + position.x, cPosition.y + position.y, cPosition.z + position.z);

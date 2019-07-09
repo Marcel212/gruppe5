@@ -52,52 +52,52 @@ public class BlockInteraction : MonoBehaviour
 		Block temp = World.GetWorldBlock(this.transform.position);
 		List<Item> liste = temp.inventoryControll.GetItemsInHotkey();
 		//int temp2 = -1;
-		if(Input.GetKeyDown("1"))
+		if(Input.GetKeyDown("1")&& liste[0] != null)
 		{
 			setBuildType(liste,0);
 			temp2 = 0;
         }
-		if(Input.GetKeyDown("2"))
+		if(Input.GetKeyDown("2")&& liste[1] != null)
 		{
 			setBuildType(liste,1);
 			temp2 = 1;
 		}
-		if(Input.GetKeyDown("3"))
+		if(Input.GetKeyDown("3")&& liste[2] != null)
 		{
 			setBuildType(liste,2);
 			temp2 = 2;
 		}
-		if(Input.GetKeyDown("4"))
+		if(Input.GetKeyDown("4")&& liste[3] != null)
 		{
 			setBuildType(liste,3);
 			temp2 = 3;
 		}
-		if(Input.GetKeyDown("5"))
+		if(Input.GetKeyDown("5")&& liste[4] != null)
 		{
 			setBuildType(liste,4);
 			temp2 = 4;
 		}
-        if (Input.GetKeyDown("6"))
+        if (Input.GetKeyDown("6")&& liste[5] != null)
         {
 			setBuildType(liste,5);
 			temp2 = 5;
 		}
-		if (Input.GetKeyDown("7"))
+		if (Input.GetKeyDown("7")&& liste[6] != null)
         {
 			setBuildType(liste,6);
 			temp2 = 6;
 		}
-		if (Input.GetKeyDown("8"))
+		if (Input.GetKeyDown("8")&& liste[7] != null)
          {
 			setBuildType(liste,7);
 			temp2 = 7;
 		}
-	    if (Input.GetKeyDown("9"))
+	    if (Input.GetKeyDown("9")&& liste[8] != null)
         {
 			setBuildType(liste,8);
 			temp2 = 8;
 		}
-		if (Input.GetKeyDown("0"))
+		if (Input.GetKeyDown("0")&& liste[9] != null)
         {
 			setBuildType(liste,9);
 			temp2 = 9;
@@ -165,7 +165,15 @@ public class BlockInteraction : MonoBehaviour
 				}
                 if (Input.GetMouseButtonDown(0))
                 {
-                    update = b.HitBlock();
+                   update = b.HitBlock();
+					if(b.blockType == Block.BlockType.DOORDOWN){
+						b = b.getTop();
+						update = b.HitBlock();
+					}
+					if(b.blockType == Block.BlockType.DOORTOP){
+						b = b.getDown();
+						update = b.HitBlock();
+					}
                 }
 				if(Input.GetMouseButtonDown(1))
                 {
@@ -260,10 +268,10 @@ public class BlockInteraction : MonoBehaviour
 			   case "Tuer":
 			   		buildtype = Block.BlockType.DOORDOWN;
 			   break;
-            case "Ofen":
-                buildtype = Block.BlockType.OFEN;
+            	case "Ofen":
+                	buildtype = Block.BlockType.OFEN;
                 break;
-            default:
+            	default:
 					buildtype = Block.BlockType.AIR;
 			   break;
               
